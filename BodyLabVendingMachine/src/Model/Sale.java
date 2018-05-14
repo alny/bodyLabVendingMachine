@@ -5,13 +5,13 @@ import java.util.Date;
 public class Sale {
 
 	private int id;
-	private Date timestamp;
+	private Date date;
 	private Product product;
 	private VendingMachine vendingmachine;
 	
-	public Sale(int id, Date timestamp, Product product, VendingMachine vendingMachine) {
+	public Sale(int id, Date date, Product product, VendingMachine vendingMachine) {
 		this.id = id;
-		this.timestamp = timestamp;
+		this.date = date;
 		this.product = product;
 		this.vendingmachine = vendingMachine;
 		}
@@ -42,11 +42,11 @@ public class Sale {
 	}
 
 	public Date getTimestamp() {
-		return timestamp;
+		return date;
 	}
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+	public void setTimestamp(Date date) {
+		this.date = date;
 	}
 
 }

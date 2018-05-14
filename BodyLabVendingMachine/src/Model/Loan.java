@@ -6,10 +6,20 @@ public class Loan {
 
 	private int id;
 	private Date timestamp;
+	private VendingMachine vendingmachine;
 
-	public Loan(int id, Date timestamp) {
+	public Loan(int id, VendingMachine vendingmachine) {
 		this.id = id;
-		this.timestamp = timestamp;
+		this.timestamp = new Date();
+		this.vendingmachine = vendingmachine;
+	}	
+	
+	public VendingMachine getVendingmachine() {
+		return vendingmachine;
+	}
+
+	public void setVendingmachine(VendingMachine vendingmachine) {
+		this.vendingmachine = vendingmachine;
 	}
 
 	public int getId() {

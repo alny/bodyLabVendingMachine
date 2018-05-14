@@ -12,8 +12,8 @@ public class Customer {
 	private CityZip cityZip;
 	private List<Loan> loans;
 
-	public Customer(int id, String name, String address, String phone, CityZip cityZip) {
-		this.id = id;
+	public Customer(String name, String address, String phone, CityZip cityZip) {
+		this.id = 0;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
@@ -27,6 +27,10 @@ public class Customer {
 	
 	public void deleteLoan(Loan loan) {
 		loans.remove(loan);
+	}
+	
+	public List<Loan> getLoans() {
+		return loans;
 	}
 
 	public int getId() {
