@@ -13,7 +13,6 @@ public class Customer {
 	private List<Loan> loans;
 
 	public Customer(String name, String address, String phone, CityZip cityZip) {
-		this.id = 0;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
