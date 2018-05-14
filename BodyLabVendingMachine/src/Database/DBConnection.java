@@ -13,11 +13,11 @@ public class DBConnection {
 	
 	private static final String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String dbName = "Bodylab";
-	private static final String serverAddress = "77.68.231.82";
+	private static final String serverAddress = "xx.xx.xxx.xx";
 	//private static final String serverAddress = "192.168.56.2";
-	private static final int    serverPort = 1433;
-	private static final String userName = "dmaa0917";
-	private static final String password = "1234Hund";
+	private static final int    serverPort = xxx;
+	private static final String userName = "xxx";
+	private static final String password = "xxx";
 	
 	public static void main(String[] args) {
 		getInstance();
