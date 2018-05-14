@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class VendingMachine {
 
 	private int id;
@@ -7,6 +10,7 @@ public class VendingMachine {
 	private String model;
 	private int capacity;
 	private String serialNo;
+	private List<Product> products;
 
 	public VendingMachine(int id, String name, String model, int capacity, String serialNo) {
 		this.id = id;
@@ -14,6 +18,19 @@ public class VendingMachine {
 		this.model = model;
 		this.capacity = capacity;
 		this.serialNo = serialNo;
+		products = new LinkedList<Product>();
+	}
+	
+	public void addProduct(Product product) {
+		products.add(product);
+	}
+	
+	public void removeproduct(Product product) {
+		products.remove(product);
+	}
+	
+	public List getProducts() {
+		return products;
 	}
 
 	public int getId() {

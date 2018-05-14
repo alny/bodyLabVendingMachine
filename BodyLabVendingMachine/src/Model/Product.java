@@ -6,9 +6,9 @@ public class Product {
 	private String name;
 	private String barcode;
 	private String description;
-	private int price;
+	private double price;
 
-	public Product(int id, String name, String barcode, String description, int price) {
+	public Product(int id, String name, String barcode, String description, double price) {
 		this.id = id;
 		this.name = name;
 		this.barcode = barcode;
@@ -48,7 +48,7 @@ public class Product {
 		this.description = description;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
