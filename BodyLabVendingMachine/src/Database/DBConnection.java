@@ -12,7 +12,7 @@ public class DBConnection {
 	private static DBConnection dbConnection;
 	
 	private static final String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String dbName = "bodylab";
+	private static final String dbName = "Bodylab";
 	private static final String serverAddress = "77.68.231.82";
 	//private static final String serverAddress = "192.168.56.2";
 	private static final int    serverPort = 1433;
@@ -29,6 +29,7 @@ public class DBConnection {
 		try {
 			Class.forName(driverClass);
 			connection = DriverManager.getConnection(connectionString);
+			System.out.println("Successfully connected to Database");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Could not load JDBC driver");
 			e.printStackTrace();
