@@ -19,10 +19,6 @@ public class DBConnection {
 	private static final String userName = "xxx";
 	private static final String password = "xxx";
 	
-	public static void main(String[] args) {
-		getInstance();
-	}
-	
 	private DBConnection() {
 		String connectionString = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s", 
 				serverAddress, serverPort, dbName, userName, password);
