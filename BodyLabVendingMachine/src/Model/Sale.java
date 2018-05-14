@@ -7,19 +7,16 @@ public class Sale {
 	private int id;
 	private Date date;
 	private Product product;
-	private VendingMachine vendingmachine;
 	
-	public Sale(int id, Date date, Product product, VendingMachine vendingMachine) {
+	public Sale(int id, Date date, Product product) {
 		this.id = id;
 		this.date = date;
 		this.product = product;
-		this.vendingmachine = vendingMachine;
 		}
 	
-	public Sale(Date date, Product product, VendingMachine vendingMachine) {
+	public Sale(Date date, Product product) {
 		this.date = date;
 		this.product = product;
-		this.vendingmachine = vendingMachine;
 		}
 
 	public Product getProduct() {
@@ -29,15 +26,6 @@ public class Sale {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
-	public VendingMachine getVendingmachine() {
-		return vendingmachine;
-	}
-
-	public void setVendingmachine(VendingMachine vendingmachine) {
-		this.vendingmachine = vendingmachine;
-	}
-
 
 	public int getId() {
 		return id;
