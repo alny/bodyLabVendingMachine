@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Customer {
 
 	private int id;
@@ -7,6 +10,7 @@ public class Customer {
 	private String address;
 	private String phone;
 	private CityZip cityZip;
+	private List<Loan> loans;
 
 	public Customer(int id, String name, String address, String phone, CityZip cityZip) {
 		this.id = id;
@@ -14,6 +18,15 @@ public class Customer {
 		this.address = address;
 		this.phone = phone;
 		this.cityZip = cityZip;
+		loans = new LinkedList<Loan>();
+	}
+	
+	public void addLoan(Loan loan) {
+	loans.add(loan);
+	}
+	
+	public void deleteLoan(Loan loan) {
+		loans.remove(loan);
 	}
 
 	public int getId() {
