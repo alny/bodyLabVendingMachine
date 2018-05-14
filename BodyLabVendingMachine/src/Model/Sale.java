@@ -15,6 +15,12 @@ public class Sale {
 		this.product = product;
 		this.vendingmachine = vendingMachine;
 		}
+	
+	public Sale(Date date, Product product, VendingMachine vendingMachine) {
+		this.date = date;
+		this.product = product;
+		this.vendingmachine = vendingMachine;
+		}
 
 	public Product getProduct() {
 		return product;

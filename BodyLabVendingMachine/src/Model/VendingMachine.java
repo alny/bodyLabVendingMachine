@@ -21,6 +21,14 @@ public class VendingMachine {
 		products = new LinkedList<Product>();
 	}
 	
+	public VendingMachine(String name, String model, int capacity, String serialNo) {
+		this.name = name;
+		this.model = model;
+		this.capacity = capacity;
+		this.serialNo = serialNo;
+		products = new LinkedList<Product>();
+	}
+	
 	public void addProduct(Product product) {
 		products.add(product);
 	}

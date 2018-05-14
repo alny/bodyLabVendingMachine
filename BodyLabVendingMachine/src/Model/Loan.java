@@ -13,6 +13,13 @@ public class Loan {
 		this.vendingmachine = vendingmachine;
 	}	
 	
+	public Loan(int id,VendingMachine vendingmachine) {
+		this.id = id;
+		this.date = new Date();
+		this.vendingmachine = vendingmachine;
+	}	
+	
+	
 	public VendingMachine getVendingmachine() {
 		return vendingmachine;
 	}

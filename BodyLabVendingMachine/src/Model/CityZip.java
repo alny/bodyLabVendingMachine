@@ -6,8 +6,7 @@ public class CityZip {
 	private String zipCode;
 	private String city;
 
-	public CityZip(int id, String zipCode, String city) {
-		this.id = id;
+	public CityZip(String zipCode, String city) {
 		this.zipCode = zipCode;
 		this.city = city;
 	}
