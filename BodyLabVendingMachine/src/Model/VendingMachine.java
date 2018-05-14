@@ -10,7 +10,7 @@ public class VendingMachine {
 	private String model;
 	private int capacity;
 	private String serialNo;
-	private List<Product> products;
+	private List<MachineProduct> products;
 
 	public VendingMachine(int id, String name, String model, int capacity, String serialNo) {
 		this.id = id;
@@ -18,14 +18,14 @@ public class VendingMachine {
 		this.model = model;
 		this.capacity = capacity;
 		this.serialNo = serialNo;
-		products = new LinkedList<Product>();
+		products = new LinkedList<MachineProduct>();
 	}
 	
-	public void addProduct(Product product) {
+	public void addProduct(MachineProduct product) {
 		products.add(product);
 	}
 	
-	public void removeproduct(Product product) {
+	public void removeproduct(MachineProduct product) {
 		products.remove(product);
 	}
 	
