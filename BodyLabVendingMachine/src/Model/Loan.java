@@ -33,8 +33,8 @@ public class Loan {
 		return date;
 	}
 
-	public void setTimestamp(Date timestamp) {
-		this.date = timestamp;
+	public void setTimestamp(Date date) {
+		this.date = date;
 	}
 
 }
