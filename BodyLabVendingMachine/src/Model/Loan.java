@@ -5,12 +5,11 @@ import java.util.Date;
 public class Loan {
 
 	private int id;
-	private Date timestamp;
+	private Date date;
 	private VendingMachine vendingmachine;
 
-	public Loan(int id, VendingMachine vendingmachine) {
-		this.id = id;
-		this.timestamp = new Date();
+	public Loan(VendingMachine vendingmachine) {
+		this.date = new Date();
 		this.vendingmachine = vendingmachine;
 	}	
 	
@@ -31,11 +30,11 @@ public class Loan {
 	}
 
 	public Date getTimestamp() {
-		return timestamp;
+		return date;
 	}
 
 	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+		this.date = timestamp;
 	}
 
 }
