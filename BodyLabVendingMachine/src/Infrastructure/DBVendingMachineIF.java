@@ -3,7 +3,7 @@ package Infrastructure;
 import Model.Product;
 import Model.VendingMachine;
 
-public interface VendingMachineIF {
+public interface DBVendingMachineIF {
 	VendingMachine findVendingMachine(int id);
 	int insertVendingMachine(VendingMachine vm);
 }
