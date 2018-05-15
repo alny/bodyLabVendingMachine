@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -18,12 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import Controller.CtrCustomer;
+import Model.Customer;
 
 public class CustomerMenu extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
 	private JPanel parentPanel;
@@ -31,11 +34,13 @@ public class CustomerMenu extends JPanel {
 
 	private JTable customerTable;
 	private JLabel label;
+	
+	private CtrCustomer customerCtr;
 
-	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
+	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) throws SQLException {
 		parentPanel = mainPanel;
 		parent = cardLayout;
-
+		customerCtr = new CtrCustomer();
 		init();
 	}
 
@@ -55,7 +60,7 @@ public class CustomerMenu extends JPanel {
 		showCustomers.setLayout(null);
 
 		customerTable = new JTable();
-
+		refresh();
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(0, 0, 735, 390);
 		sp.setViewportView(customerTable);
@@ -71,11 +76,11 @@ public class CustomerMenu extends JPanel {
 		panel.add(label);
 
 		JButton btnSeDetaljer = new JButton("Se Kundedetaljer");
-		btnSeDetaljer.setBounds(14, 400, 105, 23);
+		btnSeDetaljer.setBounds(14, 400, 152, 23);
 		showCustomers.add(btnSeDetaljer);
 
 		JButton btnTilbag = new JButton("Tilbage");
-		btnTilbag.setBounds(141, 400, 80, 23);
+		btnTilbag.setBounds(199, 400, 80, 23);
 		showCustomers.add(btnTilbag);
 		btnTilbag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -89,6 +94,28 @@ public class CustomerMenu extends JPanel {
 		});
 
 		return showCustomers;
+
+	}
+	
+	public void refresh() {
+		try {
+			customerTable.setModel(customerTable(customerCtr.findAllCustomers()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public TableModel customerTable(List<Customer> list) {
+
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Navn", "Adresse", "Post Nr", "By", "Telefon" },
+				0);
+		for (Customer entry : list) {
+
+			model.addRow(new Object[] { entry.getName(), entry.getAddress(),
+					entry.getCityZip().getZipCode(), entry.getCityZip().getCity(), entry.getPhone() });
+		}
+		return model;
 
 	}
 
