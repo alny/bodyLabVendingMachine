@@ -3,16 +3,19 @@ package Model;
 public class Product {
 
 	private int id;
+	private String productNo;
 	private String name;
-	private String barcode;
 	private String description;
-	private double price;
+	private double stockValue;
 
-	public Product(String name, String barcode, String description, double price) {
+
+
+	public Product(int id, String productNo, String name, String description, double stockValue) {
+		this.id = id;
+		this.productNo = productNo;
 		this.name = name;
-		this.barcode = barcode;
 		this.description = description;
-		this.price = price;
+		this.stockValue = stockValue;
 	}
 
 	public int getId() {
@@ -31,13 +34,6 @@ public class Product {
 		this.name = name;
 	}
 
-	public String getBarcode() {
-		return barcode;
-	}
-
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
-	}
 
 	public String getDescription() {
 		return description;
@@ -47,12 +43,20 @@ public class Product {
 		this.description = description;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getProductNo() {
+		return productNo;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+
+	public double getStockValue() {
+		return stockValue;
+	}
+
+	public void setStockValue(double stockValue) {
+		this.stockValue = stockValue;
 	}
 
 }
