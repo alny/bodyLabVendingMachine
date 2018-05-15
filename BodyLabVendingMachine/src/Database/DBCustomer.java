@@ -17,6 +17,13 @@ public class DBCustomer implements DBCustomerIF {
 	private static final String findCustomerById = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id AND customer.id = ?";
 	private static final String findAllCustomers = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id";
 	
+	public static DBCustomer getInstance() throws SQLException {
+		if(instance == null) {
+			instance = new DBCustomer();
+		}
+		return instance;
+	}
+	
 	@Override
 	public List<Customer> findAllCustomers() throws SQLException {
 		List<Customer> customerList = new ArrayList<>();
@@ -35,13 +42,6 @@ public class DBCustomer implements DBCustomerIF {
 		return customerList;
 	}
 	
-	public static DBCustomer getInstance() throws SQLException {
-		if(instance == null) {
-			instance = new DBCustomer();
-		}
-		return instance;
-	}
-
 	@Override
 	public Customer findCustomer(int customerId) throws SQLException {
 		Customer customer = null;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import Model.Customer;
 
-public interface DBCustomerIF {
+public interface CtrCustomerIF {
 
 	List<Customer> findAllCustomers() throws SQLException;
 
