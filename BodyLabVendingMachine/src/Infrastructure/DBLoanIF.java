@@ -6,5 +6,5 @@ import Model.Loan;
 
 public interface DBLoanIF {
 	List<Loan> findLoansForCustomer(int id);
-	int insertLoan(Loan l);
+	int insertLoan(Loan l, int id);
 }
