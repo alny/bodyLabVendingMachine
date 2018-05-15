@@ -6,19 +6,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Infrastructure.CustomerDBIF;
+import Infrastructure.DBCustomerIF;
 import Model.CityZip;
 import Model.Customer;
+import Database.DBCustomer;
 
-public class CustomerDB implements CustomerDBIF {
-
+public class DBCustomer implements DBCustomerIF {
+	
+	public static DBCustomer instance;
 	private static final String findCustomerById = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id AND customer.id = ?";
 	private static final String findAllCustomers = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id";
-
+	
 	@Override
 	public List<Customer> findAllCustomers() throws SQLException {
 		List<Customer> customerList = new ArrayList<>();
-
+		
 		try (PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement(findAllCustomers)) {
 
 			ResultSet rs = statement.executeQuery();
@@ -31,6 +33,13 @@ public class CustomerDB implements CustomerDBIF {
 			System.out.println(e);
 		}
 		return customerList;
+	}
+	
+	public static DBCustomer getInstance() throws SQLException {
+		if(instance == null) {
+			instance = new DBCustomer();
+		}
+		return instance;
 	}
 
 	@Override
