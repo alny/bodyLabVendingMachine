@@ -6,6 +6,6 @@ import java.util.List;
 import Model.Loan;
 
 public interface DBLoanIF {
-	List<Loan> findLoansForCustomer(int id);
+	List<Loan> findLoansForCustomer(int id) throws SQLException;
 	int insertLoan(Loan l, int id) throws SQLException;
 }

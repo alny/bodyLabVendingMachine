@@ -31,20 +31,13 @@ public class DBLoan implements DBLoanIF {
 		return instance;
 	}
 	@Override
-	public List<Loan> findLoansForCustomer(int id) {
+	public List<Loan> findLoansForCustomer(int id) throws SQLException {
 		List<Loan> loan = null;
-		try {
-			findByCuId.setInt(1, id);
-			ResultSet rs = findByCuId.executeQuery();
-			System.out.println(rs);
-			loan = new LinkedList<Loan>();
-			if(rs.next()) {
-				loan = buildObjects(rs);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println(e);
-			
+		findByCuId.setInt(1, id);
+		ResultSet rs = findByCuId.executeQuery();
+		loan = new LinkedList<Loan>();
+		if(rs.next()) {
+			loan = buildObjects(rs);
 		}
 		return loan;
 	}
