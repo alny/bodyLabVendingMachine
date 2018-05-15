@@ -36,7 +36,7 @@ public class DBSale implements DBSaleIF {
 	}
 	
 	@Override
-	public List<Sale> getSalesFromMachineId(VendingMachine vm) throws SQLException {
+	public List<Sale> getSalesFromMachineId(VendingMachine vm,  boolean retrieveAssociation) throws SQLException {
 		List<Sale> sale = null;
 		salesMachine.setInt(0, vm.getId());
 		ResultSet rs = salesMachine.executeQuery();
@@ -61,7 +61,7 @@ public class DBSale implements DBSaleIF {
 	}
 
 	@Override
-	public List<Sale> getSalesFromProductId(Product p) {
+	public List<Sale> getSalesFromProductId(Product p,  boolean retrieveAssociation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -72,12 +72,17 @@ public class DBSale implements DBSaleIF {
 		return 0;
 	}
 
-	private List<Sale> buildObjects(ResultSet rs, VendingMachine vm) {
+	private List<Sale> buildObjects(ResultSet rs, VendingMachine vm) throws SQLException {
 		List<Sale> sale = new LinkedList<Sale>();
 		while(rs.next()) {
-			sale.add(new Sale())
+			sale.add(buildObject(rs));
 		}
 		return null;
+	}
+	private Sale buildObject(ResultSet rs) {
+		//Product p = DBProduct.getinstance()
+		//VendingMachine vm = DPVendingMachine.
+		//Sale s = new Sale(rs.getInt("id"), rs.getDate("time"), )
 	}
 	@Override
 	public int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException {

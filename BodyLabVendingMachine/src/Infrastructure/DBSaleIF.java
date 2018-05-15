@@ -10,9 +10,9 @@ import Model.VendingMachine;
 public interface DBSaleIF {
 	int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException;
 	int getTotalSaleFromProductId(Product p) throws SQLException;
-	List<Sale> getSalesFromProductId(Product p);
+	List<Sale> getSalesFromProductId(Product p, boolean retrieveAssociation);
 	int insertSale(Sale s);
-	List<Sale> getSalesFromMachineId(VendingMachine vm) throws SQLException;
+	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws SQLException;
 	int getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException;
 	int getSumOfSaleFromProductId(Product p) throws SQLException;
 }

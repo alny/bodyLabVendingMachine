@@ -31,14 +31,15 @@ public class DBLoan implements DBLoanIF {
 		return instance;
 	}
 	@Override
-	public List<Loan> findLoansForCustomer(int id) throws SQLException {
+	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation) throws SQLException {
 		List<Loan> loan = null;
 		findByCuId.setInt(1, id);
 		ResultSet rs = findByCuId.executeQuery();
 		loan = new LinkedList<Loan>();
 		if(rs.next()) {
-			loan = buildObjects(rs);
+			loan = buildObjects(rs,retrieveAssociation);
 		}
+		
 		return loan;
 	}
 	//id is a Customers id
@@ -77,12 +78,19 @@ public class DBLoan implements DBLoanIF {
 	}
 	
 	
-	private List<Loan> buildObjects(ResultSet rs){
+	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws SQLException{
 		List<Loan> l = new LinkedList<Loan>();
 		while(rs.next()) {
-			l.add(new Loan(rs.getInt("id"), rs.getTime("time"), rs. ))
+			l.add(buildObject(rs,retrieveAssociation));
 		}
 		return l;
+	}
+	
+	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) {
+		//VendingMachine vm = DBVendingMachine
+		//Loan l = new Loan(rs.getInt("id"),
+		//		rs.
+		return null		
 	}
 
 }
