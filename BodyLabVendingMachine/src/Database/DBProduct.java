@@ -9,15 +9,14 @@ import Model.Product;
 public class DBProduct implements DBProductIF {
 	private static final String insertProduct = " insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
 	private PreparedStatement insert;
-	private DBProductIF instance;
+	private static  DBProduct instance;
 	
 	private DBProduct () throws SQLException {
 		insert = DBConnection.getInstance().getConnection().prepareStatement(insertProduct);
 	}
 	
 
-	@Override
-	public DBProductIF getinstance() throws SQLException {
+	public static DBProduct getinstance() throws SQLException {
 		if (instance == null) {
 			instance = new DBProduct();
 		}
