@@ -58,9 +58,7 @@ public class DBLoan implements DBLoanIF {
 			DBConnection.getInstance().commitTransaction();
 		} 
 		catch (SQLException e) {	
-            
-				DBConnection.getInstance().rollbackTransaction();
-			
+			DBConnection.getInstance().rollbackTransaction();
 		}
 		return i;
 	}

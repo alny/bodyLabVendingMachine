@@ -16,13 +16,17 @@ public class DBSale implements DBSaleIF {
 	private static final String getSalesFromMachineId = "select * from Sale where vendingMachineId = ?";
 	private static final String getSumMachine = " SUM(price) from Sale where vendingMachineId = ?";
 	private static final String getSumProduct = "select sum(price) from Sale where produktId = ?";
-	private static final String getSalesProduct = "select * from Sale where produktId = ?";
-	private PreparedStatement sumMachine, sumProduct, salesProduct, salesMachine; 
+	private static final String getSalesProduct = "select * from Sale where productId = ?";
+	private static final String getTotalSalesProduct = "select count(id) from Sale where productId = ?";
+	private static final String getTotalSalesMachine = "select count(id) from Sale where vendingMachineId";
+	private PreparedStatement sumMachine, sumProduct, salesProduct, salesMachine, totalProduct, totalMachine; 
 	private DBSale() throws SQLException {
 		sumMachine = DBConnection.getInstance().getConnection().prepareStatement(getSumMachine);
 		sumProduct = DBConnection.getInstance().getConnection().prepareStatement(getSumProduct);
 		salesMachine = DBConnection.getInstance().getConnection().prepareStatement(getSalesFromMachineId);
 		salesProduct = DBConnection.getInstance().getConnection().prepareStatement(getSalesProduct);
+		totalProduct = DBConnection.getInstance().getConnection().prepareStatement(getTotalSalesProduct);
+		totalMachine = DBConnection.getInstance().getConnection().prepareStatement(getTotalSalesMachine);
 	}	
 	public static DBSale getInstance() throws SQLException {
 		if(instance == null) {
@@ -41,17 +45,19 @@ public class DBSale implements DBSaleIF {
 	}
 
 	@Override
-	public int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException {
-		int i = 0;
+	public int getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException {
+		int sum = 0;
 		sumMachine.setInt(0, vm.getId());
-		i = sumMachine.executeUpdate();
-		return i;
+		sum = sumMachine.executeUpdate();
+		return sum;
 	}
 
 	@Override
-	public int getTotalSaleFromProductId(Product p) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getSumOfSaleFromProductId(Product p) throws SQLException {
+		int sum = 0;
+		sumMachine.setInt(0, p.getId());
+		sum = sumProduct.executeUpdate();
+		return sum;
 	}
 
 	@Override
@@ -72,5 +78,19 @@ public class DBSale implements DBSaleIF {
 			sale.add(new Sale())
 		}
 		return null;
+	}
+	@Override
+	public int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException {
+		int sum = 0;
+		totalMachine.setInt(0, vm.getId());
+		sum = totalMachine.executeUpdate();
+		return sum;
+	}
+	@Override
+	public int getTotalSaleFromProductId(Product p) throws SQLException {
+		int sum = 0;
+		totalProduct.setInt(0, p.getId());
+		sum = totalProduct.executeUpdate();
+		return sum;
 	}
 }
