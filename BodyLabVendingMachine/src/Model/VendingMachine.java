@@ -37,7 +37,7 @@ public class VendingMachine {
 		products.remove(product);
 	}
 	
-	public List getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 

@@ -30,6 +30,7 @@ public class DBProduct implements DBProductIF {
 		insert.setString(2, product.getName());
 		insert.setString(3, product.getDescription());
 		insert.setDouble(4, product.getStockValue());
+		insert.execute();
 		
 	}
 	

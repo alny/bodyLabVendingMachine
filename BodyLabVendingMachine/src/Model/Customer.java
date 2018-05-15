@@ -25,7 +25,7 @@ public class Customer {
 		loans.add(loan);
 	}
 
-	public void deleteLoan(Loan loan) {
+	public void removeLoan(Loan loan) {
 		loans.remove(loan);
 	}
 
