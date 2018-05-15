@@ -48,9 +48,9 @@ public class DBLoan implements DBLoanIF {
 		}
 		return loan;
 	}
-
+	//id is a Customers id
 	@Override
-	public int insertLoan(Loan l, int id) {
+	public int insertLoan(Loan l, int id) throws SQLException {
 		int i = 0;
 		try {
 			DBConnection.getInstance().startTransaction();
@@ -65,24 +65,20 @@ public class DBLoan implements DBLoanIF {
 			DBConnection.getInstance().commitTransaction();
 		} 
 		catch (SQLException e) {	
-            try {
-            	System.err.print("Transaction is being rolled back");
+            
 				DBConnection.getInstance().rollbackTransaction();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		}
 		return i;
 	}
-	
+	// returns true if there already exist a loan with the machine, that has not finished, used solv the problem with problem with creation of two loans
 	private boolean checkIfThere(Loan l) throws SQLException {
 		boolean b = false;
 		checkIfNotThere.setInt(0, l.getVendingmachine().getId());
 		ResultSet rs = checkIfNotThere.executeQuery();
 		Date d = new Date();
 		while(rs.next()) {
-			if(d.after(rs.getDate("time"))) {
+			if(d.before(rs.getDate("time"))) {
 				b = true;
 			}
 		}
