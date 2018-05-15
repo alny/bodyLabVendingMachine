@@ -12,7 +12,6 @@ public class Customer {
 	private CityZip cityZip;
 	private List<Loan> loans;
 
-
 	public Customer(int id, String name, String address, String phone, CityZip cityZip) {
 		this.id = id;
 		this.name = name;
@@ -21,15 +20,15 @@ public class Customer {
 		this.cityZip = cityZip;
 		loans = new LinkedList<Loan>();
 	}
-	
+
 	public void addLoan(Loan loan) {
-	loans.add(loan);
+		loans.add(loan);
 	}
-	
+
 	public void deleteLoan(Loan loan) {
 		loans.remove(loan);
 	}
-	
+
 	public List<Loan> getLoans() {
 		return loans;
 	}
