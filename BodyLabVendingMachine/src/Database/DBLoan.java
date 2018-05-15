@@ -1,11 +1,14 @@
 package Database;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import Infrastructure.DBLoanIF;
 import Model.Loan;
+import model.Customer;
 
 
 public class DBLoan implements DBLoanIF {
@@ -15,7 +18,7 @@ public class DBLoan implements DBLoanIF {
 	private PreparedStatement findByCuId, insert;
 	private DBLoan() throws SQLException {
 		findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
-		
+		insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
 	}
 	
 	public static DBLoan getInstance() throws SQLException {
@@ -25,9 +28,20 @@ public class DBLoan implements DBLoanIF {
 		return instance;
 	}
 	@Override
-	public List<Loan> findLoanForCustomer(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Loan> findLoansForCustomer(int id) {
+		try {
+			findByCuId.setInt(1, id);
+			ResultSet rs = findByCuId.executeQuery();
+			System.out.println(rs);
+			List<Loan> loan = new LinkedList<Loan>();
+			if(rs.next()) {
+				p = buildObject(rs);
+			}
+			return p;
+		} catch (SQLException e) {
+			System.out.println(e);
+			throw new SQLException(e);
+		}
 	}
 
 	@Override
