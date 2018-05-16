@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import Database.PersistensException;
@@ -68,7 +69,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 				+ "VALUES (?,?,?,?,?)";
 		int vmId = 0;
 		try {
-			PreparedStatement statement = connection.prepareStatement(insertVendingMachine);
+			PreparedStatement statement = connection.prepareStatement(insertVendingMachine,  Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, vm.getName());
 			statement.setString(2, vm.getModel());
 			statement.setInt(3, vm.getCapacity());

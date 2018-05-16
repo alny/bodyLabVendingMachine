@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class DBLoan implements DBLoanIF {
 		String insertLoan = "insert into Loan (date, endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
-			PreparedStatement insert = connection.prepareStatement(insertLoan);
+			PreparedStatement insert = connection.prepareStatement(insertLoan,  Statement.RETURN_GENERATED_KEYS);
 			DBConnection.getInstance().startTransaction();
 			java.sql.Date sqlTime = new java.sql.Date(loan.getDate().getTime());
 			insert.setDate(1, sqlTime);

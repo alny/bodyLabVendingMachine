@@ -19,7 +19,6 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 
 	@Override
 	public int insertVendingMachine(VendingMachine vm) throws PersistensException {
-		// TODO Auto-generated method stub
 		return dbVendingMachine.insertVendingMachine(vm);
 	}
 

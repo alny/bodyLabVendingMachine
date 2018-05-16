@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class DBSale implements DBSaleIF {
 		String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
 		try {
 			DBConnection.getInstance().startTransaction();
-			PreparedStatement insertPS = connection.prepareStatement(insert);
+			PreparedStatement insertPS = connection.prepareStatement(insert,  Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
 			java.sql.Date sqlTime = new java.sql.Date(sale.getDate().getTime());
 			insertPS.setDate(1, sqlTime);
@@ -136,7 +137,7 @@ public class DBSale implements DBSaleIF {
 		return sale;
 	}
 
-	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
+	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException, SQLException {
 		Product product = new Product(rs.getInt("productId"));
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
