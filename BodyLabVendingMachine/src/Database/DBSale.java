@@ -3,6 +3,7 @@ package Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,17 +94,30 @@ public class DBSale implements DBSaleIF {
 	public int insertSale(Sale sale) {
 		int id = 0;
 		String insert = "insert into Sale (date, vendingMachineId, productId)" + " values (?,?,?)";
-		String changeQuantity = "update "
+		String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
 		try {
 			DBConnection.getInstance().startTransaction();
 			PreparedStatement insertPS = connection.prepareStatement(insert);
+			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
 			java.sql.Date sqlTime = new java.sql.Date( sale.getDate().getTime() );
 			insertPS.setDate(0, sqlTime);
 			insertPS.setInt(1, sale.getVendingmachine().getId());
 			insertPS.setInt(2, sale.getProduct().getId());
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+			updateQty.executeQuery();
+			DBConnection.getInstance().commitTransaction();
 		}
-		catch()
+		catch(SQLDataException e) {
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			try {
+				DBConnection.getInstance().rollbackTransaction();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		return id;
 	}
 
