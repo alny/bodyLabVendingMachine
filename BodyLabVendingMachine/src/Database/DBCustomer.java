@@ -64,7 +64,7 @@ public class DBCustomer implements DBCustomerIF {
 
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
-		String address = rs.getString("name");
+		String address = rs.getString("address");
 		String phone = rs.getString("phone");
 		String zipCode = rs.getString("zipCode");
 		String city = rs.getString("city");

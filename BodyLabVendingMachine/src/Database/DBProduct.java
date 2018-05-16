@@ -1,18 +1,21 @@
 package Database;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Infrastructure.DBProductIF;
 import Model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static final String insertProduct = " insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
-	private PreparedStatement insert;
+	private static final String insertProduct = "insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
+	private static final String findProductById = "select * from product where id = ?";
+	private PreparedStatement insert, findById;
 	private static  DBProduct instance;
 	
 	private DBProduct () throws SQLException {
 		insert = DBConnection.getInstance().getConnection().prepareStatement(insertProduct);
+		findById =  DBConnection.getInstance().getConnection().prepareStatement(findProductById);
 	}
 	
 
@@ -32,5 +35,24 @@ public class DBProduct implements DBProductIF {
 		insert.execute();
 		
 	}
+	
+	public Product findProductById(int id) throws SQLException {
+		insert.setInt(1, id);
+		return buildProductObject(findById.executeQuery());
+	}
+	
+	private Product buildProductObject(ResultSet rs) throws SQLException {
+
+		int id = rs.getInt("id");
+		String productNo = rs.getString("productNo");
+		String name = rs.getString("name");
+		String description = rs.getString("description");
+		double stockValue = Double.parseDouble(rs.getString("stockValue"));
+
+		Product p = new Product(id, productNo, name, description, stockValue);
+
+		return p;
+	}
+
 	
 }
