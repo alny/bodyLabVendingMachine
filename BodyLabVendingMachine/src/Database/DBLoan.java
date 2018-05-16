@@ -32,8 +32,7 @@ public class DBLoan implements DBLoanIF {
 		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
 		try {
-			PreparedStatement findByCuId = DBConnection.getInstance().getConnection()
-					.prepareStatement(findLoanForCustomer);
+			PreparedStatement findByCuId = connection.prepareStatement(findLoanForCustomer);
 			findByCuId.setInt(1, id);
 			ResultSet rs = findByCuId.executeQuery();
 			loan = new LinkedList<Loan>();
@@ -52,7 +51,7 @@ public class DBLoan implements DBLoanIF {
 		String insertLoan = "insert into Loan (date,endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
-			PreparedStatement insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
+			PreparedStatement insert = connection.prepareStatement(insertLoan);
 			DBConnection.getInstance().startTransaction();
 			java.sql.Date sqlTime = new java.sql.Date(loan.getTimestamp().getTime());
 			insert.setDate(0, sqlTime);
@@ -75,7 +74,7 @@ public class DBLoan implements DBLoanIF {
 		boolean found = false;
 		String check = "Select * from Loan where vendingMachineId = ?";
 		try {
-			PreparedStatement checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
+			PreparedStatement checkIfNotThere = connection.prepareStatement(check);
 			checkIfNotThere.setInt(0, loan.getVendingmachine().getId());
 			ResultSet rs = checkIfNotThere.executeQuery();
 			Date date = new Date();
