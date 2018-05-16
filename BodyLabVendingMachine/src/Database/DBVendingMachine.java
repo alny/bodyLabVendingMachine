@@ -14,26 +14,25 @@ import Model.VendingMachine;
 public class DBVendingMachine implements DBVendingMachineIF {
 	private static DBVendingMachine instance;
 	private Connection connection;
-	
-	
 
 	private DBVendingMachine() {
 		connection = DBConnection.getInstance().getConnection();
-		
+
 	}
+
 	public static DBVendingMachine getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new DBVendingMachine();
 		}
 		return instance;
 	}
+
 	@Override
 	public VendingMachine findVendingMachine(int VendingMachineId) {
 		VendingMachine vendingMachineList = null;
 		String findVendingMachine = "SELECT * From VendingMachine where id = ?";
 
-		try (PreparedStatement statement = connection
-				.prepareStatement(findVendingMachine)) {
+		try (PreparedStatement statement = connection.prepareStatement(findVendingMachine)) {
 			statement.setInt(1, VendingMachineId);
 
 			ResultSet rs = statement.executeQuery();
@@ -41,8 +40,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 				vendingMachineList = buildVendingMachineObject(rs);
 			}
 			System.out.println(vendingMachineList);
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return vendingMachineList;
@@ -71,14 +69,12 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			statement.setString(2, vm.getModel());
 			statement.setInt(3, vm.getCapacity());
 			statement.setString(4, vm.getSerialNo());
-			
+
 			vmId = DBConnection.getInstance().executeInsertWithIdentity(statement);
-			
-		}
-		catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.getStackTrace();
 		}
 		return vmId;
 	}
 }
-	

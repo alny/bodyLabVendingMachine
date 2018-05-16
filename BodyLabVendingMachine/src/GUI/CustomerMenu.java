@@ -90,7 +90,7 @@ public class CustomerMenu extends JPanel {
 		});
 		btnSeDetaljer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tabbedPane.setSelectedIndex(1);
+				parent.show(parentPanel, "1");
 			}
 		});
 
