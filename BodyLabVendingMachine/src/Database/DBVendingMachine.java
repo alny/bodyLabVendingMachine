@@ -50,7 +50,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		return vendingMachineList;
 	}
 
-	private VendingMachine buildVendingMachineObject(ResultSet rs) {
+	private VendingMachine buildVendingMachineObject(ResultSet rs) throws SQLException {
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
 		String model = rs.getString("model");
