@@ -40,7 +40,7 @@ public class DBSale implements DBSaleIF {
 		List<Sale> sale = null;
 		salesMachine.setInt(0, vm.getId());
 		ResultSet rs = salesMachine.executeQuery();
-		sale = buildObjects(rs, vm);
+		sale = buildObjects(rs, retrieveAssociation);
 		return sale;
 	}
 
@@ -72,14 +72,15 @@ public class DBSale implements DBSaleIF {
 		return 0;
 	}
 
-	private List<Sale> buildObjects(ResultSet rs, VendingMachine vm) throws SQLException {
+	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws SQLException {
 		List<Sale> sale = new LinkedList<Sale>();
 		while(rs.next()) {
-			sale.add(buildObject(rs));
+			sale.add(buildObject(rs, retrieveAssociation));
 		}
 		return null;
 	}
-	private Sale buildObject(ResultSet rs) {
+	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) {
+		return null;
 		//Product p = DBProduct.getinstance()
 		//VendingMachine vm = DPVendingMachine.
 		//Sale s = new Sale(rs.getInt("id"), rs.getDate("time"), )

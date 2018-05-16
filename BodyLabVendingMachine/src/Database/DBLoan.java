@@ -89,8 +89,8 @@ public class DBLoan implements DBLoanIF {
 	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) {
 		//VendingMachine vm = DBVendingMachine
 		//Loan l = new Loan(rs.getInt("id"),
-		//		rs.
-		return null		
+		//rs.
+		return null;	
 	}
 
 }
