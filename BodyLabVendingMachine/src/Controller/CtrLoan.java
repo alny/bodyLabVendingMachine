@@ -18,7 +18,7 @@ public class CtrLoan {
 	}
 	
 	public int insertLoan(int custid, int vmid) {
-		Loan l = new Loan (LoanCtrVendingMachine.findVendingMachineById(vmid));
+		Loan l = new Loan (CtrVendingMachine.findVendingMachineById(vmid));
 		return dbl.insertLoan(l, custid);	
 	}
 	

@@ -1,5 +1,6 @@
 package Database;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,8 +10,10 @@ import Model.Product;
 
 public class DBProduct implements DBProductIF {
 	private static  DBProduct instance;
+	private Connection connection;
 	
 	private DBProduct (){
+		connection = DBConnection.getInstance().getConnection();
 	}
 	
 
@@ -26,7 +29,7 @@ public class DBProduct implements DBProductIF {
 		PreparedStatement insert;
 		String insertProduct = "insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
 		try {
-			insert = DBConnection.getInstance().getConnection().prepareStatement(insertProduct);	
+			insert = connection.prepareStatement(insertProduct);	
 			insert.setString(1, product.getProductNo());
 			insert.setString(2, product.getName());
 			insert.setString(3, product.getDescription());
@@ -44,7 +47,7 @@ public class DBProduct implements DBProductIF {
 		String findProductById = "select * from product where id = ?";
 		Product product = null;
 		try {
-			findById =  DBConnection.getInstance().getConnection().prepareStatement(findProductById);
+			findById =  connection.prepareStatement(findProductById);
 			findById.setInt(1, id);
 			product = buildProductObject(findById.executeQuery());
 		} catch (Exception e) {
