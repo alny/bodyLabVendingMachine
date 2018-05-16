@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Infrastructure.DBLoanIF;
+import Model.Customer;
 import Model.Loan;
 import Model.VendingMachine;
 
@@ -28,12 +29,12 @@ public class DBLoan implements DBLoanIF {
 		return instance;
 	}
 	@Override
-	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation)  {
+	public List<Loan> findLoansForCustomer(Customer cu, boolean retrieveAssociation)  {
 		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
 		try {
 			PreparedStatement findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
-			findByCuId.setInt(1, id);
+			findByCuId.setInt(1, cu.getId());
 			ResultSet rs = findByCuId.executeQuery();
 			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs,retrieveAssociation);
