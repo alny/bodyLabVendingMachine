@@ -8,14 +8,9 @@ import Infrastructure.DBProductIF;
 import Model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static final String insertProduct = "insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
-	private static final String findProductById = "select * from product where id = ?";
-	private PreparedStatement insert, findById;
 	private static  DBProduct instance;
 	
-	private DBProduct () throws SQLException {
-		insert = DBConnection.getInstance().getConnection().prepareStatement(insertProduct);
-		findById =  DBConnection.getInstance().getConnection().prepareStatement(findProductById);
+	private DBProduct (){
 	}
 	
 
@@ -28,17 +23,34 @@ public class DBProduct implements DBProductIF {
 	
 	@Override
 	public void insertProduct(Product product) throws SQLException {
-		insert.setString(1, product.getProductNo());
-		insert.setString(2, product.getName());
-		insert.setString(3, product.getDescription());
-		insert.setDouble(4, product.getStockValue());
-		insert.execute();
+		PreparedStatement insert;
+		String insertProduct = "insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
+		try {
+			insert = DBConnection.getInstance().getConnection().prepareStatement(insertProduct);	
+			insert.setString(1, product.getProductNo());
+			insert.setString(2, product.getName());
+			insert.setString(3, product.getDescription());
+			insert.setDouble(4, product.getStockValue());
+			insert.execute();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
 		
 	}
 	
 	public Product findProductById(int id) throws SQLException {
-		insert.setInt(1, id);
-		return buildProductObject(findById.executeQuery());
+		PreparedStatement findById;
+		String findProductById = "select * from product where id = ?";
+		Product product = null;
+		try {
+			findById =  DBConnection.getInstance().getConnection().prepareStatement(findProductById);
+			findById.setInt(1, id);
+			product = buildProductObject(findById.executeQuery());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return product;
 	}
 	
 	private Product buildProductObject(ResultSet rs) throws SQLException {
