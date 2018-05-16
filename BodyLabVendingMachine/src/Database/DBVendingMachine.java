@@ -1,6 +1,7 @@
 package Database;
 
 import java.net.ConnectException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +13,12 @@ import Model.VendingMachine;
 
 public class DBVendingMachine implements DBVendingMachineIF {
 	private static DBVendingMachine instance;
-	private static final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
-	private static final String insertVendingMachine = "INSERT * INTO VendingMachine (name, model,capacity,serialNo,Products)"
-			+ "VALUES (?,?,?,?,?)";
+	private Connection connection;
+	
+	
 
 	private DBVendingMachine() {
+		connection = DBConnection.getInstance().getConnection();
 		
 	}
 	public static DBVendingMachine getInstance() {
@@ -28,8 +30,9 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	@Override
 	public VendingMachine findVendingMachine(int VendingMachineId) {
 		VendingMachine vendingMachineList = null;
+		String findVendingMachine = "SELECT * From VendingMachine where id = ?";
 
-		try (PreparedStatement statement = DBConnection.getInstance().getConnection()
+		try (PreparedStatement statement = connection
 				.prepareStatement(findVendingMachine)) {
 			statement.setInt(1, VendingMachineId);
 
@@ -59,9 +62,11 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 	@Override
 	public int insertVendingMachine(VendingMachine vm) {
+		String insertVendingMachine = "INSERT * INTO VendingMachine (name, model,capacity,serialNo,Products)"
+				+ "VALUES (?,?,?,?,?)";
 		int vmId = 0;
 		try {
-			PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement(insertVendingMachine);
+			PreparedStatement statement = connection.prepareStatement(insertVendingMachine);
 			statement.setString(1, vm.getName());
 			statement.setString(2, vm.getModel());
 			statement.setInt(3, vm.getCapacity());
