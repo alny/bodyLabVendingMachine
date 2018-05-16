@@ -1,5 +1,6 @@
 package Database;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,19 +10,18 @@ import java.util.List;
 
 import Infrastructure.DBLoanIF;
 import Model.Loan;
+import Model.VendingMachine;
 
 
 public class DBLoan implements DBLoanIF {
 	private static DBLoan instance;
 	private static final String findLoanForCustomer = "Select * from Loan where customerId = ?";
 	private static final String check = "Select * from Loan where vendingMachineId = ?";
-	private static final String insertLoan = "insert into Loan (time, customerId, vendingMachineId)" + " values (?,?,?)";
+	private Connection connection;
 	private PreparedStatement findByCuId, insert, checkIfNotThere;
 	
 	private DBLoan() throws SQLException {
-		findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
-		insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
-		checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
+		connection = DBConnection.getInstance().getConnection();
 	}
 	
 	public static DBLoan getInstance() throws SQLException {
@@ -31,22 +31,31 @@ public class DBLoan implements DBLoanIF {
 		return instance;
 	}
 	@Override
-	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation) throws SQLException {
+	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation)  {
+		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
-		findByCuId.setInt(1, id);
-		ResultSet rs = findByCuId.executeQuery();
-		loan = new LinkedList<Loan>();
-		if(rs.next()) {
+		try {
+			findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
+			findByCuId.setInt(1, id);
+			ResultSet rs = findByCuId.executeQuery();
+			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs,retrieveAssociation);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 		
 		return loan;
 	}
 	//id is a Customers id
 	@Override
 	public int insertLoan(Loan l, int id) throws SQLException {
+		String insertLoan = "insert into Loan (time, customerId, vendingMachineId)" + " values (?,?,?)";
 		int i = 0;
 		try {
+			insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
 			DBConnection.getInstance().startTransaction();
 			java.sql.Date sqlTime = new java.sql.Date( l.getTimestamp().getTime() );
 			insert.setDate(0, sqlTime);
@@ -64,16 +73,23 @@ public class DBLoan implements DBLoanIF {
 		return i;
 	}
 	// returns true if there already exist a loan with the machine, that has not finished, used solv the problem with problem with creation of two loans
-	private boolean checkIfThere(Loan l) throws SQLException {
+	private boolean checkIfThere(Loan l) {
 		boolean b = false;
-		checkIfNotThere.setInt(0, l.getVendingmachine().getId());
-		ResultSet rs = checkIfNotThere.executeQuery();
-		Date d = new Date();
-		while(rs.next()) {
-			if(d.before(rs.getDate("time"))) {
-				b = true;
+		try {
+			checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
+			checkIfNotThere.setInt(0, l.getVendingmachine().getId());
+			ResultSet rs = checkIfNotThere.executeQuery();
+			Date d = new Date();
+			while(rs.next()) {
+				if(d.before(rs.getDate("time"))) {
+					b = true;
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return b;
 	}
 	
@@ -86,8 +102,13 @@ public class DBLoan implements DBLoanIF {
 		return l;
 	}
 	
-	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) {
-		//VendingMachine vm = DBVendingMachine
+	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+		if(retrieveAssociation) {
+			VendingMachine vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
+		}
+		else {
+			
+		}
 		//Loan l = new Loan(rs.getInt("id"),
 		//rs.
 		return null;	

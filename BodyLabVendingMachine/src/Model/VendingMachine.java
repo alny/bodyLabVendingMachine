@@ -12,6 +12,9 @@ public class VendingMachine {
 	private String serialNo;
 	private List<Product> products;
 
+	public VendingMachine(int id) {
+		this.id = id;
+	}
 	public VendingMachine(int id, String name, String model, int capacity, String serialNo) {
 		this.id = id;
 		this.name = name;
