@@ -47,11 +47,11 @@ public class DBProduct implements DBProductIF {
 		String productNo = rs.getString("productNo");	
 		String name = rs.getString("name");
 		String description = rs.getString("description");
-		double stockValue = rs.getFloat("stockValue"));
+		double stockValue = rs.getFloat("stockValue");
 
-		Product p = new Product(id, productNo, name, description, stockValue);
+		Product product = new Product(id, productNo, name, description, stockValue);
 
-		return p;
+		return product;
 	}
 
 	
