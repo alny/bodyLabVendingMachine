@@ -43,7 +43,7 @@ public class MainMenu extends JFrame {
 		customerMenu = new CustomerMenu(parentPanel, cl);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 500);
+		setBounds(100, 100, 750, 515);
 		setContentPane(parentPanel);
 
 		parentPanel.setLayout(cl);

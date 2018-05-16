@@ -13,103 +13,102 @@ import Model.Customer;
 import Model.Loan;
 import Model.VendingMachine;
 
-
 public class DBLoan implements DBLoanIF {
 	private static DBLoan instance;
 	private Connection connection;
-	
+
 	private DBLoan() throws SQLException {
 		connection = DBConnection.getInstance().getConnection();
 	}
-	
+
 	public static DBLoan getInstance() throws SQLException {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new DBLoan();
 		}
 		return instance;
 	}
+
 	@Override
-	public List<Loan> findLoansForCustomer(Customer cu, boolean retrieveAssociation)  {
+	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation) {
 		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
 		try {
-			PreparedStatement findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
-			findByCuId.setInt(1, cu.getId());
+			PreparedStatement findByCuId = connection.prepareStatement(findLoanForCustomer);
+			findByCuId.setInt(1, id);
 			ResultSet rs = findByCuId.executeQuery();
 			loan = new LinkedList<Loan>();
-			loan = buildObjects(rs,retrieveAssociation);
+			loan = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
 		return loan;
 	}
-	//id is a Customers id
+
+	// id is a Customers id
 	@Override
-	public int insertLoan(Loan l, int id) throws SQLException {
+	public int insertLoan(Loan loan, int id) throws SQLException {
 		String insertLoan = "insert into Loan (date,endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
-			PreparedStatement insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
+			PreparedStatement insert = connection.prepareStatement(insertLoan);
 			DBConnection.getInstance().startTransaction();
-			java.sql.Date sqlTime = new java.sql.Date( l.getTimestamp().getTime() );
+			java.sql.Date sqlTime = new java.sql.Date(loan.getTimestamp().getTime());
 			insert.setDate(0, sqlTime);
 			insert.setInt(1, id);
-			insert.setInt(2, l.getVendingmachine().getId());
-			if(checkIfThere(l)== true) {
+			insert.setInt(2, loan.getVendingmachine().getId());
+			if (checkIfThere(loan) == true) {
 				throw new SQLException();
 			}
 			i = DBConnection.getInstance().executeInsertWithIdentity(insert);
 			DBConnection.getInstance().commitTransaction();
-		} 
-		catch (SQLException e) {	
+		} catch (SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();
 		}
 		return i;
 	}
-	// returns true if there already exist a loan with the machine, that has not finished, used solv the problem with problem with creation of two loans
-	private boolean checkIfThere(Loan l) {
-		boolean b = false;
+
+	// returns true if there already exist a loan with the machine, that has not
+	// finished, used solv the problem with problem with creation of two loans
+	private boolean checkIfThere(Loan loan) {
+		boolean found = false;
 		String check = "Select * from Loan where vendingMachineId = ?";
 		try {
-			PreparedStatement checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
-			checkIfNotThere.setInt(0, l.getVendingmachine().getId());
+			PreparedStatement checkIfNotThere = connection.prepareStatement(check);
+			checkIfNotThere.setInt(0, loan.getVendingmachine().getId());
 			ResultSet rs = checkIfNotThere.executeQuery();
-			Date d = new Date();
-			while(rs.next()) {
-				if(d.before(rs.getDate("time"))) {
-					b = true;
+			Date date = new Date();
+			while (rs.next()) {
+				if (date.before(rs.getDate("time"))) {
+					found = true;
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return b;
+
+		return found;
 	}
-	
-	
-	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws SQLException{
-		List<Loan> l = new LinkedList<Loan>();
-		while(rs.next()) {
-			l.add(buildObject(rs,retrieveAssociation));
+
+	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+		List<Loan> loan = new LinkedList<Loan>();
+		while (rs.next()) {
+			loan.add(buildObject(rs, retrieveAssociation));
 		}
-		return l;
+		return loan;
 	}
-	
+
 	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
-		if(retrieveAssociation) {
+		if (retrieveAssociation) {
 			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
 		}
-		Loan l = new Loan(rs.getInt("id"),vm);
-		l.setDate(rs.getDate("date"));
-		l.setEndDate(rs.getDate("endDate"));
-		return l;	
+		Loan loan = new Loan(rs.getInt("id"), vm);
+		loan.setDate(rs.getDate("date"));
+		loan.setEndDate(rs.getDate("endDate"));
+		return loan;
 	}
 
 }

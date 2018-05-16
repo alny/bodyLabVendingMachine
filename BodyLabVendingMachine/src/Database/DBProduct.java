@@ -9,13 +9,12 @@ import Infrastructure.DBProductIF;
 import Model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static  DBProduct instance;
+	private static DBProduct instance;
 	private Connection connection;
-	
-	private DBProduct (){
+
+	private DBProduct() {
 		connection = DBConnection.getInstance().getConnection();
 	}
-	
 
 	public static DBProduct getinstance() throws SQLException {
 		if (instance == null) {
@@ -23,13 +22,13 @@ public class DBProduct implements DBProductIF {
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public void insertProduct(Product product) throws SQLException {
 		PreparedStatement insert;
 		String insertProduct = "insert into Product (productNo, name, description, stockValue) values (?,?,?,?,?) ";
 		try {
-			insert = connection.prepareStatement(insertProduct);	
+			insert = connection.prepareStatement(insertProduct);
 			insert.setString(1, product.getProductNo());
 			insert.setString(2, product.getName());
 			insert.setString(3, product.getDescription());
@@ -38,16 +37,15 @@ public class DBProduct implements DBProductIF {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	
-		
+
 	}
-	
+
 	public Product findProductById(int id) throws SQLException {
 		PreparedStatement findById;
 		String findProductById = "select * from product where id = ?";
 		Product product = null;
 		try {
-			findById =  connection.prepareStatement(findProductById);
+			findById = connection.prepareStatement(findProductById);
 			findById.setInt(1, id);
 			product = buildProductObject(findById.executeQuery());
 		} catch (Exception e) {
@@ -55,11 +53,11 @@ public class DBProduct implements DBProductIF {
 		}
 		return product;
 	}
-	
+
 	private Product buildProductObject(ResultSet rs) throws SQLException {
 
 		int id = rs.getInt("id");
-		String productNo = rs.getString("productNo");	
+		String productNo = rs.getString("productNo");
 		String name = rs.getString("name");
 		String description = rs.getString("description");
 		double stockValue = rs.getFloat("stockValue");
@@ -69,5 +67,4 @@ public class DBProduct implements DBProductIF {
 		return product;
 	}
 
-	
 }

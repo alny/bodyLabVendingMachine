@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import Database.PersistensException;
 
 import Infrastructure.DBVendingMachineIF;
 import Model.VendingMachine;
@@ -14,26 +15,25 @@ import Model.VendingMachine;
 public class DBVendingMachine implements DBVendingMachineIF {
 	private static DBVendingMachine instance;
 	private Connection connection;
-	
-	
 
 	private DBVendingMachine() {
 		connection = DBConnection.getInstance().getConnection();
-		
+
 	}
+
 	public static DBVendingMachine getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new DBVendingMachine();
 		}
 		return instance;
 	}
-	@Override
-	public VendingMachine findVendingMachine(int VendingMachineId) {
+
+	
+	public VendingMachine findVendingMachine(int VendingMachineId) throws PersistensException {
 		VendingMachine vendingMachineList = null;
 		String findVendingMachine = "SELECT * From VendingMachine where id = ?";
 
-		try (PreparedStatement statement = connection
-				.prepareStatement(findVendingMachine)) {
+		try (PreparedStatement statement = connection.prepareStatement(findVendingMachine)) {
 			statement.setInt(1, VendingMachineId);
 
 			ResultSet rs = statement.executeQuery();
@@ -41,14 +41,16 @@ public class DBVendingMachine implements DBVendingMachineIF {
 				vendingMachineList = buildVendingMachineObject(rs);
 			}
 			System.out.println(vendingMachineList);
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		} 
+		catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not find all");
+			throw pe;
+			
 		}
 		return vendingMachineList;
 	}
 
-	private VendingMachine buildVendingMachineObject(ResultSet rs) throws SQLException {
+	private VendingMachine buildVendingMachineObject(ResultSet rs) {
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
 		String model = rs.getString("model");
@@ -56,12 +58,12 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		String serialNo = rs.getString("serialNo");
 
 		VendingMachine vendingMachine = new VendingMachine(id, name, model, capacity, serialNo);
-
+		
 		return vendingMachine;
 	}
 
 	@Override
-	public int insertVendingMachine(VendingMachine vm) {
+	public int insertVendingMachine(VendingMachine vm) throws PersistensException {
 		String insertVendingMachine = "INSERT * INTO VendingMachine (name, model,capacity,serialNo,Products)"
 				+ "VALUES (?,?,?,?,?)";
 		int vmId = 0;
@@ -71,14 +73,13 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			statement.setString(2, vm.getModel());
 			statement.setInt(3, vm.getCapacity());
 			statement.setString(4, vm.getSerialNo());
-			
+
 			vmId = DBConnection.getInstance().executeInsertWithIdentity(statement);
-			
-		}
-		catch(SQLException e) {
-			e.getStackTrace();
+
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not find all");
+			throw pe;
 		}
 		return vmId;
 	}
 }
-	
