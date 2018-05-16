@@ -44,10 +44,10 @@ public class DBProduct implements DBProductIF {
 	private Product buildProductObject(ResultSet rs) throws SQLException {
 
 		int id = rs.getInt("id");
-		String productNo = rs.getString("productNo");
+		String productNo = rs.getString("productNo");	
 		String name = rs.getString("name");
 		String description = rs.getString("description");
-		double stockValue = Double.parseDouble(rs.getString("stockValue"));
+		double stockValue = rs.getFloat("stockValue"));
 
 		Product p = new Product(id, productNo, name, description, stockValue);
 
