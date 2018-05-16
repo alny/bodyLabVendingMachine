@@ -29,12 +29,12 @@ public class DBLoan implements DBLoanIF {
 	}
 
 	@Override
-	public List<Loan> findLoansForCustomer(int id, boolean retrieveAssociation) {
+	public List<Loan> findLoansForCustomer(Customer customer, boolean retrieveAssociation) throws PersistensException {
 		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
 		try {
 			PreparedStatement findByCuId = connection.prepareStatement(findLoanForCustomer);
-			findByCuId.setInt(1, id);
+			findByCuId.setInt(1, customer.getId());
 			ResultSet rs = findByCuId.executeQuery();
 			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs, retrieveAssociation);
@@ -92,7 +92,7 @@ public class DBLoan implements DBLoanIF {
 		return found;
 	}
 
-	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException, SQLException {
 		List<Loan> loan = new LinkedList<Loan>();
 		while (rs.next()) {
 			loan.add(buildObject(rs, retrieveAssociation));
@@ -100,7 +100,7 @@ public class DBLoan implements DBLoanIF {
 		return loan;
 	}
 
-	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException, PersistensException {
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
 			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
