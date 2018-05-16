@@ -34,7 +34,7 @@ public class DBSale implements DBSaleIF {
 		List<Sale> sale = null;
 		try {
 			PreparedStatement salesMachine = connection.prepareStatement(getSalesFromMachineId);
-			salesMachine.setInt(0, vm.getId());
+			salesMachine.setInt(1, vm.getId());
 			ResultSet rs = salesMachine.executeQuery();
 			sale = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
@@ -51,7 +51,7 @@ public class DBSale implements DBSaleIF {
 		String getSumMachine = " SUM(price) from Sale where vendingMachineId = ?";
 		try {
 			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
-			sumMachine.setInt(0, vm.getId());
+			sumMachine.setInt(1, vm.getId());
 			sum = sumMachine.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -67,7 +67,7 @@ public class DBSale implements DBSaleIF {
 		String getSumProduct = "select sum(price) from Sale where produktId = ?";
 		try {
 			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
-			sumProduct.setInt(0, product.getId());
+			sumProduct.setInt(1, product.getId());
 			sum = sumProduct.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -83,6 +83,7 @@ public class DBSale implements DBSaleIF {
 		List<Sale> sale = new LinkedList<Sale>();
 		try {
 			PreparedStatement salesProduct = connection.prepareStatement(getSalesProduct);
+			salesProduct.setInt(1, product.getId());
 			ResultSet rs = salesProduct.executeQuery();
 			sale = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
@@ -91,7 +92,7 @@ public class DBSale implements DBSaleIF {
 		}
 		return sale;
 	}
-
+	// fix execptions ikke godt at have try catch i en catch
 	@Override
 	public int insertSale(Sale sale) {
 		int id = 0;
@@ -102,9 +103,9 @@ public class DBSale implements DBSaleIF {
 			PreparedStatement insertPS = connection.prepareStatement(insert);
 			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
 			java.sql.Date sqlTime = new java.sql.Date(sale.getDate().getTime());
-			insertPS.setDate(0, sqlTime);
-			insertPS.setInt(1, sale.getVendingmachine().getId());
-			insertPS.setInt(2, sale.getProduct().getId());
+			insertPS.setDate(1, sqlTime);
+			insertPS.setInt(2, sale.getVendingmachine().getId());
+			insertPS.setInt(3, sale.getProduct().getId());
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
 			updateQty.executeQuery();
 			DBConnection.getInstance().commitTransaction();
@@ -135,7 +136,7 @@ public class DBSale implements DBSaleIF {
 		return sale;
 	}
 
-	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException, PersistensException {
+	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
 		Product product = new Product(rs.getInt("productId"));
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
@@ -152,7 +153,7 @@ public class DBSale implements DBSaleIF {
 		String getTotalSalesMachine = "select count(id) from Sale where vendingMachineId";
 		try {
 			PreparedStatement totalMachine = connection.prepareStatement(getTotalSalesMachine);
-			totalMachine.setInt(0, vm.getId());
+			totalMachine.setInt(1, vm.getId());
 			sum = totalMachine.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -168,7 +169,7 @@ public class DBSale implements DBSaleIF {
 		String getTotalSalesProduct = "select count(id) from Sale where productId = ?";
 		try {
 			PreparedStatement totalProduct = connection.prepareStatement(getTotalSalesProduct);
-			totalProduct.setInt(0, product.getId());
+			totalProduct.setInt(1, product.getId());
 			sum = totalProduct.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

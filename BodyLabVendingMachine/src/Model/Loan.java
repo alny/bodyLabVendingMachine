@@ -42,14 +42,6 @@ public class Loan {
 		this.id = id;
 	}
 
-	public Date getTimestamp() {
-		return date;
-	}
-
-	public void setTimestamp(Date date) {
-		this.date = date;
-	}
-
 	public Date getDate() {
 		return date;
 	}

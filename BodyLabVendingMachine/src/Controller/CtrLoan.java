@@ -4,46 +4,40 @@ import java.sql.SQLException;
 import java.util.List;
 
 import Database.DBLoan;
+import Database.DBVendingMachine;
+import Database.PersistensException;
 import Infrastructure.CtrLoanIF;
+import Infrastructure.CtrVendingMachineIF;
 import Infrastructure.DBLoanIF;
 import Model.Customer;
 import Model.Loan;
 import Model.VendingMachine;
 
 public class CtrLoan implements CtrLoanIF {
-	private DBLoanIF dbl;
+	private DBLoanIF dbL;
 	private CtrVendingMachineIF cVM;
 	
 	public CtrLoan() throws SQLException {
-		dbl = DBLoan.getInstance();
+		dbL = DBLoan.getInstance();
+		cVM = new CtrVendingMachine();
+	}
+	@Override
+	public List<Loan> findLoansForCustomer(Customer customer) throws PersistensException {
+		 return dbL.findLoansForCustomer(customer, true);
 	}
 	
-	public List<Loan> findLoansForCustomer(Customer customer) throws SQLException {
-		 return dbl.findLoansForCustomer(customer, true);
-	}
-	
-	public int insertLoan(Customer customer, VendingMachine vm) {
-		Loan l = new Loan (CtrVendingMachine.findVendingMachineById(vm.getId()));
-//		return dbl.insertLoan(l, custid);
-		return 0;
+
+	@Override
+	public int insertLoan(Loan loan, Customer customer) {
+		return dbL.insertLoan(loan, customer);
 	}
 
 	@Override
-	public int insertLoan(VendingMachine vm) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<Loan> findLoansForCustomer(Customer customer, boolean retrieveAssociation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Loan createLoan(VendingMachine vendingmachine, Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Loan createLoan(VendingMachine vm, Customer customer) {
+		Loan loan = new Loan(vm);
+		insertLoan(loan, customer);
+		return loan;
+		
 	}
 	
 }

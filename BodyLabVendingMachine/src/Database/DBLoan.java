@@ -46,25 +46,32 @@ public class DBLoan implements DBLoanIF {
 		return loan;
 	}
 
-	// id is a Customers id
+	// id is a Customers id, need some help to know how to handle the execption that happens then rollback happens
 	@Override
-	public int insertLoan(Loan loan, int id) throws SQLException {
-		String insertLoan = "insert into Loan (date,endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
+	public int insertLoan(Loan loan, Customer customer) {
+		String insertLoan = "insert into Loan (date, endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
 			PreparedStatement insert = connection.prepareStatement(insertLoan);
 			DBConnection.getInstance().startTransaction();
-			java.sql.Date sqlTime = new java.sql.Date(loan.getTimestamp().getTime());
-			insert.setDate(0, sqlTime);
-			insert.setInt(1, id);
-			insert.setInt(2, loan.getVendingmachine().getId());
+			java.sql.Date sqlTime = new java.sql.Date(loan.getDate().getTime());
+			insert.setDate(1, sqlTime);
+			java.sql.Date sqlDate = new java.sql.Date(loan.getEndDate().getTime());
+			insert.setDate(2, sqlDate);
+			insert.setInt(3, customer.getId());
+			insert.setInt(4, loan.getVendingmachine().getId());
 			if (checkIfThere(loan) == true) {
 				throw new SQLException();
 			}
 			i = DBConnection.getInstance().executeInsertWithIdentity(insert);
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
-			DBConnection.getInstance().rollbackTransaction();
+			try {
+				DBConnection.getInstance().rollbackTransaction();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		return i;
 	}
@@ -76,7 +83,7 @@ public class DBLoan implements DBLoanIF {
 		String check = "Select * from Loan where vendingMachineId = ?";
 		try {
 			PreparedStatement checkIfNotThere = connection.prepareStatement(check);
-			checkIfNotThere.setInt(0, loan.getVendingmachine().getId());
+			checkIfNotThere.setInt(1, loan.getVendingmachine().getId());
 			ResultSet rs = checkIfNotThere.executeQuery();
 			Date date = new Date();
 			while (rs.next()) {
