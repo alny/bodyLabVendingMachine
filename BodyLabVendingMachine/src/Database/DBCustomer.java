@@ -1,5 +1,6 @@
 package Database;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,26 +10,32 @@ import java.util.List;
 import Infrastructure.DBCustomerIF;
 import Model.CityZip;
 import Model.Customer;
+import Database.PersistensException;
 import Database.DBCustomer;
 
 public class DBCustomer implements DBCustomerIF {
 	
 	public static DBCustomer instance;
-	private static final String findCustomerById = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id AND customer.id = ?";
-	private static final String findAllCustomers = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id";
+	private Connection connection; 
 	
-	public static DBCustomer getInstance() throws SQLException {
+	public static DBCustomer getInstance() {
 		if(instance == null) {
 			instance = new DBCustomer();
 		}
 		return instance;
 	}
 	
+	public DBCustomer() {
+		connection = DBConnection.getInstance().getConnection();
+	}
+	
 	@Override
-	public List<Customer> findAllCustomers() throws SQLException {
+	public List<Customer> findAllCustomers() throws PersistensException {
 		List<Customer> customerList = new ArrayList<>();
 		
-		try (PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement(findAllCustomers)) {
+		final String findAllCustomers = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id";
+		
+		try (PreparedStatement statement = connection.prepareStatement(findAllCustomers)) {
 
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
@@ -37,15 +44,19 @@ public class DBCustomer implements DBCustomerIF {
 			System.out.println(customerList);
 
 		} catch (SQLException e) {
-			System.out.println(e);
+			PersistensException pe = new PersistensException(e, "Could not find all");
+			throw pe;
 		}
 		return customerList;
 	}
 	
 	@Override
-	public Customer findCustomer(int customerId) throws SQLException {
+	public Customer findCustomer(int customerId) throws PersistensException {
 		Customer customer = null;
-		try (PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement(findCustomerById)) {
+		
+		final String findCustomerById = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id AND customer.id = ?";
+		
+		try (PreparedStatement statement = connection.prepareStatement(findCustomerById)) {
 			statement.setInt(1, customerId);
 
 			ResultSet rs = statement.executeQuery();
@@ -55,11 +66,12 @@ public class DBCustomer implements DBCustomerIF {
 			System.out.println(customer);
 
 		} catch (SQLException e) {
-			System.out.println(e);
+			PersistensException pe = new PersistensException(e, "Could not find customer");
+			throw pe;
 		}
 		return customer;
 	}
-
+	
 	private Customer buildCustomerObject(ResultSet rs) throws SQLException {
 
 		int id = rs.getInt("id");

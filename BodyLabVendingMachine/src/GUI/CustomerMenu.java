@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import Controller.CtrCustomer;
+import Database.PersistensException;
 import Model.Customer;
 
 public class CustomerMenu extends JPanel {
@@ -37,7 +38,7 @@ public class CustomerMenu extends JPanel {
 	
 	private CtrCustomer customerCtr;
 
-	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) throws SQLException {
+	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		customerCtr = new CtrCustomer();
@@ -100,8 +101,7 @@ public class CustomerMenu extends JPanel {
 	public void refresh() {
 		try {
 			customerTable.setModel(customerTable(customerCtr.findAllCustomers()));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (PersistensException e) {
 			e.printStackTrace();
 		}
 	}

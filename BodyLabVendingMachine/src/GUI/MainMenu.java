@@ -36,7 +36,7 @@ public class MainMenu extends JFrame {
 		});
 	}
 
-	public MainMenu() throws SQLException {
+	public MainMenu() {
 		CardLayout cl = new CardLayout();
 		parentPanel = new JPanel();
 		menuPanel = new JPanel();
