@@ -58,5 +58,5 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		return vmId;
 		}
 		
-}
+	}
 	
