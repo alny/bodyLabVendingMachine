@@ -17,11 +17,11 @@ public class DBLoan implements DBLoanIF {
 	private static DBLoan instance;
 	private Connection connection;
 
-	private DBLoan() throws SQLException {
+	private DBLoan() {
 		connection = DBConnection.getInstance().getConnection();
 	}
 
-	public static DBLoan getInstance() throws SQLException {
+	public static DBLoan getInstance(){
 		if (instance == null) {
 			instance = new DBLoan();
 		}

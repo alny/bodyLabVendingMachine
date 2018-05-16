@@ -17,11 +17,11 @@ public class DBSale implements DBSaleIF {
 	private static DBSale instance;
 	private Connection connection;
 
-	private DBSale() throws SQLException {
+	private DBSale() {
 		connection = DBConnection.getInstance().getConnection();
 	}
 
-	public static DBSale getInstance() throws SQLException {
+	public static DBSale getInstance() {
 		if (instance == null) {
 			instance = new DBSale();
 		}
@@ -29,7 +29,7 @@ public class DBSale implements DBSaleIF {
 	}
 
 	@Override
-	public List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) {
+	public List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws PersistensException {
 		String getSalesFromMachineId = "select * from Sale where vendingMachineId = ?";
 		List<Sale> sale = null;
 		try {
@@ -78,7 +78,7 @@ public class DBSale implements DBSaleIF {
 	}
 
 	@Override
-	public List<Sale> getSalesFromProductId(Product product, boolean retrieveAssociation) {
+	public List<Sale> getSalesFromProductId(Product product, boolean retrieveAssociation) throws PersistensException {
 		String getSalesProduct = "select * from Sale where productId = ?";
 		List<Sale> sale = new LinkedList<Sale>();
 		try {
@@ -122,7 +122,7 @@ public class DBSale implements DBSaleIF {
 		return id;
 	}
 
-	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) {
+	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
 		List<Sale> sale = new LinkedList<Sale>();
 		try {
 			while (rs.next()) {
@@ -135,11 +135,11 @@ public class DBSale implements DBSaleIF {
 		return sale;
 	}
 
-	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException, PersistensException {
 		Product product = new Product(rs.getInt("productId"));
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
-			product = DBProduct.getinstance().findProductById(product.getId());
+			product = DBProduct.getInstance().findProductById(product.getId());
 			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
 		}
 		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm);
