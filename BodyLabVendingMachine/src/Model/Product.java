@@ -8,7 +8,9 @@ public class Product {
 	private String description;
 	private double stockValue;
 
-
+	public Product(int id) {
+		this.id = id;
+	}
 
 	public Product(int id, String productNo, String name, String description, double stockValue) {
 		this.id = id;

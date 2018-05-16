@@ -77,19 +77,34 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public List<Sale> getSalesFromProductId(Product p,  boolean retrieveAssociation) {
 		String getSalesProduct = "select * from Sale where productId = ?";
+		List<Sale> sale = new LinkedList<Sale>(); 
 		try {
 			PreparedStatement salesProduct = connection.prepareStatement(getSalesProduct);
+			ResultSet rs = salesProduct.executeQuery();
+			sale = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return sale;
 	}
-
+	
 	@Override
-	public int insertSale(Sale s) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertSale(Sale sale) {
+		int id = 0;
+		String insert = "insert into Sale (date, vendingMachineId, productId)" + " values (?,?,?)";
+		String changeQuantity = "update "
+		try {
+			DBConnection.getInstance().startTransaction();
+			PreparedStatement insertPS = connection.prepareStatement(insert);
+			java.sql.Date sqlTime = new java.sql.Date( sale.getDate().getTime() );
+			insertPS.setDate(0, sqlTime);
+			insertPS.setInt(1, sale.getVendingmachine().getId());
+			insertPS.setInt(2, sale.getProduct().getId());
+			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+		}
+		catch()
+		return id;
 	}
 
 	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) {
@@ -102,13 +117,17 @@ public class DBSale implements DBSaleIF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return sale;
 	}
-	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) {
-		return null;
-		//Product p = DBProduct.getinstance()
-		//VendingMachine vm = DPVendingMachine.
-		//Sale s = new Sale(rs.getInt("id"), rs.getDate("time"), )
+	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+		Product product = new Product(rs.getInt("productId"));
+		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
+		if(retrieveAssociation) {
+			product = DBProduct.getinstance().findProductById(product.getId());
+			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
+		}
+		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm);
+		return sale;
 	}
 	@Override
 	public int getTotalSaleFromMachineId(VendingMachine vm) {

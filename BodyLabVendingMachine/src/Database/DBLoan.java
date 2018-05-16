@@ -15,10 +15,7 @@ import Model.VendingMachine;
 
 public class DBLoan implements DBLoanIF {
 	private static DBLoan instance;
-	private static final String findLoanForCustomer = "Select * from Loan where customerId = ?";
-	private static final String check = "Select * from Loan where vendingMachineId = ?";
 	private Connection connection;
-	private PreparedStatement findByCuId, insert, checkIfNotThere;
 	
 	private DBLoan() throws SQLException {
 		connection = DBConnection.getInstance().getConnection();
@@ -35,7 +32,7 @@ public class DBLoan implements DBLoanIF {
 		String findLoanForCustomer = "Select * from Loan where customerId = ?";
 		List<Loan> loan = null;
 		try {
-			findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
+			PreparedStatement findByCuId = DBConnection.getInstance().getConnection().prepareStatement(findLoanForCustomer);
 			findByCuId.setInt(1, id);
 			ResultSet rs = findByCuId.executeQuery();
 			loan = new LinkedList<Loan>();
@@ -52,10 +49,10 @@ public class DBLoan implements DBLoanIF {
 	//id is a Customers id
 	@Override
 	public int insertLoan(Loan l, int id) throws SQLException {
-		String insertLoan = "insert into Loan (time, customerId, vendingMachineId)" + " values (?,?,?)";
+		String insertLoan = "insert into Loan (date,endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
-			insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
+			PreparedStatement insert = DBConnection.getInstance().getConnection().prepareStatement(insertLoan);
 			DBConnection.getInstance().startTransaction();
 			java.sql.Date sqlTime = new java.sql.Date( l.getTimestamp().getTime() );
 			insert.setDate(0, sqlTime);
@@ -75,8 +72,9 @@ public class DBLoan implements DBLoanIF {
 	// returns true if there already exist a loan with the machine, that has not finished, used solv the problem with problem with creation of two loans
 	private boolean checkIfThere(Loan l) {
 		boolean b = false;
+		String check = "Select * from Loan where vendingMachineId = ?";
 		try {
-			checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
+			PreparedStatement checkIfNotThere = DBConnection.getInstance().getConnection().prepareStatement(check);
 			checkIfNotThere.setInt(0, l.getVendingmachine().getId());
 			ResultSet rs = checkIfNotThere.executeQuery();
 			Date d = new Date();
@@ -103,15 +101,14 @@ public class DBLoan implements DBLoanIF {
 	}
 	
 	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException {
+		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		if(retrieveAssociation) {
-			VendingMachine vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
+			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
 		}
-		else {
-			
-		}
-		//Loan l = new Loan(rs.getInt("id"),
-		//rs.
-		return null;	
+		Loan l = new Loan(rs.getInt("id"),vm);
+		l.setDate(rs.getDate("date"));
+		l.setEndDate(rs.getDate("endDate"));
+		return l;	
 	}
 
 }
