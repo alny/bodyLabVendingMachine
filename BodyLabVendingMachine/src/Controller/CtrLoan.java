@@ -13,8 +13,8 @@ public class CtrLoan {
 		dbl = DBLoan.getInstance();
 	}
 	
-	public List<Loan> findLoansForCustomer(int id) {
-		 return dbl.findLoansForCustomer(id);
+	public List<Loan> findLoansForCustomer(int id) throws SQLException {
+		 return dbl.findLoansForCustomer(id, true);
 	}
 	
 	public int insertLoan(int custid, int vmid) {

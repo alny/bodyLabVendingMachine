@@ -1,13 +1,18 @@
 package Infrastructure;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import Model.Product;
 import Model.Sale;
+import Model.VendingMachine;
 
 public interface DBSaleIF {
-	List<Sale> getSalesFromMachineId(int id);
-	int getTotalSaleFromMachineId(int id);
-	int getTotalSaleFromProductId(int id);
-	List<Sale> getSalesFromProductId(int id);
+	int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException;
+	int getTotalSaleFromProductId(Product p) throws SQLException;
+	List<Sale> getSalesFromProductId(Product p, boolean retrieveAssociation);
 	int insertSale(Sale s);
+	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws SQLException;
+	int getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException;
+	int getSumOfSaleFromProductId(Product p) throws SQLException;
 }
