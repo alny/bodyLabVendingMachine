@@ -38,9 +38,9 @@ public class DBCustomer implements DBCustomerIF {
 		try (PreparedStatement statement = connection.prepareStatement(findAllCustomers)) {
 
 			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
-				customerList = buildCustomerObjects(rs);
-			}
+	
+			customerList = buildCustomerObjects(rs);
+			
 			System.out.println(customerList);
 
 		} catch (SQLException e) {
@@ -87,7 +87,7 @@ public class DBCustomer implements DBCustomerIF {
 
 	private List<Customer> buildCustomerObjects(ResultSet rs) throws SQLException {
 		List<Customer> res = new ArrayList<>();
-		if (rs.next()) {
+		while (rs.next()) {
 			res.add(buildCustomerObject(rs));
 		}
 		return res;
