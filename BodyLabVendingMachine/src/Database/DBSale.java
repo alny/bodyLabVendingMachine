@@ -109,9 +109,8 @@ public class DBSale implements DBSaleIF {
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
 			updateQty.executeQuery();
 			DBConnection.getInstance().commitTransaction();
-		} catch (SQLDataException e) {
-
-		} catch (SQLException e) {
+		}
+		 catch (SQLException e) {
 			// TODO Auto-generated catch block
 			try {
 				DBConnection.getInstance().rollbackTransaction();
