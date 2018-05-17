@@ -31,7 +31,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 	
 	public VendingMachine findVendingMachine(int VendingMachineId) throws PersistensException {
-		VendingMachine vendingMachineList = null;
+		VendingMachine vendingMachine = null;
 		String findVendingMachine = "SELECT * From VendingMachine where id = ?";
 
 		try (PreparedStatement statement = connection.prepareStatement(findVendingMachine)) {
@@ -39,41 +39,41 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
-				vendingMachineList = buildVendingMachineObject(rs);
+				vendingMachine = buildVendingMachineObject(rs);
 			}
-			System.out.println(vendingMachineList);
+			System.out.println(vendingMachine);
 		} 
 		catch (SQLException e) {
 			PersistensException pe = new PersistensException(e, "Could not find all");
+			pe.printStackTrace();
 			throw pe;
 			
 		}
-		return vendingMachineList;
+		
+		return vendingMachine;
 	}
 
 	private VendingMachine buildVendingMachineObject(ResultSet rs) throws SQLException {
 		int id = rs.getInt("id");
-		String name = rs.getString("name");
 		String model = rs.getString("model");
 		int capacity = rs.getInt("capacity");
 		String serialNo = rs.getString("serialNo");
 
-		VendingMachine vendingMachine = new VendingMachine(id, name, model, capacity, serialNo);
+		VendingMachine vendingMachine = new VendingMachine(id, model, capacity, serialNo);
 		
 		return vendingMachine;
 	}
 
 	@Override
 	public int insertVendingMachine(VendingMachine vm) throws PersistensException {
-		String insertVendingMachine = "INSERT * INTO VendingMachine (name, model,capacity,serialNo,Products)"
+		String insertVendingMachine = "INSERT * INTO VendingMachine (model,capacity,serialNo,Products)"
 				+ "VALUES (?,?,?,?,?)";
 		int vmId = 0;
 		try {
 			PreparedStatement statement = connection.prepareStatement(insertVendingMachine,  Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, vm.getName());
-			statement.setString(2, vm.getModel());
-			statement.setInt(3, vm.getCapacity());
-			statement.setString(4, vm.getSerialNo());
+			statement.setString(1, vm.getModel());
+			statement.setInt(2, vm.getCapacity());
+			statement.setString(3, vm.getSerialNo());
 
 			vmId = DBConnection.getInstance().executeInsertWithIdentity(statement);
 

@@ -6,7 +6,6 @@ import java.util.List;
 public class VendingMachine {
 
 	private int id;
-	private String name;
 	private String model;
 	private int capacity;
 	private String serialNo;
@@ -15,17 +14,15 @@ public class VendingMachine {
 	public VendingMachine(int id) {
 		this.id = id;
 	}
-	public VendingMachine(int id, String name, String model, int capacity, String serialNo) {
+	public VendingMachine(int id,  String model, int capacity, String serialNo) {
 		this.id = id;
-		this.name = name;
 		this.model = model;
 		this.capacity = capacity;
 		this.serialNo = serialNo;
 		products = new LinkedList<Product>();
 	}
 	
-	public VendingMachine(String name, String model, int capacity, String serialNo) {
-		this.name = name;
+	public VendingMachine(String model, int capacity, String serialNo) {
 		this.model = model;
 		this.capacity = capacity;
 		this.serialNo = serialNo;
@@ -50,14 +47,6 @@ public class VendingMachine {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getModel() {

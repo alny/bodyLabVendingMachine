@@ -9,6 +9,7 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 	
 	private DBVendingMachine dbVendingMachine;
 	
+	
 	public CtrVendingMachine() {
 		dbVendingMachine = DBVendingMachine.getInstance();
 	}

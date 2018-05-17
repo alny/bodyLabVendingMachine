@@ -25,9 +25,8 @@ public class CtrProduct implements CtrProductIF {
 		if(product == null) {
 			throw new CannotFindException("Produktet findes ikke");
 		}
-		else {
 		return product;
-		}
+		
 	}
 
 	@Override
