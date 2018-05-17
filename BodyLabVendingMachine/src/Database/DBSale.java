@@ -49,7 +49,7 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int getSumOfSaleFromMachineId(VendingMachine vm) {
 		int sum = 0;
-		String getSumMachine = " SUM(salePrice) from Sale where vendingMachineId = ?";
+		String getSumMachine = " SUM(salesPrice) from Sale where vendingMachineId = ?";
 		try {
 			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
 			sumMachine.setInt(1, vm.getId());
@@ -143,7 +143,7 @@ public class DBSale implements DBSaleIF {
 			product = DBProduct.getInstance().findProductById(product.getId());
 			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
 		}
-		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm);
+		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm, rs.getFloat("salesPrice"));
 		return sale;
 	}
 

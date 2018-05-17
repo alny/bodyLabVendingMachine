@@ -13,8 +13,13 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 		dbVendingMachine = DBVendingMachine.getInstance();
 	}
 	@Override
-	public VendingMachine findVendingMachine(int id) throws PersistensException {
-		return dbVendingMachine.findVendingMachine(id);
+	public VendingMachine findVendingMachine(int id) throws PersistensException, CannotFindException {
+		VendingMachine vm = null;
+		vm = dbVendingMachine.findVendingMachine(id);
+		if(vm == null) {
+			throw new CannotFindException("automaten findes ikke");
+		}
+		return vm;
 	}
 
 	@Override
