@@ -9,7 +9,7 @@ import Infrastructure.DBProductIF;
 import Model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static DBProduct instance;
+	private static DBProduct instance = null;
 	private Connection connection;
 
 	private DBProduct() {
@@ -39,31 +39,37 @@ public class DBProduct implements DBProductIF {
 		}
 
 	}
-
+	@Override
 	public Product findProductById(int id) throws SQLException {
-		PreparedStatement findById;
-		String findProductById = "select * from product where id = ?";
-		Product product = null;
-		try {
-			findById = connection.prepareStatement(findProductById);
+		final String findProductById = "select * from Product where id = ?";
+		Product p = null;
+			try	(PreparedStatement findById = connection.prepareStatement(findProductById)){
+			
 			findById.setInt(1, id);
-			product = buildProductObject(findById.executeQuery());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return product;
+			
+			ResultSet rs = findById.executeQuery();
+			
+			while(rs.next()) {
+				p = buildProductObject(rs);
+			}}
+			catch(SQLException e) {
+				
+			}
+			
+			System.out.println(p);
+		return p;
 	}
 
 	private Product buildProductObject(ResultSet rs) throws SQLException {
-
 		int id = rs.getInt("id");
 		String productNo = rs.getString("productNo");
 		String name = rs.getString("name");
 		String description = rs.getString("description");
 		double stockValue = rs.getFloat("stockValue");
+		
 
 		Product product = new Product(id, productNo, name, description, stockValue);
-
+		
 		return product;
 	}
 

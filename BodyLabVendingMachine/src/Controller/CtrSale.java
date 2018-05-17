@@ -25,7 +25,7 @@ public class CtrSale implements CtrSaleIF {
 		ctrVM = new CtrVendingMachine();
 	}
 	@Override
-	public int getSumFromMachine(int vmId) {
+	public int getSumFromMachine(int vmId) throws CannotFindException {
 		int sum = 0;
 		try {
 			sum = dbSale.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId));
@@ -37,7 +37,7 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public int getSumFromProduct(int pId) {
+	public int getSumFromProduct(int pId) throws CannotFindException {
 		int sum = 0;
 		try {
 			sum = dbSale.getSumOfSaleFromProductId(ctrP.findProductById(pId));
@@ -49,7 +49,7 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public List<Sale> getAllSalesFromMachine(int vmId) {
+	public List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
 			sale = dbSale.getSalesFromMachineId(ctrVM.findVendingMachine(vmId), true);
@@ -61,7 +61,7 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public List<Sale> getAllSalesFromProduct(int pId) {
+	public List<Sale> getAllSalesFromProduct(int pId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
 			sale = dbSale.getSalesFromProductId(ctrP.findProductById(pId), true);
@@ -73,7 +73,7 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public int getAmountOfSalesFromMachine(int vmId) {
+	public int getAmountOfSalesFromMachine(int vmId) throws CannotFindException {
 		int totalSales = 0;
 		try {
 			totalSales = dbSale.getTotalSaleFromMachineId(ctrVM.findVendingMachine(vmId));
@@ -88,13 +88,16 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public int getAmountOfSalesFromProduct(int pId) {
+	public int getAmountOfSalesFromProduct(int pId) throws CannotFindException {
 		int totalSales = 0;
 		try {
 			totalSales = dbSale.getTotalSaleFromProductId(ctrP.findProductById(pId));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (totalSales == 0) {
+			throw new CannotFindException("produktet fines ikke");
 		}
 		return totalSales;
 	}
@@ -105,10 +108,10 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public Sale createSale(int vmId, int productId) {
+	public Sale createSale(int vmId, int productId, float price) throws CannotFindException {
 		Sale sale = null;
 		try {
-			sale = new Sale(new Date(), ctrP.findProductById(productId), ctrVM.findVendingMachine(vmId));
+			sale = new Sale(new Date(), ctrP.findProductById(productId), ctrVM.findVendingMachine(vmId), price );
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -49,7 +49,7 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int getSumOfSaleFromMachineId(VendingMachine vm) {
 		int sum = 0;
-		String getSumMachine = " SUM(price) from Sale where vendingMachineId = ?";
+		String getSumMachine = " SUM(salesPrice) from Sale where vendingMachineId = ?";
 		try {
 			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
 			sumMachine.setInt(1, vm.getId());
@@ -65,7 +65,7 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int getSumOfSaleFromProductId(Product product) {
 		int sum = 0;
-		String getSumProduct = "select sum(price) from Sale where produktId = ?";
+		String getSumProduct = "select sum(salePrice) from Sale where productId = ?";
 		try {
 			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
 			sumProduct.setInt(1, product.getId());
@@ -97,16 +97,15 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int insertSale(Sale sale) {
 		int id = 0;
-		String insert = "insert into Sale (date, vendingMachineId, productId)" + " values (?,?,?)";
+		String insert = "insert into Sale (vendingMachineId, productId, salesPrice)" + " values (?,?,?)";
 		String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
 		try {
 			DBConnection.getInstance().startTransaction();
 			PreparedStatement insertPS = connection.prepareStatement(insert,  Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
-			java.sql.Date sqlTime = new java.sql.Date(sale.getDate().getTime());
-			insertPS.setDate(1, sqlTime);
-			insertPS.setInt(2, sale.getVendingmachine().getId());
-			insertPS.setInt(3, sale.getProduct().getId());
+			insertPS.setInt(1, sale.getVendingmachine().getId());
+			insertPS.setInt(2, sale.getProduct().getId());
+			insertPS.setFloat(3, sale.getPrice());
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
 			updateQty.executeQuery();
 			DBConnection.getInstance().commitTransaction();
@@ -144,7 +143,7 @@ public class DBSale implements DBSaleIF {
 			product = DBProduct.getInstance().findProductById(product.getId());
 			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
 		}
-		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm);
+		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm, rs.getFloat("salesPrice"));
 		return sale;
 	}
 
