@@ -17,7 +17,7 @@ public class CtrLoan implements CtrLoanIF {
 	private DBLoanIF dbL;
 	private CtrVendingMachineIF cVM;
 	
-	public CtrLoan() throws SQLException {
+	public CtrLoan() {
 		dbL = DBLoan.getInstance();
 		cVM = new CtrVendingMachine();
 	}

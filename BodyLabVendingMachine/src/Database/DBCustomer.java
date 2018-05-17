@@ -60,7 +60,7 @@ public class DBCustomer implements DBCustomerIF {
 			statement.setInt(1, customerId);
 
 			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				customer = buildCustomerObject(rs);
 			}
 			System.out.println(customer);

@@ -110,6 +110,7 @@ public class DBLoan implements DBLoanIF {
 
 	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException, PersistensException {
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
+		System.out.println(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
 			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
 		}

@@ -23,8 +23,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import Controller.CtrCustomer;
+import Controller.CtrLoan;
 import Database.PersistensException;
+import Model.CityZip;
 import Model.Customer;
+import Model.Loan;
+
 import javax.swing.SwingConstants;
 import javax.swing.JScrollBar;
 import java.awt.Font;
@@ -40,6 +44,7 @@ public class CustomerMenu extends JPanel {
 	private JLabel label;
 	
 	private CtrCustomer customerCtr;
+	private CtrLoan loanCtr;
 	private JTable loanTable;
 	
 	private int id;
@@ -53,6 +58,7 @@ public class CustomerMenu extends JPanel {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		customerCtr = new CtrCustomer();
+		loanCtr = new CtrLoan();
 		init();
 	}
 
@@ -227,8 +233,9 @@ public class CustomerMenu extends JPanel {
 	}
 	
 	public void refreshLoan() {
+		Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
 		try {
-			loanTable.setModel(loanTable(customerCtr.findAllCustomers()));
+			loanTable.setModel(loanTable(loanCtr.findLoansForCustomer(customer)));
 		} catch (PersistensException e) {
 			e.printStackTrace();
 		}
@@ -242,14 +249,13 @@ public class CustomerMenu extends JPanel {
 		}
 	}
 	
-	public TableModel loanTable(List<Customer> list) {
+	public TableModel loanTable(List<Loan> list) {
 
 		DefaultTableModel model = new DefaultTableModel(new Object[] { "Id", "Oprettet" },
 				0);
-		for (Customer entry : list) {
+		for (Loan entry : list) {
 
-			model.addRow(new Object[] { entry.getName(), entry.getAddress(),
-					entry.getCityZip().getZipCode(), entry.getCityZip().getCity(), entry.getPhone() });
+			model.addRow(new Object[] { entry.getId(), entry.getDate() });
 		}
 		return model;
 
