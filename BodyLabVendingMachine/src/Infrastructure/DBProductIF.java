@@ -6,7 +6,9 @@ import Model.Product;
 
 public interface DBProductIF {
 
-	Product findProductById(int id) throws SQLException;
+
 	void insertProduct(Product product) throws SQLException;
+
+	Product findProductById(int id) throws SQLException;
 
 }
