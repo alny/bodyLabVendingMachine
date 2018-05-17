@@ -18,7 +18,7 @@ public class CustomerTest {
 		dbC = DBCustomer.getInstance();
 	}
 	@Test
-	public void testFindCustomerSucces(){
+	public void testDBFindCustomerSucces(){
 		int id = 1;
 		Customer customer = null;
 		try {
@@ -31,7 +31,7 @@ public class CustomerTest {
 	}
 	
 	@Test
-	public void testFindCustomerFail() {
+	public void testDBFindCustomerFail() {
 		int id = 2;
 		Customer customer = null;
 		try {

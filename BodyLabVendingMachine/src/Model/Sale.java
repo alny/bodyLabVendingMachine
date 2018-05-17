@@ -8,19 +8,31 @@ public class Sale {
 	private Date date;
 	private Product product;
 	private VendingMachine vendingmachine;
+	private Float price;
 	
-	public Sale(int id, Date date, Product product, VendingMachine vendingMachine) {
+	public Sale(int id, Date date, Product product, VendingMachine vendingMachine, Float price) {
 		this.id = id;
 		this.date = date;
 		this.product = product;
 		this.vendingmachine = vendingMachine;
-		}
+		this.price = price;
+	}
 	
-	public Sale(Date date, Product product, VendingMachine vendingMachine) {
+
+	public Sale(Date date, Product product, VendingMachine vendingMachine, Float price) {
 		this.date = date;
 		this.product = product;
 		this.vendingmachine = vendingMachine;
-		}
+		this.price = price;
+	}
+	
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
 
 	public Product getProduct() {
 		return product;
