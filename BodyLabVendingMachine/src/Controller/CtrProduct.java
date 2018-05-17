@@ -14,7 +14,7 @@ public class CtrProduct implements CtrProductIF {
 		dbP = DBProduct.getInstance();
 	}
 	@Override
-	public Product findProductById(int id) {
+	public Product findProductById(int id) throws CannotFindException {
 		Product product = null;
 		try {
 			product = dbP.findProductById(id);
@@ -22,7 +22,12 @@ public class CtrProduct implements CtrProductIF {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(product == null) {
+			throw new CannotFindException("Produktet findes ikke");
+		}
+		else {
 		return product;
+		}
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import Infrastructure.DBProductIF;
 import Model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static DBProduct instance;
+	private static DBProduct instance = null;
 	private Connection connection;
 
 	private DBProduct() {
@@ -41,7 +41,6 @@ public class DBProduct implements DBProductIF {
 	}
 	@Override
 	public Product findProductById(int id) throws SQLException {
-		System.out.println("hej");
 		final String findProductById = "select * from Product where id = ?";
 		Product p = null;
 			try	(PreparedStatement findById = connection.prepareStatement(findProductById)){
