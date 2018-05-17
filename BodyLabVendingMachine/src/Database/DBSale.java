@@ -65,7 +65,7 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int getSumOfSaleFromProductId(Product product) {
 		int sum = 0;
-		String getSumProduct = "select sum(price) from Sale where produktId = ?";
+		String getSumProduct = "select sum(price) from Sale where productId = ?";
 		try {
 			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
 			sumProduct.setInt(1, product.getId());
@@ -97,7 +97,7 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public int insertSale(Sale sale) {
 		int id = 0;
-		String insert = "insert into Sale (date, vendingMachineId, productId)" + " values (?,?,?)";
+		String insert = "insert into Sale (timestamp, vendingMachineId, productId)" + " values (?,?,?)";
 		String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
 		try {
 			DBConnection.getInstance().startTransaction();
