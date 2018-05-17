@@ -16,7 +16,7 @@ public class DBProduct implements DBProductIF {
 		connection = DBConnection.getInstance().getConnection();
 	}
 
-	public static DBProduct getInstance() throws SQLException {
+	public static DBProduct getInstance(){
 		if (instance == null) {
 			instance = new DBProduct();
 		}
