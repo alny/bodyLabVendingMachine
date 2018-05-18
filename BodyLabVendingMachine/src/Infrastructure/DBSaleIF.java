@@ -9,11 +9,6 @@ import Model.Sale;
 import Model.VendingMachine;
 
 public interface DBSaleIF {
-	int getTotalSaleFromMachineId(VendingMachine vm) throws SQLException;
-	int getTotalSaleFromProductId(Product p) throws SQLException;
-	List<Sale> getSalesFromProductId(Product p, boolean retrieveAssociation) throws PersistensException;
 	int insertSale(Sale s);
-	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws SQLException, PersistensException;
-	float getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException;
-	float getSumOfSaleFromProductId(Product p) throws SQLException;
+
 }

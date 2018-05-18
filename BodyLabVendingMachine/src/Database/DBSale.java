@@ -29,164 +29,32 @@ public class DBSale implements DBSaleIF {
 		return instance;
 	}
 
-	@Override
-	public List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws PersistensException {
-		String getSalesFromMachineId = "select * from Sale where vendingMachineId = ?";
-		List<Sale> sales = null;
-		try {
-			PreparedStatement salesMachine = connection.prepareStatement(getSalesFromMachineId);
-			salesMachine.setInt(1, vm.getId());
-			ResultSet rs = salesMachine.executeQuery();
-			sales = buildObjects(rs, retrieveAssociation);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sales;
-	}
-
-	@Override
-	public float getSumOfSaleFromMachineId(VendingMachine vm) {
-		float sum = 0;
-		String getSumMachine = "select sum(salesPrice) from Sale where vendingMachineId = ?";
-		try {
-			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
-			sumMachine.setInt(1, vm.getId());
-			ResultSet rs = sumMachine.executeQuery();
-			if(rs.next()) {
-				sum = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sum;
-	}
-
-	@Override
-	public float getSumOfSaleFromProductId(Product product) {
-		float sum = 0;
-		String getSumProduct = "select sum(salesPrice) from Sale where productId = ?";
-		try {
-			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
-			sumProduct.setInt(1, product.getId());
-			ResultSet rs = sumProduct.executeQuery();
-			if(rs.next()) {
-				sum = rs.getFloat(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sum;
-	}
-
-	@Override
-	public List<Sale> getSalesFromProductId(Product product, boolean retrieveAssociation) throws PersistensException {
-		String getSalesProduct = "select * from Sale where productId = ?";
-		List<Sale> sale = new LinkedList<Sale>();
-		try {
-			PreparedStatement salesProduct = connection.prepareStatement(getSalesProduct);
-			salesProduct.setInt(1, product.getId());
-			ResultSet rs = salesProduct.executeQuery();
-			sale = buildObjects(rs, retrieveAssociation);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sale;
-	}
 	// fix execptions ikke godt at have try catch i en catch
-	@Override
-	public int insertSale(Sale sale) {
-		int id = 0;
-		String insert = "insert into Sale (vendingMachineId, productId, salesPrice)" + " values (?,?,?)";
-		String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
-		try {
-			DBConnection.getInstance().startTransaction();
-			PreparedStatement insertPS = connection.prepareStatement(insert,  Statement.RETURN_GENERATED_KEYS);
-			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
-			insertPS.setInt(1, sale.getVendingmachine().getId());
-			insertPS.setInt(2, sale.getProduct().getId());
-			insertPS.setFloat(3, sale.getPrice());
-			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
-			updateQty.executeQuery();
-			DBConnection.getInstance().commitTransaction();
-		}
-		 catch (SQLException e) {
-			// TODO Auto-generated catch block
-			try {
-				DBConnection.getInstance().rollbackTransaction();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		return id;
-	}
-
-	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
-		List<Sale> sale = new LinkedList<Sale>();
-		try {
-			while (rs.next()) {
-				sale.add(buildObject(rs, retrieveAssociation));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sale;
-	}
-
-	private Sale buildObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException, SQLException {
-		Product product = new Product(rs.getInt("productId"));
-		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
-		if (retrieveAssociation) {
-			product = DBProduct.getInstance().findProductById(product.getId());
-			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
-		}
-		Sale sale = new Sale(rs.getInt("id"), rs.getDate("timeStamp"), product, vm, rs.getFloat("salesPrice"));
-		return sale;
-	}
-
-	@Override
-	public int getTotalSaleFromMachineId(VendingMachine vm) {
-		int sum = 0;
-		String getTotalSalesMachine = "select count(id) from Sale where vendingMachineId";
-		try {
-			PreparedStatement totalMachine = connection.prepareStatement(getTotalSalesMachine);
-			totalMachine.setInt(1, vm.getId());
-			ResultSet rs = totalMachine.executeQuery();
-			if(rs.next()) {
-				sum =	rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sum;
-	}
-
-	@Override
-	public int getTotalSaleFromProductId(Product product) {
-		int sum = 0;
-		String getTotalSalesProduct = "select count(id) from Sale where productId = ?";
-		try {
-			PreparedStatement totalProduct = connection.prepareStatement(getTotalSalesProduct);
-			totalProduct.setInt(1, product.getId());
-			ResultSet rs = totalProduct.executeQuery();
-			if(rs.next()) {
-				sum = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sum;
-	}
+			@Override
+			public int insertSale(Sale sale) {
+				int id = 0;
+				String insert = "insert into Sale (vendingMachineId, productId, salesPrice)" + " values (?,?,?)";
+				String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
+				try {
+					DBConnection.getInstance().startTransaction();
+					PreparedStatement insertPS = connection.prepareStatement(insert,  Statement.RETURN_GENERATED_KEYS);
+					PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
+					insertPS.setInt(1, sale.getVendingmachine().getId());
+					insertPS.setInt(2, sale.getProduct().getId());
+					insertPS.setFloat(3, sale.getPrice());
+					id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+					updateQty.executeQuery();
+					DBConnection.getInstance().commitTransaction();
+				}
+				 catch (SQLException e) {
+					// TODO Auto-generated catch block
+					try {
+						DBConnection.getInstance().rollbackTransaction();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				return id;
+			}	
 }
