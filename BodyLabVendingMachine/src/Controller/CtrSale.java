@@ -25,8 +25,8 @@ public class CtrSale implements CtrSaleIF {
 		ctrVM = new CtrVendingMachine();
 	}
 	@Override
-	public int getSumFromMachine(int vmId) throws CannotFindException {
-		int sum = 0;
+	public float getSumFromMachine(int vmId) throws CannotFindException {
+		float sum = 0;
 		try {
 			sum = dbSale.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId));
 		} catch (SQLException | PersistensException e) {
@@ -37,8 +37,8 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public int getSumFromProduct(int pId) throws CannotFindException {
-		int sum = 0;
+	public float getSumFromProduct(int pId) throws CannotFindException {
+		float sum = 0;
 		try {
 			sum = dbSale.getSumOfSaleFromProductId(ctrP.findProductById(pId));
 		} catch (SQLException e) {

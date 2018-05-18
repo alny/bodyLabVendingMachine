@@ -14,6 +14,6 @@ public interface DBSaleIF {
 	List<Sale> getSalesFromProductId(Product p, boolean retrieveAssociation) throws PersistensException;
 	int insertSale(Sale s);
 	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws SQLException, PersistensException;
-	int getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException;
-	int getSumOfSaleFromProductId(Product p) throws SQLException;
+	float getSumOfSaleFromMachineId(VendingMachine vm) throws SQLException;
+	float getSumOfSaleFromProductId(Product p) throws SQLException;
 }

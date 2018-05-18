@@ -32,28 +32,31 @@ public class DBSale implements DBSaleIF {
 	@Override
 	public List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws PersistensException {
 		String getSalesFromMachineId = "select * from Sale where vendingMachineId = ?";
-		List<Sale> sale = null;
+		List<Sale> sales = null;
 		try {
 			PreparedStatement salesMachine = connection.prepareStatement(getSalesFromMachineId);
 			salesMachine.setInt(1, vm.getId());
 			ResultSet rs = salesMachine.executeQuery();
-			sale = buildObjects(rs, retrieveAssociation);
+			sales = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return sale;
+		return sales;
 	}
 
 	@Override
-	public int getSumOfSaleFromMachineId(VendingMachine vm) {
-		int sum = 0;
-		String getSumMachine = " SUM(salesPrice) from Sale where vendingMachineId = ?";
+	public float getSumOfSaleFromMachineId(VendingMachine vm) {
+		float sum = 0;
+		String getSumMachine = "select sum(salesPrice) from Sale where vendingMachineId = ?";
 		try {
 			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
 			sumMachine.setInt(1, vm.getId());
-			sum = sumMachine.executeUpdate();
+			ResultSet rs = sumMachine.executeQuery();
+			if(rs.next()) {
+				sum = rs.getInt(1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,13 +66,16 @@ public class DBSale implements DBSaleIF {
 	}
 
 	@Override
-	public int getSumOfSaleFromProductId(Product product) {
-		int sum = 0;
-		String getSumProduct = "select sum(salePrice) from Sale where productId = ?";
+	public float getSumOfSaleFromProductId(Product product) {
+		float sum = 0;
+		String getSumProduct = "select sum(salesPrice) from Sale where productId = ?";
 		try {
 			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
 			sumProduct.setInt(1, product.getId());
-			sum = sumProduct.executeUpdate();
+			ResultSet rs = sumProduct.executeQuery();
+			if(rs.next()) {
+				sum = rs.getFloat(1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,7 +148,7 @@ public class DBSale implements DBSaleIF {
 			product = DBProduct.getInstance().findProductById(product.getId());
 			vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
 		}
-		Sale sale = new Sale(rs.getInt("id"), rs.getDate("time"), product, vm, rs.getFloat("salesPrice"));
+		Sale sale = new Sale(rs.getInt("id"), rs.getDate("timeStamp"), product, vm, rs.getFloat("salesPrice"));
 		return sale;
 	}
 
@@ -153,7 +159,10 @@ public class DBSale implements DBSaleIF {
 		try {
 			PreparedStatement totalMachine = connection.prepareStatement(getTotalSalesMachine);
 			totalMachine.setInt(1, vm.getId());
-			sum = totalMachine.executeUpdate();
+			ResultSet rs = totalMachine.executeQuery();
+			if(rs.next()) {
+				sum =	rs.getInt(1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,7 +178,10 @@ public class DBSale implements DBSaleIF {
 		try {
 			PreparedStatement totalProduct = connection.prepareStatement(getTotalSalesProduct);
 			totalProduct.setInt(1, product.getId());
-			sum = totalProduct.executeUpdate();
+			ResultSet rs = totalProduct.executeQuery();
+			if(rs.next()) {
+				sum = rs.getInt(1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

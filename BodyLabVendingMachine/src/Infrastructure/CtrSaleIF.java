@@ -8,8 +8,8 @@ import Model.Sale;
 import Model.VendingMachine;
 
 public interface CtrSaleIF {
-	int getSumFromMachine(int vmId) throws CannotFindException;
-	int getSumFromProduct(int pId) throws CannotFindException;
+	float getSumFromMachine(int vmId) throws CannotFindException;
+	float getSumFromProduct(int pId) throws CannotFindException;
 	List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException;
 	List<Sale> getAllSalesFromProduct(int pId) throws CannotFindException;
 	int getAmountOfSalesFromMachine(int vmId) throws CannotFindException;
