@@ -233,8 +233,8 @@ public class CustomerMenu extends JPanel {
 	}
 	
 	public void refreshLoan() {
-		Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
 		try {
+			Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
 			loanTable.setModel(loanTable(loanCtr.findLoansForCustomer(customer)));
 		} catch (PersistensException e) {
 			e.printStackTrace();
@@ -251,11 +251,12 @@ public class CustomerMenu extends JPanel {
 	
 	public TableModel loanTable(List<Loan> list) {
 
-		DefaultTableModel model = new DefaultTableModel(new Object[] { "Id", "Oprettet" },
+		DefaultTableModel model = new DefaultTableModel(new Object[] { "Lån-Id", "Dato Oprettet", "Automat-Id", "Model", "Serie Nr" },
 				0);
 		for (Loan entry : list) {
 
-			model.addRow(new Object[] { entry.getId(), entry.getDate() });
+			model.addRow(new Object[] { entry.getId(), entry.getDate(), entry.getVendingmachine().getId(), 
+					entry.getVendingmachine().getModel(), entry.getVendingmachine().getSerialNo() });
 		}
 		return model;
 
