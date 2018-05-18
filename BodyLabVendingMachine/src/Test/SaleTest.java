@@ -32,7 +32,7 @@ public class SaleTest {
 	DBSaleIF dbSale;
 	DBProductIF dbProduct;
 	CtrSaleIF ctrSale;
-	CtrProductIF ctrProduct;
+
 	DBVendingMachineIF dbvm;
 	CtrVendingMachineIF ctrvm;
 
@@ -42,7 +42,7 @@ public class SaleTest {
 		dbProduct = DBProduct.getInstance();
 		dbvm = DBVendingMachine.getInstance();
 		ctrSale = new CtrSale();
-		ctrProduct = new CtrProduct();
+
 		ctrvm = new CtrVendingMachine();
 		
 	}
@@ -151,12 +151,7 @@ public class SaleTest {
 
 	}
 
-	@Test(expected = CannotFindException.class)
-	public void ctrWrongProductIdTest() throws CannotFindException {
-		ctrProduct.findProductById(10000000);
 
-	}
-	
 	@Test
 	public void happyDaysVendingMachineStatisticsPriceSumTest() {
 		VendingMachine vm = null;
