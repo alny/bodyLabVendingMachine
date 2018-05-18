@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -44,6 +45,7 @@ public class CustomerMenu extends JPanel {
 	private JLabel label;
 	
 	private CtrCustomer customerCtr;
+	private StatistiskMenu statistiskMenu;
 	private CtrLoan loanCtr;
 	private JTable loanTable;
 	
@@ -72,7 +74,7 @@ public class CustomerMenu extends JPanel {
 
 	}
 
-	public JPanel showCustomers() {
+	private JPanel showCustomers() {
 
 		JPanel showCustomers = new JPanel();
 		showCustomers.setLayout(null);
@@ -100,24 +102,23 @@ public class CustomerMenu extends JPanel {
 		JButton btnTilbag = new JButton("Tilbage");
 		btnTilbag.setBounds(199, 400, 80, 23);
 		showCustomers.add(btnTilbag);
-		btnTilbag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.show(parentPanel, "1");
-			}
+		btnTilbag.addActionListener((e) -> {
+			parent.show(parentPanel, "1");
 		});
 		btnSeDetaljer.addActionListener((e) -> {
 			
 			int row = customerTable.getSelectedRow();
 			if (row > -1) {
-			id = Integer.parseInt(customerTable.getValueAt(row, 0).toString());
-			name = customerTable.getValueAt(row, 1).toString();
-			address = customerTable.getValueAt(row, 2).toString();
-			phone = customerTable.getValueAt(row, 3).toString();
-			city = customerTable.getValueAt(row, 4).toString();
-			zipCode = customerTable.getValueAt(row, 5).toString();
-			parentPanel.add(showSpecificCustomer(), "3");
-			parent.show(parentPanel, "3");
-			} else {
+				id = Integer.parseInt(customerTable.getValueAt(row, 0).toString());
+				name = customerTable.getValueAt(row, 1).toString();
+				address = customerTable.getValueAt(row, 2).toString();
+				phone = customerTable.getValueAt(row, 3).toString();
+				city = customerTable.getValueAt(row, 4).toString();
+				zipCode = customerTable.getValueAt(row, 5).toString();
+				parentPanel.add(showSpecificCustomer(), "3");
+				parent.show(parentPanel, "3");
+			} 
+			else {
 				JOptionPane.showMessageDialog(null, "Du skal vælge en kunde");
 			}
 		});
@@ -182,7 +183,6 @@ public class CustomerMenu extends JPanel {
 		kundeOplysningeer.add(lblBy_1);
 		lblBy_1.setText(city);
 		
-		
 		JLabel lblPostNr = new JLabel("Post Nr:");
 		lblPostNr.setBounds(24, 177, 56, 16);
 		kundeOplysningeer.add(lblPostNr);
@@ -209,30 +209,40 @@ public class CustomerMenu extends JPanel {
 		sp.setViewportView(loanTable);
 		loanTabel.add(sp);
 		
-		
-		JButton btnSeDetaljer = new JButton("Se Lån");
+		JButton btnSeDetaljer = new JButton("Enkel Statistisk");
 		btnSeDetaljer.setHorizontalAlignment(SwingConstants.RIGHT);
 		knapper.add(btnSeDetaljer);
 		btnSeDetaljer.setBounds(14, 400, 152, 23);
 		
 		btnSeDetaljer.addActionListener((e) -> {
-//			parentPanel.add(showSpecificCustomer(), "3");
-//			parent.show(parentPanel, "3");
+			int row = loanTable.getSelectedRow();
+			if (row > -1) {
+				id = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
+				statistiskMenu = new StatistiskMenu(parentPanel, parent, id);
+				parentPanel.add(statistiskMenu, "4");
+				parent.show(parentPanel, "4");
+			} 
+			else {
+				JOptionPane.showMessageDialog(null, "Du skal vælge et lån");
+			}
 		});
+		
+		JButton btnSamletStatistisk = new JButton("Samlet Statistisk");
+		knapper.add(btnSamletStatistisk);
 		 
 		JButton btnTilbag = new JButton("Tilbage");
 		knapper.add(btnTilbag);
 		btnTilbag.setBounds(199, 400, 80, 23);
 		
 		btnTilbag.addActionListener((e) -> {
-				parent.show(parentPanel, "2");
+			parent.show(parentPanel, "2");
 		});
 				
 		return showSpecificCustomer;
 		
 	}
-	
-	public void refreshLoan() {
+	 
+	private void refreshLoan() {
 		try {
 			Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
 			loanTable.setModel(loanTable(loanCtr.findLoansForCustomer(customer)));
@@ -241,7 +251,7 @@ public class CustomerMenu extends JPanel {
 		}
 	}
 	
-	public void refreshCustomer() {
+	private void refreshCustomer() {
 		try {
 			customerTable.setModel(customerTable(customerCtr.findAllCustomers()));
 		} catch (PersistensException e) {
@@ -249,7 +259,7 @@ public class CustomerMenu extends JPanel {
 		}
 	}
 	
-	public TableModel loanTable(List<Loan> list) {
+	private TableModel loanTable(List<Loan> list) {
 
 		DefaultTableModel model = new DefaultTableModel(new Object[] { "Lån-Id", "Dato Oprettet", "Automat-Id", "Model", "Serie Nr" },
 				0);
@@ -259,10 +269,9 @@ public class CustomerMenu extends JPanel {
 					entry.getVendingmachine().getModel(), entry.getVendingmachine().getSerialNo() });
 		}
 		return model;
-
 	}
 	
-	public TableModel customerTable(List<Customer> list) {
+	private TableModel customerTable(List<Customer> list) {
 
 		DefaultTableModel model = new DefaultTableModel(new Object[] { "Id", "Navn", "Adresse", "Post Nr", "By", "Telefon" },
 				0);
@@ -272,6 +281,5 @@ public class CustomerMenu extends JPanel {
 					entry.getCityZip().getZipCode(), entry.getCityZip().getCity(), entry.getPhone() });
 		}
 		return model;
-
 	}
 }
