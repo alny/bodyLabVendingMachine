@@ -36,7 +36,6 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	public VendingMachine findVendingMachine(int VendingMachineId) throws PersistensException {
 		VendingMachine vendingMachine = null;
 		final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
-		final String findMachineProduct = "SELECT * FROM MachineProduct, Product as product WHERE productId = product.id AND vendingMachineId = ?";
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(findVendingMachine);

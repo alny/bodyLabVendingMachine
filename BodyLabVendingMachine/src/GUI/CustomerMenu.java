@@ -121,7 +121,7 @@ public class CustomerMenu extends JPanel {
 				parent.show(parentPanel, "3");
 			} 
 			else {
-				JOptionPane.showMessageDialog(null, "Du skal vælge en kunde");
+				JOptionPane.showMessageDialog(null, "Vælg en kunde");
 			}
 		});
 
@@ -225,7 +225,7 @@ public class CustomerMenu extends JPanel {
 				parent.show(parentPanel, "4");
 			} 
 			else {
-				JOptionPane.showMessageDialog(null, "Du skal vælge et lån");
+				JOptionPane.showMessageDialog(null, "Vælg et lån");
 			}
 		});
 		
