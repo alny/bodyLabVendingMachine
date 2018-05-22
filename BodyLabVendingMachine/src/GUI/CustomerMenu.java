@@ -29,6 +29,7 @@ import Database.PersistensException;
 import Model.CityZip;
 import Model.Customer;
 import Model.Loan;
+import Model.Product;
 
 import javax.swing.SwingConstants;
 import javax.swing.JScrollBar;
@@ -55,6 +56,7 @@ public class CustomerMenu extends JPanel {
 	private String city;
 	private String zipCode;
 	private String phone;
+	private List<Product> productList;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
 		parentPanel = mainPanel;
@@ -218,7 +220,7 @@ public class CustomerMenu extends JPanel {
 			int row = loanTable.getSelectedRow();
 			if (row > -1) {
 				id = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
-				statistiskMenu = new StatistiskMenu(parentPanel, parent, id);
+				statistiskMenu = new StatistiskMenu(parentPanel, parent, id, productList);
 				parentPanel.add(statistiskMenu, "4");
 				parent.show(parentPanel, "4");
 			} 
@@ -267,6 +269,8 @@ public class CustomerMenu extends JPanel {
 
 			model.addRow(new Object[] { entry.getId(), entry.getDate(), entry.getVendingmachine().getId(), 
 					entry.getVendingmachine().getModel(), entry.getVendingmachine().getSerialNo() });
+			productList = entry.getVendingmachine().getProducts();
+			
 		}
 		return model;
 	}

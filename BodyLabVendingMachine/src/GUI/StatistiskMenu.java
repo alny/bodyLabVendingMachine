@@ -9,7 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import Controller.CannotFindException;
+import Controller.CtrCustomer;
+import Controller.CtrProduct;
+import Database.PersistensException;
+import Model.Loan;
+import Model.Product;
+
 import java.awt.Font;
+import java.util.List;
+
 import javax.swing.JComboBox;
 
 
@@ -18,12 +28,18 @@ public class StatistiskMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
 	private JPanel parentPanel;
+	private List<Product> pList;
 	private CardLayout parent;
+	private CtrProduct productCtr;
+	private int vendingMachineId;;
 	
 
-	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId) {
+	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
+		pList = productList;
+		vendingMachineId = vmId;
+		productCtr = new CtrProduct();
 		init();
 	}
 
@@ -57,8 +73,22 @@ public class StatistiskMenu extends JPanel {
 		lblOmstningPrProdukt.setBounds(12, 161, 145, 16);
 		showStatistisk.add(lblOmstningPrProdukt);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(14, 190, 143, 22);
+		JComboBox<String> comboBox = new JComboBox<String>();
+		try {
+			pList = productCtr.findProductsInVM(vendingMachineId);
+		} catch (PersistensException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (CannotFindException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (Product entry : pList) {
+			
+			System.out.println(entry.getName());
+			comboBox.addItem(entry.getName());
+		}
+		comboBox.setBounds(14, 190, 200, 22);
 		showStatistisk.add(comboBox);
 		
 		JLabel lblLagerBeholdning = new JLabel("Lager beholdning:");
@@ -66,10 +96,15 @@ public class StatistiskMenu extends JPanel {
 		showStatistisk.add(lblLagerBeholdning);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(14, 293, 143, 22);
+		for (Product entry : pList) {
+			
+			System.out.println(entry.getName());
+			comboBox_1.addItem(entry.getName());
+		}
+		comboBox_1.setBounds(14, 293, 200, 22);
 		showStatistisk.add(comboBox_1);
 		btnTilbag.addActionListener((e) -> {
-			parent.show(parentPanel, "1");
+			parent.show(parentPanel, "2");
 		});
 		btnSeDetaljer.addActionListener((e) -> {
 			

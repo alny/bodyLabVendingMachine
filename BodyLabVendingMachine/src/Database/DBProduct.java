@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import Infrastructure.DBProductIF;
 import Model.Product;
@@ -59,6 +61,41 @@ public class DBProduct implements DBProductIF {
 			System.out.println(p);
 		return p;
 	}
+	
+	public List<Product> findProductsInVM(int VendingMachineId) throws PersistensException {
+		List<Product> productList = null;
+		
+		final String findMachineProduct = "SELECT * FROM MachineProduct, Product as product WHERE productId = product.id AND vendingMachineId = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(findMachineProduct);
+			statement.setInt(1, VendingMachineId);
+
+			ResultSet rs = statement.executeQuery();
+			
+			productList = buildMachineProductObject(rs);
+			
+			System.out.println(productList);
+			
+		} 
+		catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not find all");
+			pe.printStackTrace();
+			throw pe;
+			
+		}
+		
+		return productList;
+	}
+	
+	private List<Product> buildMachineProductObject(ResultSet rs) throws SQLException {
+		List<Product> productList = new LinkedList<Product>();
+		
+		while (rs.next()) {
+			productList.add(buildProductObject(rs));
+		}
+		return productList;
+	}
+	
 
 	private Product buildProductObject(ResultSet rs) throws SQLException {
 		int id = rs.getInt("id");

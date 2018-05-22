@@ -7,10 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import Database.PersistensException;
 
 import Infrastructure.DBVendingMachineIF;
+import Model.Loan;
+import Model.Product;
 import Model.VendingMachine;
 
 public class DBVendingMachine implements DBVendingMachineIF {
@@ -32,13 +35,15 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	
 	public VendingMachine findVendingMachine(int VendingMachineId) throws PersistensException {
 		VendingMachine vendingMachine = null;
-		String findVendingMachine = "SELECT * From VendingMachine where id = ?";
+		final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
+		final String findMachineProduct = "SELECT * FROM MachineProduct, Product as product WHERE productId = product.id AND vendingMachineId = ?";
 
-		try (PreparedStatement statement = connection.prepareStatement(findVendingMachine)) {
+		try {
+			PreparedStatement statement = connection.prepareStatement(findVendingMachine);
 			statement.setInt(1, VendingMachineId);
 
 			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				vendingMachine = buildVendingMachineObject(rs);
 			}
 			System.out.println(vendingMachine);
@@ -52,7 +57,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		
 		return vendingMachine;
 	}
-
+	
 	private VendingMachine buildVendingMachineObject(ResultSet rs) throws SQLException {
 		int id = rs.getInt("id");
 		String model = rs.getString("model");
