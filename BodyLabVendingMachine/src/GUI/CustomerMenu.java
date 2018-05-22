@@ -26,6 +26,8 @@ import javax.swing.table.TableModel;
 import Controller.CtrCustomer;
 import Controller.CtrLoan;
 import Database.PersistensException;
+import Infrastructure.CtrCustomerIF;
+import Infrastructure.CtrLoanIF;
 import Model.CityZip;
 import Model.Customer;
 import Model.Loan;
@@ -45,9 +47,9 @@ public class CustomerMenu extends JPanel {
 	private JTable customerTable;
 	private JLabel label;
 	
-	private CtrCustomer customerCtr;
+	private CtrCustomerIF customerCtr;
 	private StatistiskMenu statistiskMenu;
-	private CtrLoan loanCtr;
+	private CtrLoanIF loanCtr;
 	private JTable loanTable;
 	
 	private int id;
