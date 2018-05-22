@@ -7,6 +7,7 @@ import Model.VendingMachine;
 public interface CtrVendingMachineIF {
 	VendingMachine findVendingMachine(int id)throws PersistensException, CannotFindException; 
 	int insertVendingMachine(VendingMachine vm)throws PersistensException;
+	VendingMachine findFirstAvailbe()throws PersistensException;
 }
 
 

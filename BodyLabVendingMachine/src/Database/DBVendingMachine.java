@@ -64,7 +64,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		String serialNo = rs.getString("serialNo");
 		Boolean isLentOut = rs.getBoolean("isLentOut");
 
-		VendingMachine vendingMachine = new VendingMachine(id, model, capacity, serialNo);
+		VendingMachine vendingMachine = new VendingMachine(id, model, capacity, serialNo, isLentOut);
 		
 		return vendingMachine;
 	}
@@ -91,12 +91,18 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 	@Override
 	public VendingMachine findFirstAvailable() throws PersistensException {
-		final String findAvailbe = "Select * from VendingMachine where isLentOut = false";
+		final String findAvailbe = "Select top 1 from VendingMachine where isLentOut = false";
 		VendingMachine vm = null;
 		try {
 			PreparedStatement statement = connection.prepareStatement(findAvailbe);
 			ResultSet rs = statement.executeQuery();
-			
+			if(rs.next()) {
+				vm = buildVendingMachineObject(rs);
+			}
+		}
+		catch(SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not find top 1");
+			throw pe;
 		}
 		
 		return vm;

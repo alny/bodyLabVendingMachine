@@ -27,5 +27,9 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 	public int insertVendingMachine(VendingMachine vm) throws PersistensException {
 		return dbVendingMachine.insertVendingMachine(vm);
 	}
+	@Override
+	public VendingMachine findFirstAvailbe() throws PersistensException {
+		return dbVendingMachine.findFirstAvailable();
+	}
 
 }
