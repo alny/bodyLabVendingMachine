@@ -1,48 +1,42 @@
 package Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
 import Controller.CannotFindException;
-import Controller.CtrProduct;
-import Controller.CtrSale;
+import Controller.CtrBusinessIntelligence;
 import Controller.CtrVendingMachine;
-import Database.DBCustomer;
 import Database.DBProduct;
-import Database.DBSale;
+import Database.DBBusinessIntelligence;
 import Database.DBVendingMachine;
 import Database.PersistensException;
-import Infrastructure.CtrProductIF;
-import Infrastructure.CtrSaleIF;
+import Infrastructure.CtrBusinessIntelligenceIF;
 import Infrastructure.CtrVendingMachineIF;
 import Infrastructure.DBProductIF;
-import Infrastructure.DBSaleIF;
+import Infrastructure.DBBusinessIntelligenceIF;
 import Infrastructure.DBVendingMachineIF;
 import Model.Product;
 import Model.Sale;
 import Model.VendingMachine;
 
 public class SaleTest {
-	DBSaleIF dbSale;
+	DBBusinessIntelligenceIF dbBusinessIntelligence;
 	DBProductIF dbProduct;
-	CtrSaleIF ctrSale;
+	CtrBusinessIntelligenceIF ctrBusinessIntelligence;
 
 	DBVendingMachineIF dbvm;
 	CtrVendingMachineIF ctrvm;
+	
 
 	@Before
 	public void setUp() {
-		dbSale = DBSale.getInstance();
+		dbBusinessIntelligence = DBBusinessIntelligence.getInstance();
 		dbProduct = DBProduct.getInstance();
 		dbvm = DBVendingMachine.getInstance();
-		ctrSale = new CtrSale();
+		ctrBusinessIntelligence = new CtrBusinessIntelligence();
 
 		ctrvm = new CtrVendingMachine();
 		
@@ -60,11 +54,8 @@ public class SaleTest {
 		e.printStackTrace();
 	}
 	 try {
-		sales = dbSale.getSalesFromMachineId(vm, true);
+		sales = dbBusinessIntelligence.getSalesFromMachineId(vm, true);
 		System.out.println(sales);
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
 	} catch (PersistensException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -83,12 +74,7 @@ public class SaleTest {
 		}
 
 		int i = 0;
-		try {
-			i = dbSale.getTotalSaleFromProductId(p);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		i = dbBusinessIntelligence.getTotalSaleFromProductId(p);
 
 		assertEquals(1, i);
 	}
@@ -97,7 +83,7 @@ public class SaleTest {
 	public void CtrhappyDaysProductStatisticsTest() {
 		int sum = 0;
 		try {
-			sum = ctrSale.getAmountOfSalesFromProduct(2);
+			sum = ctrBusinessIntelligence.getAmountOfSalesFromProduct(2);
 		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,12 +102,7 @@ public class SaleTest {
 			e.printStackTrace();
 		}
 
-		try {
-			sum = dbSale.getSumOfSaleFromProductId(p);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sum = dbBusinessIntelligence.getSumOfSaleFromProductId(p);
 
 		assertEquals(192, sum, 0);
 	}
@@ -130,7 +111,7 @@ public class SaleTest {
 	public void CtrhappyDaysProductStatisticsPriceSumTest() {
 		float sum = 0;
 		try {
-			sum = ctrSale.getSumFromProduct(1);
+			sum = ctrBusinessIntelligence.getSumFromProduct(1);
 		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,12 +145,7 @@ public class SaleTest {
 			e.printStackTrace();
 		}
 
-		try {
-			sum = dbSale.getSumOfSaleFromMachineId(vm);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sum = dbBusinessIntelligence.getSumOfSaleFromMachineId(vm);
 
 		assertEquals(384, sum, 0);
 	}
@@ -178,7 +154,7 @@ public class SaleTest {
 	public void CtrhappyDaysVendingMachineStatisticsPriceSumTest() {
 		float sum = 0;
 		try {
-			sum = ctrSale.getSumFromMachine(1);
+			sum = ctrBusinessIntelligence.getSumFromMachine(1);
 		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

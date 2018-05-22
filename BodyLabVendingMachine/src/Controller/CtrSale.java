@@ -24,21 +24,22 @@ public class CtrSale implements CtrSaleIF {
 		ctrP = new CtrProduct();	
 		ctrVM = new CtrVendingMachine();
 	}
-	
-
-
-
-	
-
-
-
-	
-
-
 
 	@Override
 	public int insertSale(Sale sale) {
 		return dbSale.insertSale(sale);
+	}
+	
+	@Override
+	public Sale createSale(int vmId, int productId, float price) throws CannotFindException {
+		Sale sale = null;
+		try {
+			sale = new Sale(new Date(), ctrP.findProductById(productId), ctrVM.findVendingMachine(vmId), price );
+		} catch (PersistensException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sale;
 	}
 
 

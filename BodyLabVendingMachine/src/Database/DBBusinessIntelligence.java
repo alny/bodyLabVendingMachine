@@ -14,14 +14,14 @@ import Model.Sale;
 import Model.VendingMachine;
 
 public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
-	private DBBusinessIntelligenceIF instance;
+	private static DBBusinessIntelligenceIF instance;
 	Connection connection;
 	
 	private DBBusinessIntelligence() {
 		connection = DBConnection.getInstance().getConnection();
 	}
 	
-	public DBBusinessIntelligenceIF getInstance() {
+	public static DBBusinessIntelligenceIF getInstance() {
 		if(instance == null) {
 			instance = new DBBusinessIntelligence();
 		}

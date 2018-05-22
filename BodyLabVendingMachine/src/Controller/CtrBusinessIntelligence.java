@@ -4,11 +4,26 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import Database.DBBusinessIntelligence;
+import Database.DBBusinessIntelligence;
 import Database.PersistensException;
 import Infrastructure.CtrBusinessIntelligenceIF;
+import Infrastructure.CtrProductIF;
+import Infrastructure.CtrVendingMachineIF;
+import Infrastructure.DBBusinessIntelligenceIF;
+import Infrastructure.DBBusinessIntelligenceIF;
 import Model.Sale;
 
 public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
+	private DBBusinessIntelligenceIF dbBI;
+	private CtrProductIF ctrP;
+	private CtrVendingMachineIF ctrVM;
+	
+	public CtrBusinessIntelligence() {
+		dbBI = DBBusinessIntelligence.getInstance();
+		ctrP = new CtrProduct();	
+		ctrVM = new CtrVendingMachine();
+	}
 
 	/* (non-Javadoc)
 	 * @see Controller.CtrBusinessIntelligenceIF#getSumFromMachine(int)
@@ -17,8 +32,8 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public float getSumFromMachine(int vmId) throws CannotFindException {
 		float sum = 0;
 		try {
-			sum = dbSale.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId));
-		} catch (SQLException | PersistensException e) {
+			sum = dbBI.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId));
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -31,12 +46,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	@Override
 	public float getSumFromProduct(int pId) throws CannotFindException {
 		float sum = 0;
-		try {
-			sum = dbSale.getSumOfSaleFromProductId(ctrP.findProductById(pId));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sum = dbBI.getSumOfSaleFromProductId(ctrP.findProductById(pId));
 		return sum;
 	}
 	
@@ -47,8 +57,8 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
-			sale = dbSale.getSalesFromMachineId(ctrVM.findVendingMachine(vmId), true);
-		} catch (SQLException | PersistensException e) {
+			sale = dbBI.getSalesFromMachineId(ctrVM.findVendingMachine(vmId), true);
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -62,7 +72,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public List<Sale> getAllSalesFromProduct(int pId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
-			sale = dbSale.getSalesFromProductId(ctrP.findProductById(pId), true);
+			sale = dbBI.getSalesFromProductId(ctrP.findProductById(pId), true);
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,10 +87,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public int getAmountOfSalesFromMachine(int vmId) throws CannotFindException {
 		int totalSales = 0;
 		try {
-			totalSales = dbSale.getTotalSaleFromMachineId(ctrVM.findVendingMachine(vmId));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			totalSales = dbBI.getTotalSaleFromMachineId(ctrVM.findVendingMachine(vmId));
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,12 +101,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	@Override
 	public int getAmountOfSalesFromProduct(int pId) throws CannotFindException {
 		int totalSales = 0;
-		try {
-			totalSales = dbSale.getTotalSaleFromProductId(ctrP.findProductById(pId));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		totalSales = dbBI.getTotalSaleFromProductId(ctrP.findProductById(pId));
 		if (totalSales == 0) {
 			throw new CannotFindException("produktet fines ikke");
 		}
