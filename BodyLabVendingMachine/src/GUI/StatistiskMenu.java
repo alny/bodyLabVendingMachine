@@ -14,7 +14,10 @@ import Controller.CannotFindException;
 import Controller.CtrBusinessIntelligence;
 import Controller.CtrCustomer;
 import Controller.CtrProduct;
+import Controller.CtrVendingMachine;
 import Database.PersistensException;
+import Infrastructure.CtrBusinessIntelligenceIF;
+import Infrastructure.CtrVendingMachineIF;
 import Model.Loan;
 import Model.Product;
 
@@ -33,8 +36,8 @@ public class StatistiskMenu extends JPanel {
 	private JPanel parentPanel;
 	private List<Product> pList;
 	private CardLayout parent;
-	private CtrProduct productCtr;
-	private CtrBusinessIntelligence businessCtr;
+	private CtrVendingMachineIF ctrVM;
+	private CtrBusinessIntelligenceIF businessCtr;
 	private int vendingMachineId;
 	private int comboBoxOneProductId;
 	private int comboBoxTwoProductId;
@@ -46,7 +49,7 @@ public class StatistiskMenu extends JPanel {
 		parent = cardLayout;
 		pList = productList;
 		vendingMachineId = vmId;
-		productCtr = new CtrProduct();
+		ctrVM = new CtrVendingMachine();
 		businessCtr = new CtrBusinessIntelligence();
 		init();
 	}
@@ -92,7 +95,7 @@ public class StatistiskMenu extends JPanel {
 			
 		});
 		try {
-			pList = productCtr.findProductsInVM(vendingMachineId);
+			pList = ctrVM.findVendingMachine(vendingMachineId, true).getProducts();
 		} catch (PersistensException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

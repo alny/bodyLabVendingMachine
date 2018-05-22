@@ -6,7 +6,8 @@ import Model.VendingMachine;
 
 public interface DBVendingMachineIF {
 	
-	VendingMachine findVendingMachine(int id) throws PersistensException;
+	VendingMachine findVendingMachine(int id, boolean retrieveAssociation) throws PersistensException;
 	int insertVendingMachine(VendingMachine vm) throws PersistensException;
 	VendingMachine findFirstAvailable() throws PersistensException;
+	
 }

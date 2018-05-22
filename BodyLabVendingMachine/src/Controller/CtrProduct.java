@@ -33,21 +33,6 @@ public class CtrProduct implements CtrProductIF {
 		}
 		return product;
 	}
-	
-	@Override
-	public List<Product> findProductsInVM(int id) throws PersistensException, CannotFindException {
-		List<Product> productList = null;
-		VendingMachine vm = null;
-		vm = ctrVendingMachine.findVendingMachine(id);
-		if(vm == null) {
-			throw new CannotFindException("automaten findes ikke");
-		}
-		productList = dbProduct.findProductsInVM(id);
-		for(Product pList: productList) {
-			vm.addProduct(pList);
-		}
-		return productList;
-	}
 
 	@Override
 	public void insertProduct(Product product) {

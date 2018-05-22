@@ -32,7 +32,9 @@ public class VendingMachine {
 		products = new LinkedList<Product>();
 		isLentOut = false;
 	}
-	
+	public void setProducts(List<Product> products) {
+		this.products = products; 
+	}
 	public Boolean getIsLentOut() {
 		return isLentOut;
 	}
