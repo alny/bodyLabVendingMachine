@@ -112,7 +112,7 @@ public class DBLoan implements DBLoanIF {
 		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 		System.out.println(rs.getInt("vendingMachineId"));
 		if (retrieveAssociation) {
-			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"));
+			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"),false);
 		}
 		Loan loan = new Loan(rs.getInt("id"), vm);
 		loan.setDate(rs.getDate("date"));

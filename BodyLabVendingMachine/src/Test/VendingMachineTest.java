@@ -43,26 +43,26 @@ public class VendingMachineTest {
 	@Test
 	public void findVendingMachineByIdCtrTest() throws PersistensException, CannotFindException {
 		VendingMachine vm = null;
-		vm = cvm.findVendingMachine(1);
+		vm = cvm.findVendingMachine(1,false);
 		assertEquals(vm.getId(), 1);
 	}
 	
 	@Test(expected = CannotFindException.class)
 	public void wrongfindVendingMachineByIdTest() throws PersistensException, CannotFindException {
-		cvm.findVendingMachine(10000000);
+		cvm.findVendingMachine(10000000,false);
 	}
 	
 	@Test
 	public void findVendingMachineByID() throws PersistensException {
 		VendingMachine vm = null;
-		vm = dbvm.findVendingMachine(1);
+		vm = dbvm.findVendingMachine(1,false);
 		assertEquals(vm.getId(), 1);
 	}
 	
 	@Test
 	public void wrongFindVendingMachineByID() throws PersistensException {
 		VendingMachine vm = new VendingMachine(2);
-		vm = dbvm.findVendingMachine(100000000);
+		vm = dbvm.findVendingMachine(100000000,false);
 		assertEquals(vm, null);
 	}
 

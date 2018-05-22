@@ -194,7 +194,7 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 			VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 			if (retrieveAssociation) {
 				product = DBProduct.getInstance().findProductById(product.getId());
-				vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId());
+				vm = DBVendingMachine.getInstance().findVendingMachine(vm.getId(),false);
 			}
 			Sale sale = new Sale(rs.getInt("id"), rs.getDate("timeStamp"), product, vm, rs.getFloat("salesPrice"));
 			return sale;

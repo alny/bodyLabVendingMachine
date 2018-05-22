@@ -47,7 +47,7 @@ public class SaleTest {
 	VendingMachine vm= null;
 	List<Sale> sales = null;
 	try {
-		vm = dbvm.findVendingMachine(1);
+		vm = dbvm.findVendingMachine(1,false);
 		System.out.println(vm);
 	} catch (PersistensException e) {
 		// TODO Auto-generated catch block
@@ -139,7 +139,7 @@ public class SaleTest {
 		VendingMachine vm = null;
 		float sum = 0;
 		try {
-			vm = dbvm.findVendingMachine(1);
+			vm = dbvm.findVendingMachine(1,false);
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
