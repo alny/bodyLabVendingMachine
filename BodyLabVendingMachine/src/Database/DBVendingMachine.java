@@ -33,7 +33,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	}
 
 	
-	public VendingMachine findVendingMachine(int VendingMachineId) throws PersistensException {
+	public VendingMachine findVendingMachine(int VendingMachineId, boolean retrieveAssociation) throws PersistensException {
 		VendingMachine vendingMachine = null;
 		final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
 
@@ -43,7 +43,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				vendingMachine = buildVendingMachineObject(rs);
+				vendingMachine = buildVendingMachineObject(rs, retrieveAssociation);
 			}
 			System.out.println(vendingMachine);
 		} 
@@ -57,14 +57,25 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		return vendingMachine;
 	}
 	
-	private VendingMachine buildVendingMachineObject(ResultSet rs) throws SQLException {
-		int id = rs.getInt("id");
-		String model = rs.getString("model");
-		int capacity = rs.getInt("capacity");
-		String serialNo = rs.getString("serialNo");
-		Boolean isLentOut = rs.getBoolean("isLentOut");
+	private VendingMachine buildVendingMachineObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
+		VendingMachine vendingMachine = null;
+		try {
+			int id = rs.getInt("id");
+			String model = rs.getString("model");
+			int capacity = rs.getInt("capacity");
+			String serialNo = rs.getString("serialNo");
+			Boolean isLentOut = rs.getBoolean("isLentOut");
 
-		VendingMachine vendingMachine = new VendingMachine(id, model, capacity, serialNo, isLentOut);
+			vendingMachine = new VendingMachine(id, model, capacity, serialNo, isLentOut);
+			if(retrieveAssociation) {
+				vendingMachine.setProducts(DBProduct.getInstance().findProductsInVM(id));
+			}
+		}
+		catch(SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not find all");
+			pe.printStackTrace();
+			throw pe;
+		}
 		
 		return vendingMachine;
 	}
@@ -97,7 +108,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			PreparedStatement statement = connection.prepareStatement(findAvailbe);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
-				vm = buildVendingMachineObject(rs);
+				vm = buildVendingMachineObject(rs, false);
 			}
 		}
 		catch(SQLException e) {
