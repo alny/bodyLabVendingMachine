@@ -37,9 +37,9 @@ public class CtrLoan implements CtrLoanIF {
 	}
 
 	@Override
-	public Loan createLoan(VendingMachine vm, Customer customer) {
+	public Loan createLoan(int customerId) {
 		Loan loan = new Loan(vm);
-		insertLoan(loan, customer);
+		insertLoan(loan, cCtr.findCustomer(customerId));
 		return loan;
 		
 	}

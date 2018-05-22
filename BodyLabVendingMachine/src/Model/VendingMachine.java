@@ -10,15 +10,18 @@ public class VendingMachine {
 	private int capacity;
 	private String serialNo;
 	private List<Product> products;
+	private Boolean isLentOut = false;
 
+	
 	public VendingMachine(int id) {
 		this.id = id;
 	}
-	public VendingMachine(int id,  String model, int capacity, String serialNo) {
+	public VendingMachine(int id,  String model, int capacity, String serialNo, Boolean lentOut) {
 		this.id = id;
 		this.model = model;
 		this.capacity = capacity;
 		this.serialNo = serialNo;
+		isLentOut = lentOut;
 		products = new LinkedList<Product>();
 	}
 	
@@ -27,8 +30,15 @@ public class VendingMachine {
 		this.capacity = capacity;
 		this.serialNo = serialNo;
 		products = new LinkedList<Product>();
+		isLentOut = false;
 	}
 	
+	public Boolean getIsLentOut() {
+		return isLentOut;
+	}
+	public void setIsLentOut(Boolean isLentOut) {
+		this.isLentOut = isLentOut;
+	}
 	public void addProduct(Product product) {
 		products.add(product);
 	}
