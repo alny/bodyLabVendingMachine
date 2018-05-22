@@ -103,7 +103,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		int totalSales = 0;
 		totalSales = dbBI.getTotalSaleFromProductId(ctrP.findProductById(pId));
 		if (totalSales == 0) {
-			throw new CannotFindException("produktet fines ikke");
+			throw new CannotFindException("produktet findes ikke");
 		}
 		return totalSales;
 	}

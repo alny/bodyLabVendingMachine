@@ -1,23 +1,29 @@
 package Controller;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import Database.DBProduct;
+import Database.PersistensException;
 import Infrastructure.CtrProductIF;
 import Infrastructure.DBProductIF;
 import Model.Product;
+import Model.VendingMachine;
 
 public class CtrProduct implements CtrProductIF {
-	private DBProductIF dbP;
+	private DBProductIF dbProduct;
+	private CtrVendingMachine ctrVendingMachine;
 	
 	public CtrProduct(){
-		dbP = DBProduct.getInstance();
+		dbProduct = DBProduct.getInstance();
+		ctrVendingMachine = new CtrVendingMachine();
 	}
 	@Override
 	public Product findProductById(int id) throws CannotFindException {
 		Product product = null;
 		try {
-			product = dbP.findProductById(id);
+			product = dbProduct.findProductById(id);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,13 +32,27 @@ public class CtrProduct implements CtrProductIF {
 			throw new CannotFindException("Produktet findes ikke");
 		}
 		return product;
-		
+	}
+	
+	@Override
+	public List<Product> findProductsInVM(int id) throws PersistensException, CannotFindException {
+		List<Product> productList = null;
+		VendingMachine vm = null;
+		vm = ctrVendingMachine.findVendingMachine(id);
+		if(vm == null) {
+			throw new CannotFindException("automaten findes ikke");
+		}
+		productList = dbProduct.findProductsInVM(id);
+		for(Product pList: productList) {
+			vm.addProduct(pList);
+		}
+		return productList;
 	}
 
 	@Override
 	public void insertProduct(Product product) {
 		try {
-			dbP.insertProduct(product);
+			dbProduct.insertProduct(product);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

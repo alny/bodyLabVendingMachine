@@ -25,7 +25,7 @@ public class DBCustomer implements DBCustomerIF {
 		return instance;
 	}
 	
-	public DBCustomer() {
+	private DBCustomer() {
 		connection = DBConnection.getInstance().getConnection();
 	}
 	
