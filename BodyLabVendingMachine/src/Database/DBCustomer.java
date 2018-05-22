@@ -15,7 +15,7 @@ import Database.DBCustomer;
 
 public class DBCustomer implements DBCustomerIF {
 	
-	public static DBCustomer instance;
+	private static DBCustomer instance;
 	private Connection connection; 
 	
 	public static DBCustomer getInstance() {
