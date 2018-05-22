@@ -46,7 +46,6 @@ public class DBProduct implements DBProductIF {
 		final String findProductById = "select * from Product where id = ?";
 		Product p = null;
 			try	(PreparedStatement findById = connection.prepareStatement(findProductById)){
-			
 			findById.setInt(1, id);
 			
 			ResultSet rs = findById.executeQuery();

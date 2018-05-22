@@ -3,6 +3,7 @@ package Infrastructure;
 import java.util.List;
 
 import Controller.CannotFindException;
+import Database.PersistensException;
 import Model.Sale;
 
 public interface CtrBusinessIntelligenceIF {
@@ -10,6 +11,8 @@ public interface CtrBusinessIntelligenceIF {
 	float getSumFromMachine(int vmId) throws CannotFindException;
 
 	float getSumFromProduct(int pId) throws CannotFindException;
+	
+	int getTotalSumFromAllMachines(int cId) throws CannotFindException;
 
 	List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException;
 

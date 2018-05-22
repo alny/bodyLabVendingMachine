@@ -73,6 +73,7 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 	/* (non-Javadoc)
 	 * @see Database.DBBusinessIntelligenceIF#getSumOfSaleFromProductId(Model.Product)
 	 */
+	
 	@Override
 	public float getSumOfSaleFromProductId(Product product) {
 		float sum = 0;
@@ -157,6 +158,24 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 			return sum;
 		}
 		
+		@Override
+		public int getTotalSumFromAllMachines(int cId) throws PersistensException {
+			int totalSum = 0;
+			final String getTotalSum = "SELECT SUM (salesPrice) AS 'Total Price' FROM VendingMachine AS v, Sale AS s, Loan AS l WHERE l.vendingMachineId = v.id AND s.vendingMachineId = l.vendingMachineId AND l.customerId = ?";
+			try {
+				PreparedStatement statement = connection.prepareStatement(getTotalSum);
+				statement.setInt(1, cId);
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					totalSum = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return totalSum;
+		}
+		
 		private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
 			List<Sale> sale = new LinkedList<Sale>();
 			try {
@@ -180,5 +199,7 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 			Sale sale = new Sale(rs.getInt("id"), rs.getDate("timeStamp"), product, vm, rs.getFloat("salesPrice"));
 			return sale;
 		}
+
+
 		
 }

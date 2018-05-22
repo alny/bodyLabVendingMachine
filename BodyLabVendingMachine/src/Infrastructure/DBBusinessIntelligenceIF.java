@@ -12,6 +12,8 @@ public interface DBBusinessIntelligenceIF {
 	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws PersistensException;
 
 	float getSumOfSaleFromMachineId(VendingMachine vm);
+	
+	int getTotalSumFromAllMachines(int cId) throws PersistensException;
 
 	float getSumOfSaleFromProductId(Product product);
 
