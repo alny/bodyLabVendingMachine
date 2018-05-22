@@ -8,7 +8,7 @@ import Model.Loan;
 import Model.VendingMachine;
 
 public interface CtrLoanIF {
-	int insertLoan(Loan loan, Customer customer);
+	void insertLoan(Loan loan, Customer customer);
 	List<Loan> findLoansForCustomer(Customer customer) throws PersistensException;
 	Loan createLoan(VendingMachine vendingmachine, Customer customer);
 }

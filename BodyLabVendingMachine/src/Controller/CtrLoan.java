@@ -6,6 +6,7 @@ import java.util.List;
 import Database.DBLoan;
 import Database.DBVendingMachine;
 import Database.PersistensException;
+import Infrastructure.CtrCustomerIF;
 import Infrastructure.CtrLoanIF;
 import Infrastructure.CtrVendingMachineIF;
 import Infrastructure.DBLoanIF;
@@ -16,10 +17,12 @@ import Model.VendingMachine;
 public class CtrLoan implements CtrLoanIF {
 	private DBLoanIF dbL;
 	private CtrVendingMachineIF cVM;
+	private CtrCustomerIF cCtr;
 	
 	public CtrLoan() {
 		dbL = DBLoan.getInstance();
 		cVM = new CtrVendingMachine();
+		cCtr = new CtrCustomer();
 	}
 	@Override
 	public List<Loan> findLoansForCustomer(Customer customer) throws PersistensException {
@@ -28,8 +31,9 @@ public class CtrLoan implements CtrLoanIF {
 	
 
 	@Override
-	public int insertLoan(Loan loan, Customer customer) {
-		return dbL.insertLoan(loan, customer);
+	public void insertLoan(Loan loan, Customer customer) {
+		dbL.insertLoan(loan, customer);
+		cCtr.addLoanToCustomer(loan, customer);
 	}
 
 	@Override
