@@ -1,6 +1,6 @@
 package Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -30,17 +30,18 @@ public class CustomerTest {
 		assertEquals("Fitness Hadsund", customer.getName());
 	}
 	
-	@Test
-	public void testDBFindCustomerFail() {
-		int id = 2;
-		Customer customer = null;
-		try {
-			customer = dbC.findCustomer(id);
-		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertNotEquals(customer.getName(),"Fitness Aalbog");
-	}
+//	@Test
+//	public void testDBFindCustomerFail() {
+//		int id = 2;
+//		Customer customer = null;
+//		try {
+//			customer = dbC.findCustomer(id);
+//		} catch (PersistensException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		assertNotEquals(customer.getName(), "we");
+//	}
+
 	
 }

@@ -38,7 +38,7 @@ public class LoanTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(loans.size(),1);
+		assertEquals(loans.size(),2);
 	}
 	
 	@Test
@@ -53,6 +53,6 @@ public class LoanTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue("same size", loans.size() == 1);
+		assertTrue("same size", loans.size() == 2);
 	}
 }

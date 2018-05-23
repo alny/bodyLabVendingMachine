@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="BodyLabVendingMachine/src"/>
 	<classpathentry kind="lib" path="BodyLabVendingMachine/lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
+	<classpathentry kind="lib" path="junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
