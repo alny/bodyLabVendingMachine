@@ -31,5 +31,9 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 	public VendingMachine findFirstAvailbe() throws PersistensException {
 		return dbVendingMachine.findFirstAvailable();
 	}
+	@Override
+	public void changeLentOut(VendingMachine vm) {
+		vm.setIsLentOut(true);
+	}
 
 }

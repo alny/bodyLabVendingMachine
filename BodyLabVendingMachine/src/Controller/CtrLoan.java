@@ -39,6 +39,7 @@ public class CtrLoan implements CtrLoanIF {
 	@Override
 	public Loan createLoan(int customerId) throws PersistensException {
 		Loan loan = new Loan(cVM.findFirstAvailbe());
+		cVM.changeLentOut(loan.getVendingmachine());
 		insertLoan(loan, cCtr.findCustomer(customerId));
 		return loan;
 		
