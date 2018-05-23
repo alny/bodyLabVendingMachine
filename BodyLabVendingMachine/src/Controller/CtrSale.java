@@ -26,7 +26,7 @@ public class CtrSale implements CtrSaleIF {
 	}
 
 	@Override
-	public int insertSale(Sale sale) {
+	public int insertSale(Sale sale) throws PersistensException {
 		return dbSale.insertSale(sale);
 	}
 	

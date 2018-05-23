@@ -29,9 +29,9 @@ public class DBSale implements DBSaleIF {
 		return instance;
 	}
 
-	// fix execptions ikke godt at have try catch i en catch
+	
 			@Override
-			public int insertSale(Sale sale) {
+			public int insertSale(Sale sale) throws PersistensException {
 				int id = 0;
 				String insert = "insert into Sale (vendingMachineId, productId, salesPrice)" + " values (?,?,?)";
 				String changeQuantity = "update MachineProduct set qty = qty - 1 where productId = ? and vendingMachineId = ?";
@@ -47,12 +47,12 @@ public class DBSale implements DBSaleIF {
 					DBConnection.getInstance().commitTransaction();
 				}
 				 catch (SQLException e) {
-					// TODO Auto-generated catch block
 					try {
 						DBConnection.getInstance().rollbackTransaction();
+						PersistensException pe = new PersistensException(e, "Salg kunne ikke gennemføres rollback");
+						throw pe;
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						PersistensException pe = new PersistensException(e, "rollback kunne ikke gennemføres");
 					}
 				}
 				return id;
