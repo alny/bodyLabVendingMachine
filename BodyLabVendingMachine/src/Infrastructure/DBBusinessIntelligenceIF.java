@@ -11,16 +11,18 @@ public interface DBBusinessIntelligenceIF {
 
 	List<Sale> getSalesFromMachineId(VendingMachine vm, boolean retrieveAssociation) throws PersistensException;
 
-	float getSumOfSaleFromMachineId(VendingMachine vm);
+	float getSumOfSaleFromMachineId(VendingMachine vm, String startD, String endD);
 	
 	int getTotalSumFromAllMachines(int cId) throws PersistensException;
-
-	float getSumOfSaleFromProductId(Product product);
 
 	List<Sale> getSalesFromProductId(Product product, boolean retrieveAssociation) throws PersistensException;
 
 	int getTotalSaleFromMachineId(VendingMachine vm);
 
 	int getTotalSaleFromProductId(Product product);
+
+	float getSumOfSaleFromProductId(Product product, String startD, String endD);
+	
+	int getMachineQuantity(VendingMachine vm, Product product);
 
 }

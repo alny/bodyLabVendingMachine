@@ -29,10 +29,10 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	 * @see Controller.CtrBusinessIntelligenceIF#getSumFromMachine(int)
 	 */
 	@Override
-	public float getSumFromMachine(int vmId) throws CannotFindException {
+	public float getSumFromMachine(int vmId, String startD, String endD) throws CannotFindException {
 		float sum = 0;
 		try {
-			sum = dbBI.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId, false));
+			sum = dbBI.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId, false), startD, endD);
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,9 +44,9 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	 * @see Controller.CtrBusinessIntelligenceIF#getSumFromProduct(int)
 	 */
 	@Override
-	public float getSumFromProduct(int pId) throws CannotFindException {
+	public float getSumFromProduct(int pId, String startD, String endD) throws CannotFindException {
 		float sum = 0;
-		sum = dbBI.getSumOfSaleFromProductId(ctrP.findProductById(pId));
+		sum = dbBI.getSumOfSaleFromProductId(ctrP.findProductById(pId), startD, endD);
 		return sum;
 	}
 	
@@ -133,5 +133,11 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 			e.printStackTrace();
 		}
 		return totalSum;
+	}
+	
+	public int getQuatity(int vmId, int productId ) throws PersistensException, CannotFindException {
+		int Quatity = 0;
+		Quatity = dbBI.getMachineQuantity(ctrVM.findVendingMachine(vmId, true), ctrP.findProductById(productId));
+		return Quatity;
 	}
 }

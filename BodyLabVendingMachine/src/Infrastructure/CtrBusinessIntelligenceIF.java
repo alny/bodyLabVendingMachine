@@ -8,9 +8,9 @@ import Model.Sale;
 
 public interface CtrBusinessIntelligenceIF {
 
-	float getSumFromMachine(int vmId) throws CannotFindException;
+	float getSumFromMachine(int vmId, String startD, String endD) throws CannotFindException;
 
-	float getSumFromProduct(int pId) throws CannotFindException;
+	float getSumFromProduct(int pId, String startD, String endD) throws CannotFindException;
 	
 	int getTotalSumFromAllMachines(int cId) throws CannotFindException;
 
@@ -23,5 +23,7 @@ public interface CtrBusinessIntelligenceIF {
 	int getAmountOfSalesFromProduct(int pId) throws CannotFindException;
 
 	Sale createSale(int vmId, int productId, float price) throws CannotFindException;
+	
+	int getQuatity(int vmId, int productId) throws PersistensException, CannotFindException;
 
 }

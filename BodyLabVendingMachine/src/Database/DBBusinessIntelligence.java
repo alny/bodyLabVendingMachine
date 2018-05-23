@@ -52,12 +52,14 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 	 * @see Database.DBBusinessIntelligenceIF#getSumOfSaleFromMachineId(Model.VendingMachine)
 	 */
 	@Override
-	public float getSumOfSaleFromMachineId(VendingMachine vm) {
+	public float getSumOfSaleFromMachineId(VendingMachine vm, String startD, String endD) {
 		float sum = 0;
-		String getSumMachine = "select sum(salesPrice) from Sale where vendingMachineId = ?";
+		String getSumMachine = "select sum(salesPrice) from Sale where vendingMachineId = ? AND timestamp>= ? And Sale.timestamp<= ?";
 		try {
 			PreparedStatement sumMachine = connection.prepareStatement(getSumMachine);
 			sumMachine.setInt(1, vm.getId());
+			sumMachine.setString(2, startD);
+			sumMachine.setString(3, endD);
 			ResultSet rs = sumMachine.executeQuery();
 			if(rs.next()) {
 				sum = rs.getInt(1);
@@ -75,12 +77,14 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 	 */
 	
 	@Override
-	public float getSumOfSaleFromProductId(Product product) {
+	public float getSumOfSaleFromProductId(Product product, String startD, String endD) {
 		float sum = 0;
-		String getSumProduct = "select sum(salesPrice) from Sale where productId = ?";
+		String getSumProduct = "select sum(salesPrice) from Sale where productId = ? AND timestamp>= ? And Sale.timestamp<= ?";
 		try {
 			PreparedStatement sumProduct = connection.prepareStatement(getSumProduct);
 			sumProduct.setInt(1, product.getId());
+			sumProduct.setString(2, startD);
+			sumProduct.setString(3, endD);
 			ResultSet rs = sumProduct.executeQuery();
 			if(rs.next()) {
 				sum = rs.getFloat(1);
@@ -174,6 +178,27 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 				e.printStackTrace();
 			}
 			return totalSum;
+		}
+		
+		
+		public int getMachineQuantity(VendingMachine vm, Product product) {
+			int Quantity = 0;
+			String getQuantityQ = "select qty from MachineProduct where vendingMachineId = ? and productId = ?";
+			try {
+				PreparedStatement getQuantity = connection.prepareStatement(getQuantityQ);
+				getQuantity.setInt(1, vm.getId());
+				getQuantity.setInt(2, product.getId());
+
+				ResultSet rs = getQuantity.executeQuery();
+				if(rs.next()) {
+					Quantity = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return Quantity;
 		}
 		
 		private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
