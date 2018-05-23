@@ -53,6 +53,7 @@ public class DBSale implements DBSaleIF {
 						throw pe;
 					} catch (SQLException e1) {
 						PersistensException pe = new PersistensException(e, "rollback kunne ikke gennemføres");
+						throw pe;
 					}
 				}
 				return id;
