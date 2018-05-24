@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
@@ -188,8 +189,17 @@ public class StatistiskMenu extends JPanel {
 		slutDato.setBounds(152, 33, 116, 22);
 		showStatistisk.add(slutDato);
 		slutDato.setColumns(10);
-		startDato.setText("01/01/18");
-		slutDato.setText(new Date().toLocaleString());
+		startDato.setText("1/1/2018");
+		int day = new Date().getDate();
+		int month = new Date().getMonth()+1;
+		int year = new Date().getYear()+1900;
+		String date =Integer.toString(month) +"/"+Integer.toString(day)+"/"+Integer.toString(year);
+				
+		slutDato.setText(date);
+		
+		JLabel lblNewLabel_1 = new JLabel("Angiv Periode (MM/DD/YYYY)");
+		lblNewLabel_1.setBounds(12, 13, 176, 16);
+		showStatistisk.add(lblNewLabel_1);
 		startDato.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
