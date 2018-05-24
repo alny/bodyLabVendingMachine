@@ -40,8 +40,8 @@ public class DBLoan implements DBLoanIF {
 			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			PersistensException pe = new PersistensException(e,"Failed to excute search");
+			throw pe;
 		}
 
 		return loan;
@@ -49,7 +49,7 @@ public class DBLoan implements DBLoanIF {
 
 	// id is a Customers id, need some help to know how to handle the execption that happens then rollback happens
 	@Override
-	public int insertLoan(Loan loan, Customer customer) {
+	public int insertLoan(Loan loan, Customer customer) throws PersistensException {
 		String insertLoan = "insert into Loan (date, endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
@@ -70,8 +70,8 @@ public class DBLoan implements DBLoanIF {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				PersistensException pe = new PersistensException(e,"database error i checkIfThere");
+				throw pe;
 			}
 		}
 		return i;
@@ -79,7 +79,7 @@ public class DBLoan implements DBLoanIF {
 
 	// returns true if there already exist a loan with the machine, that has not
 	// finished, used solv the problem with problem with creation of two loans
-	private boolean checkIfThere(Loan loan) {
+	private boolean checkIfThere(Loan loan)throws PersistensException {
 		boolean found = false;
 		String check = "Select * from Loan where vendingMachineId = ?";
 		try {
@@ -93,30 +93,42 @@ public class DBLoan implements DBLoanIF {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			PersistensException pe = new PersistensException(e,"database error i checkIfThere");
+			throw pe;
 		}
 
 		return found;
 	}
 
-	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException, SQLException {
+	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException{
 		List<Loan> loan = new LinkedList<Loan>();
-		while (rs.next()) {
-			loan.add(buildObject(rs, retrieveAssociation));
+		try {
+			while (rs.next()) {
+				loan.add(buildObject(rs, retrieveAssociation));
+			}
+		}
+		catch(SQLException e) {
+			PersistensException pe = new PersistensException(e,"database error i buildObjects");
+			throw pe;
 		}
 		return loan;
 	}
 
-	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws SQLException, PersistensException {
-		VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
-		System.out.println(rs.getInt("vendingMachineId"));
-		if (retrieveAssociation) {
-			vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"),false);
+	private Loan buildObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
+		Loan loan = null;
+		try {
+			VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
+			if (retrieveAssociation) {
+				vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"),false);
+			}
+			loan = new Loan(rs.getInt("id"), vm);
+			loan.setDate(rs.getDate("date"));
+			loan.setEndDate(rs.getDate("endDate"));
 		}
-		Loan loan = new Loan(rs.getInt("id"), vm);
-		loan.setDate(rs.getDate("date"));
-		loan.setEndDate(rs.getDate("endDate"));
+		catch(SQLException e) {
+			PersistensException pe = new PersistensException(e,"database error i buildObject");
+			throw pe;
+		}
 		return loan;
 	}
 

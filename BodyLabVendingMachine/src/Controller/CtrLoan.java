@@ -31,7 +31,7 @@ public class CtrLoan implements CtrLoanIF {
 	
 
 	@Override
-	public void insertLoan(Loan loan, Customer customer) {
+	public void insertLoan(Loan loan, Customer customer) throws PersistensException {
 		dbL.insertLoan(loan, customer);
 		cCtr.addLoanToCustomer(loan, customer);
 	}

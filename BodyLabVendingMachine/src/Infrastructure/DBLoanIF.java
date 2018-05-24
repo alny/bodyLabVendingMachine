@@ -10,6 +10,6 @@ import Model.VendingMachine;
 
 public interface DBLoanIF {
 	List<Loan> findLoansForCustomer(Customer cu, boolean retrieveAssociation) throws PersistensException;
-	int insertLoan(Loan l, Customer customer);
+	int insertLoan(Loan l, Customer customer) throws PersistensException;
 	
 }
