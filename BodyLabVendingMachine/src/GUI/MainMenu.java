@@ -19,7 +19,6 @@ public class MainMenu extends JFrame {
 	private JPanel parentPanel;
 	private JPanel menuPanel;
 	private CustomerMenu customerMenu;
-	private StatistiskMenu statistikMenu;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

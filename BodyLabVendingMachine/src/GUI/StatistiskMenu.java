@@ -52,10 +52,7 @@ public class StatistiskMenu extends JPanel {
 	private JLabel label;
 	private JComboBox<String> comboBox;
 	private JLabel label_2;
-	private JComboBox<String> comboBox_1;
-	
-	
-	
+	private JComboBox<String> comboBox_1;	
 
 	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList) {
 		startD = "01/01/18";
