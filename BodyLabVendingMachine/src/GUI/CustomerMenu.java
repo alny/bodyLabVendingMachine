@@ -242,6 +242,9 @@ public class CustomerMenu extends JPanel {
 		});
 		
 		JButton btnSamletStatistisk = new JButton("Samlet Statistisk");
+		btnSamletStatistisk.addActionListener((e) -> {
+			
+		});
 		knapper.add(btnSamletStatistisk);
 		 
 		JButton btnTilbag = new JButton("Tilbage");
