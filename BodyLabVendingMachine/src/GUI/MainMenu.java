@@ -28,6 +28,7 @@ public class MainMenu extends JFrame {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(frame);
 					
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

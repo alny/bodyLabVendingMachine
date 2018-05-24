@@ -14,6 +14,7 @@ import java.util.List;
 
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,6 +44,7 @@ public class CustomerMenu extends JPanel {
 	private JTabbedPane tabbedPane;
 	private JPanel parentPanel;
 	private CardLayout parent;
+	private JDialog d; 
 
 	private JTable customerTable;
 	private JLabel label;
@@ -108,9 +110,7 @@ public class CustomerMenu extends JPanel {
 		showCustomers.add(btnTilbag);
 		
 		JButton btnOpretLn = new JButton("Opret L\u00E5n");
-		btnOpretLn.addActionListener((e) -> {
-			parent.show(parentPanel, "3");
-		});
+		btnOpretLn.addActionListener((e) -> createLoanDialog());
 		btnOpretLn.setBounds(187, 399, 97, 25);
 		showCustomers.add(btnOpretLn);
 		btnTilbag.addActionListener((e) -> {
@@ -271,6 +271,26 @@ public class CustomerMenu extends JPanel {
 				
 		return showSpecificCustomer;
 		
+	}
+	
+	private JDialog createLoanDialog() {
+        JDialog dialog = new JDialog();  
+        dialog.setLayout( new FlowLayout() );  
+        JButton yesB = new JButton ("Ja");
+        yesB.addActionListener((e) -> {
+        	 dialog.setVisible(false);
+		});
+        dialog.add( new JLabel ("Opret nyt lån på denne kunde?"));  
+        dialog.add(yesB);
+        JButton noB = new JButton ("Nej");
+        noB.addActionListener((e) -> {
+        	 dialog.setVisible(false);
+		});
+        dialog.add(noB);
+        dialog.setSize(300,100);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true); 
+        return dialog;
 	}
 	 
 	private void refreshLoan() {
