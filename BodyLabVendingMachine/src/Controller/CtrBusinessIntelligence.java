@@ -139,7 +139,7 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public int getTotalSumProductFromAllMachines(int cId, String startD, String endD, int productId) throws CannotFindException {
 		int totalSum = 0;
 		try {
-			totalSum = dbBI.getTotalSumFromProductAllMachines(cId, startD, endD, productId)
+			totalSum = dbBI.getTotalSumFromProductAllMachines(cId, startD, endD, productId);
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

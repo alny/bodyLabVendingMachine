@@ -48,7 +48,6 @@ public class CustomerMenu extends JPanel {
 	private JLabel label;
 	
 	private CtrCustomerIF customerCtr;
-	private OpretLånMenu opretLånMenu;
 	private StatistiskMenu statistiskMenu;
 	private CtrLoanIF loanCtr;
 	private JTable loanTable;
@@ -110,8 +109,6 @@ public class CustomerMenu extends JPanel {
 		
 		JButton btnOpretLn = new JButton("Opret L\u00E5n");
 		btnOpretLn.addActionListener((e) -> {
-			opretLånMenu = new OpretLånMenu(parentPanel, parent);
-			parentPanel.add(opretLånMenu, "3");
 			parent.show(parentPanel, "3");
 		});
 		btnOpretLn.setBounds(187, 399, 97, 25);
