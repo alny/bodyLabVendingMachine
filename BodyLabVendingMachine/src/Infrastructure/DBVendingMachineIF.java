@@ -10,4 +10,5 @@ public interface DBVendingMachineIF {
 	int insertVendingMachine(VendingMachine vm) throws PersistensException;
 	VendingMachine findFirstAvailable() throws PersistensException;
 	
+	
 }

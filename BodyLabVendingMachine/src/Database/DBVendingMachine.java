@@ -105,17 +105,44 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		final String findAvailbe = "Select top 1* from VendingMachine where isLentOut = 'false'";
 		VendingMachine vm = null;
 		try {
+			DBConnection.getInstance().startTransaction();
 			PreparedStatement statement = connection.prepareStatement(findAvailbe);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
 				vm = buildVendingMachineObject(rs, false);
 			}
+			updateIsLentOut(vm);
+			DBConnection.getInstance().commitTransaction();
 		}
 		catch(SQLException e) {
+			try {
+				DBConnection.getInstance().rollbackTransaction();
+			}
+			catch(SQLException e1) {
+				PersistensException pe = new PersistensException(e1, "Could not rollback");
+				throw pe;
+			}
 			PersistensException pe = new PersistensException(e, "Could not find top 1");
 			throw pe;
+			
 		}
 		
 		return vm;
+	}
+
+	private void updateIsLentOut(VendingMachine vm) throws PersistensException {
+		final String changeIsLentOut = "update isLentOut where id = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(changeIsLentOut);
+			statement.setInt(1, vm.getId());
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			PersistensException pe = new PersistensException(e, "Could not update isLentOut");
+			throw pe;
+		}
+		
+		
+		
 	}
 }
