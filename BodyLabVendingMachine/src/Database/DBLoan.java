@@ -88,7 +88,7 @@ public class DBLoan implements DBLoanIF {
 			ResultSet rs = checkIfNotThere.executeQuery();
 			Date date = new Date();
 			while (rs.next()) {
-				if (date.before(rs.getDate("time"))) {
+				if (date.before(rs.getDate("endDate"))) {
 					found = true;
 				}
 			}
