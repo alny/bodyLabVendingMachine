@@ -44,7 +44,6 @@ public class CustomerMenu extends JPanel {
 	private JTabbedPane tabbedPane;
 	private JPanel parentPanel;
 	private CardLayout parent;
-	private JDialog d; 
 
 	private JTable customerTable;
 	private JLabel label;
@@ -106,13 +105,8 @@ public class CustomerMenu extends JPanel {
 		showCustomers.add(btnSeDetaljer);
 
 		JButton btnTilbag = new JButton("Tilbage");
-		btnTilbag.setBounds(308, 399, 80, 23);
+		btnTilbag.setBounds(197, 400, 80, 23);
 		showCustomers.add(btnTilbag);
-		
-		JButton btnOpretLn = new JButton("Opret L\u00E5n");
-		btnOpretLn.addActionListener((e) -> createLoanDialog());
-		btnOpretLn.setBounds(187, 399, 97, 25);
-		showCustomers.add(btnOpretLn);
 		btnTilbag.addActionListener((e) -> {
 			parent.show(parentPanel, "1");
 		});
@@ -260,6 +254,10 @@ public class CustomerMenu extends JPanel {
 			
 		
 		knapper.add(btnSamletStatistisk);
+		
+		JButton btnOpretNytLn = new JButton("Opret nyt l\u00E5n");
+		btnOpretNytLn.addActionListener((e) -> createLoanDialog());
+		knapper.add(btnOpretNytLn);
 		 
 		JButton btnTilbag = new JButton("Tilbage");
 		knapper.add(btnTilbag);
@@ -275,18 +273,25 @@ public class CustomerMenu extends JPanel {
 	
 	private JDialog createLoanDialog() {
         JDialog dialog = new JDialog();  
-        dialog.setLayout( new FlowLayout() );  
+        dialog.getContentPane().setLayout( new FlowLayout() );  
         JButton yesB = new JButton ("Ja");
         yesB.addActionListener((e) -> {
+        	try {
+				loanCtr.createLoan(id);
+			} catch (PersistensException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	refreshLoan();
         	 dialog.setVisible(false);
 		});
-        dialog.add( new JLabel ("Opret nyt lån på denne kunde?"));  
-        dialog.add(yesB);
+        dialog.getContentPane().add( new JLabel ("Opret nyt lån på denne kunde?"));  
+        dialog.getContentPane().add(yesB);
         JButton noB = new JButton ("Nej");
         noB.addActionListener((e) -> {
         	 dialog.setVisible(false);
 		});
-        dialog.add(noB);
+        dialog.getContentPane().add(noB);
         dialog.setSize(300,100);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true); 

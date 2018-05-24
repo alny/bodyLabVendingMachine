@@ -102,7 +102,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 	@Override
 	public VendingMachine findFirstAvailable() throws PersistensException {
-		final String findAvailbe = "Select top 1 from VendingMachine where isLentOut = false";
+		final String findAvailbe = "Select top 1* from VendingMachine where isLentOut = 'false'";
 		VendingMachine vm = null;
 		try {
 			PreparedStatement statement = connection.prepareStatement(findAvailbe);
