@@ -52,9 +52,11 @@ public class StatistiskMenu extends JPanel {
 	private JLabel label;
 	private JComboBox<String> comboBox;
 	private JLabel label_2;
-	private JComboBox<String> comboBox_1;	
+	private JComboBox<String> comboBox_1;
+	private boolean alle;
+	private int cId;
 
-	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList) {
+	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList, boolean alle, int id) {
 		startD = "01/01/18";
 		endD = "01/01/19";
 		parentPanel = mainPanel;
@@ -63,8 +65,12 @@ public class StatistiskMenu extends JPanel {
 		vendingMachineId = vmId;
 		ctrVM = new CtrVendingMachine();
 		businessCtr = new CtrBusinessIntelligence();
-
+		this.alle=alle;
+		cId=id;
 		init();
+		if(alle==true) {
+		StatestikForAlle();	
+		}
 	}
 
 	private void init() {
@@ -234,6 +240,8 @@ public class StatistiskMenu extends JPanel {
 
 public void updateFields() {
 	
+	if(alle==false) {
+	
 		startD = startDato.getText();
 		endD = slutDato.getText();
 		System.out.println(startD + endD);
@@ -247,7 +255,24 @@ public void updateFields() {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		
+				}}else{
+					StatestikForAlle();
 				}
-
+	}
+		
+public void StatestikForAlle() {
+	startD = startDato.getText();
+	endD = slutDato.getText();
+	try {
+		label_1.setText(Float.toString(businessCtr.getTotalSumFromAllMachines(cId, startD, endD)) + " kr");
+		if(comboBox.getSelectedIndex()!= 0 ) {
+			label.setText(Float.toString(businessCtr.getTotalSumProductFromAllMachines(cId, startD, endD, comboBoxOneProductId))+ " kr");
 		}
+	} catch (CannotFindException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	
+}
 }

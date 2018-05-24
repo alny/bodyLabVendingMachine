@@ -12,7 +12,7 @@ public interface CtrBusinessIntelligenceIF {
 
 	float getSumFromProduct(int pId, String startD, String endD) throws CannotFindException;
 	
-	int getTotalSumFromAllMachines(int cId) throws CannotFindException;
+	int getTotalSumFromAllMachines(int cId, String startD, String endD) throws CannotFindException;
 
 	List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException;
 
@@ -25,5 +25,8 @@ public interface CtrBusinessIntelligenceIF {
 	Sale createSale(int vmId, int productId, float price) throws CannotFindException;
 	
 	int getQuatity(int vmId, int productId) throws PersistensException, CannotFindException;
+
+	int getTotalSumProductFromAllMachines(int cId, String startD, String endD, int productId)
+			throws CannotFindException;
 
 }

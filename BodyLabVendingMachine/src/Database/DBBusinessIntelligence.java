@@ -163,12 +163,35 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 		}
 		
 		@Override
-		public int getTotalSumFromAllMachines(int cId) throws PersistensException {
+		public int getTotalSumFromAllMachines(int cId, String startD, String endD) throws PersistensException {
 			int totalSum = 0;
-			final String getTotalSum = "SELECT SUM (salesPrice) AS 'Total Price' FROM VendingMachine AS v, Sale AS s, Loan AS l WHERE l.vendingMachineId = v.id AND s.vendingMachineId = l.vendingMachineId AND l.customerId = ?";
+			final String getTotalSum = "SELECT SUM (salesPrice) AS 'Total Price' FROM VendingMachine AS v, Sale AS s, Loan AS l WHERE l.vendingMachineId = v.id AND s.vendingMachineId = l.vendingMachineId AND l.customerId = ? AND timestamp>= ? And timestamp<= ?";
 			try {
 				PreparedStatement statement = connection.prepareStatement(getTotalSum);
 				statement.setInt(1, cId);
+				statement.setString(2, startD);
+				statement.setString(3, endD);
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					totalSum = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return totalSum;
+		}
+		
+		@Override
+		public int getTotalSumFromProductAllMachines(int cId, String startD, String endD, int productId) throws PersistensException {
+			int totalSum = 0;
+			final String getTotalSum = "SELECT SUM (salesPrice) AS 'Total Price' FROM VendingMachine AS v, Sale AS s, Loan AS l WHERE l.vendingMachineId = v.id AND s.vendingMachineId = l.vendingMachineId AND l.customerId = ? AND timestamp>= ? And timestamp<= ? And productId = ?";
+			try {
+				PreparedStatement statement = connection.prepareStatement(getTotalSum);
+				statement.setInt(1, cId);
+				statement.setString(2, startD);
+				statement.setString(3, endD);
+				statement.setInt(4, productId);
 				ResultSet rs = statement.executeQuery();
 				while (rs.next()) {
 					totalSum = rs.getInt(1);

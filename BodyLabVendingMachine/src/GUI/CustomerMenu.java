@@ -231,8 +231,9 @@ public class CustomerMenu extends JPanel {
 		btnSeDetaljer.addActionListener((e) -> {
 			int row = loanTable.getSelectedRow();
 			if (row > -1) {
-				id = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
-				statistiskMenu = new StatistiskMenu(parentPanel, parent, id, productList);
+				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
+				boolean alle = false;
+				statistiskMenu = new StatistiskMenu(parentPanel, parent, vid, productList, alle, id);
 				parentPanel.add(statistiskMenu, "4");
 				parent.show(parentPanel, "4");
 			} 
@@ -244,7 +245,23 @@ public class CustomerMenu extends JPanel {
 		JButton btnSamletStatistisk = new JButton("Samlet Statistisk");
 		btnSamletStatistisk.addActionListener((e) -> {
 			
+			int row = 0;
+			boolean alle = true;
+			if (row > -1) {
+				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
+				statistiskMenu = new StatistiskMenu(parentPanel, parent, vid, productList, alle, id);
+				parentPanel.add(statistiskMenu, "4");
+				parent.show(parentPanel, "4");
+			} 
+			else {
+				JOptionPane.showMessageDialog(null, "Vælg et lån");
+			}
 		});
+		
+			
+		
+			
+		
 		knapper.add(btnSamletStatistisk);
 		 
 		JButton btnTilbag = new JButton("Tilbage");

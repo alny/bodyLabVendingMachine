@@ -124,10 +124,22 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	}
 
 	@Override
-	public int getTotalSumFromAllMachines(int cId) throws CannotFindException {
+	public int getTotalSumFromAllMachines(int cId, String startD, String endD) throws CannotFindException {
 		int totalSum = 0;
 		try {
-			totalSum = dbBI.getTotalSumFromAllMachines(cId);
+			totalSum = dbBI.getTotalSumFromAllMachines(cId, startD, endD);
+		} catch (PersistensException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return totalSum;
+	}
+	
+	@Override
+	public int getTotalSumProductFromAllMachines(int cId, String startD, String endD, int productId) throws CannotFindException {
+		int totalSum = 0;
+		try {
+			totalSum = dbBI.getTotalSumFromProductAllMachines(cId, startD, endD, productId)
 		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

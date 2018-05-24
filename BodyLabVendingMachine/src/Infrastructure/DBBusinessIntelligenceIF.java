@@ -13,7 +13,7 @@ public interface DBBusinessIntelligenceIF {
 
 	float getSumOfSaleFromMachineId(VendingMachine vm, String startD, String endD);
 	
-	int getTotalSumFromAllMachines(int cId) throws PersistensException;
+	int getTotalSumFromAllMachines(int cId, String startD, String endD) throws PersistensException;
 
 	List<Sale> getSalesFromProductId(Product product, boolean retrieveAssociation) throws PersistensException;
 
@@ -24,5 +24,8 @@ public interface DBBusinessIntelligenceIF {
 	float getSumOfSaleFromProductId(Product product, String startD, String endD);
 	
 	int getMachineQuantity(VendingMachine vm, Product product);
+
+	int getTotalSumFromProductAllMachines(int cId, String startD, String endD, int productId)
+			throws PersistensException;
 
 }
