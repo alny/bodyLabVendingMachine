@@ -131,10 +131,11 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	}
 
 	private void updateIsLentOut(VendingMachine vm) throws PersistensException {
-		final String changeIsLentOut = "update isLentOut where id = ?";
+		final String changeIsLentOut = "update vendingMachine set isLentOut = ? where id = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(changeIsLentOut);
-			statement.setInt(1, vm.getId());
+			statement.setBoolean(1, true);
+			statement.setInt(2, vm.getId());
 			statement.executeUpdate();
 		}
 		catch(SQLException e) {
