@@ -147,9 +147,9 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		return totalSum;
 	}
 	
-	public int getQuatity(int vmId, int productId ) throws PersistensException, CannotFindException {
-		int Quatity = 0;
-		Quatity = dbBI.getMachineQuantity(ctrVM.findVendingMachine(vmId, true), ctrP.findProductById(productId));
-		return Quatity;
+	public int getQuantity(int vmId, int productId ) throws PersistensException, CannotFindException {
+		int Quantity = 0;
+		Quantity = dbBI.getMachineQuantity(ctrVM.findVendingMachine(vmId, true), ctrP.findProductById(productId));
+		return Quantity;
 	}
 }
