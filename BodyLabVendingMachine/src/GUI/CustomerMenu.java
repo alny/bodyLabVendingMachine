@@ -83,8 +83,8 @@ public class CustomerMenu extends JPanel {
 
 	}
 
+	
 	private JPanel showCustomers() {
-
 		JPanel showCustomers = new JPanel();
 		showCustomers.setLayout(null);
 
@@ -130,7 +130,6 @@ public class CustomerMenu extends JPanel {
 				JOptionPane.showMessageDialog(null, "Vælg en kunde");
 			}
 		});
-
 		return showCustomers;
 
 	}
@@ -351,7 +350,8 @@ public class CustomerMenu extends JPanel {
 
 		@Override
 		protected Boolean doInBackground() throws Exception {
-			while (isCancelled()) {
+			while (!isCancelled()) {
+				
 				if (DBConnection.getInstance().getConnection() != null) {
 					connectionOpen = true;
 					publish(connectionOpen);
@@ -377,8 +377,9 @@ public class CustomerMenu extends JPanel {
 	        }
 			
 	     }
+		@Override
 		protected void done() {
-			if (connectionOpen == true) {
+			if (connectionOpen) {
 				btnDataBaseConnection.setBackground(Color.GREEN);
 				System.out.println("here");
 			} else {
