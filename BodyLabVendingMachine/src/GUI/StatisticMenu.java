@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 
-public class StatistiskMenu extends JPanel {
+public class StatisticMenu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
@@ -45,18 +45,18 @@ public class StatistiskMenu extends JPanel {
 	private int comboBoxOneProductId;
 	private int comboBoxTwoProductId;
 	private JLabel label_1;
-	private JTextField startDato;
-	private JTextField slutDato;
+	private JTextField startDate;
+	private JTextField endDate;
 	private String startD;
 	private String endD;
 	private JLabel label;
 	private JComboBox<String> comboBox;
 	private JLabel label_2;
 	private JComboBox<String> comboBox_1;
-	private boolean alle;
+	private boolean all;
 	private int cId;
 
-	public StatistiskMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList, boolean alle, int id) {
+	public StatisticMenu(JPanel mainPanel, CardLayout cardLayout, int vmId, List<Product> productList, boolean all, int id) {
 		startD = "01/01/18";
 		endD = "01/01/19";
 		parentPanel = mainPanel;
@@ -65,11 +65,11 @@ public class StatistiskMenu extends JPanel {
 		vendingMachineId = vmId;
 		ctrVM = new CtrVendingMachine();
 		businessCtr = new CtrBusinessIntelligence();
-		this.alle=alle;
+		this.all=all;
 		cId=id;
 		init();
-		if(alle==true) {
-		StatestikForAlle();	
+		if(all==true) {
+		statisticForAll();	
 		}
 	}
 
@@ -183,27 +183,27 @@ public class StatistiskMenu extends JPanel {
 		
 
 		
-		startDato = new JTextField();
-		startDato.setBounds(14, 33, 116, 22);
-		showStatistisk.add(startDato);
-		startDato.setColumns(10);
+		startDate = new JTextField();
+		startDate.setBounds(14, 33, 116, 22);
+		showStatistisk.add(startDate);
+		startDate.setColumns(10);
 		
-		slutDato = new JTextField();
-		slutDato.setBounds(152, 33, 116, 22);
-		showStatistisk.add(slutDato);
-		slutDato.setColumns(10);
-		startDato.setText("1/1/2018");
+		endDate = new JTextField();
+		endDate.setBounds(152, 33, 116, 22);
+		showStatistisk.add(endDate);
+		endDate.setColumns(10);
+		startDate.setText("1/1/2018");
 		int day = new Date().getDate();
 		int month = new Date().getMonth()+1;
 		int year = new Date().getYear()+1900;
 		String date =Integer.toString(month) +"/"+Integer.toString(day)+"/"+Integer.toString(year);
 				
-		slutDato.setText(date);
+		endDate.setText(date);
 		
 		JLabel lblNewLabel_1 = new JLabel("Angiv Periode (MM/DD/YYYY)");
 		lblNewLabel_1.setBounds(12, 13, 176, 16);
 		showStatistisk.add(lblNewLabel_1);
-		startDato.addActionListener(new ActionListener() {			
+		startDate.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateFields();
@@ -211,7 +211,7 @@ public class StatistiskMenu extends JPanel {
 			}
 		});
 		
-		slutDato.addActionListener(new ActionListener() {
+		endDate.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -240,10 +240,10 @@ public class StatistiskMenu extends JPanel {
 
 public void updateFields() {
 	
-	if(alle==false) {
+	if(all==false) {
 	
-		startD = startDato.getText();
-		endD = slutDato.getText();
+		startD = startDate.getText();
+		endD = endDate.getText();
 		System.out.println(startD + endD);
 		try {
 			label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
@@ -256,13 +256,13 @@ public void updateFields() {
 			e1.printStackTrace();
 		
 				}}else{
-					StatestikForAlle();
+					statisticForAll();
 				}
 	}
 		
-public void StatestikForAlle() {
-	startD = startDato.getText();
-	endD = slutDato.getText();
+public void statisticForAll() {
+	startD = startDate.getText();
+	endD = endDate.getText();
 	try {
 		label_1.setText(Float.toString(businessCtr.getTotalSumFromAllMachines(cId, startD, endD)) + " kr");
 		if(comboBox.getSelectedIndex()!= 0 ) {
