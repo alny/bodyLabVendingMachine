@@ -27,7 +27,7 @@ public class MainMenu extends JFrame {
 					MainMenu frame = new MainMenu();
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(frame);
-					
+
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -60,7 +60,7 @@ public class MainMenu extends JFrame {
 		menuPanel.add(lblBodyLab);
 
 		JButton btnLogin = new JButton("Log Ind");
-		btnLogin.addActionListener(	new ActionListener() {
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(parentPanel, "2");
 			}

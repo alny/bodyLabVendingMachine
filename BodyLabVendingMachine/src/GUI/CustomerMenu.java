@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 
 import java.util.List;
 
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -47,12 +46,12 @@ public class CustomerMenu extends JPanel {
 
 	private JTable customerTable;
 	private JLabel label;
-	
+
 	private CtrCustomerIF customerCtr;
-	private StatistiskMenu statistiskMenu;
+	private StatisticMenu statisticMenu;
 	private CtrLoanIF loanCtr;
 	private JTable loanTable;
-	
+
 	private int id;
 	private String name;
 	private String address;
@@ -111,7 +110,7 @@ public class CustomerMenu extends JPanel {
 			parent.show(parentPanel, "1");
 		});
 		btnSeDetaljer.addActionListener((e) -> {
-			
+
 			int row = customerTable.getSelectedRow();
 			if (row > -1) {
 				id = Integer.parseInt(customerTable.getValueAt(row, 0).toString());
@@ -122,8 +121,7 @@ public class CustomerMenu extends JPanel {
 				zipCode = customerTable.getValueAt(row, 5).toString();
 				parentPanel.add(showSpecificCustomer(), "3");
 				parent.show(parentPanel, "3");
-			} 
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Vælg en kunde");
 			}
 		});
@@ -131,173 +129,167 @@ public class CustomerMenu extends JPanel {
 		return showCustomers;
 
 	}
-	
+
 	public JPanel showSpecificCustomer() {
-		
+
 		JPanel showSpecificCustomer = new JPanel();
 
 		showSpecificCustomer.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel kundeOplysningeer = new JPanel();
-		kundeOplysningeer.setPreferredSize(new Dimension(200,300));
+		kundeOplysningeer.setPreferredSize(new Dimension(200, 300));
 		showSpecificCustomer.add(kundeOplysningeer, BorderLayout.WEST);
 		kundeOplysningeer.setLayout(null);
-		
+
 		JLabel lblKundeOplysninger = new JLabel("Kunde Oplysninger:");
 		lblKundeOplysninger.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblKundeOplysninger.setBounds(24, 13, 151, 16);
 		kundeOplysningeer.add(lblKundeOplysninger);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Navn:");
 		lblNewLabel_3.setBounds(24, 84, 56, 16);
 		kundeOplysningeer.add(lblNewLabel_3);
-		
+
 		JLabel label_1 = new JLabel("");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_1.setBounds(66, 84, 122, 16);
 		kundeOplysningeer.add(label_1);
 		label_1.setText(name);
-		
+
 		JLabel lblAdresse = new JLabel("Adresse:");
 		lblAdresse.setBounds(24, 130, 56, 16);
 		kundeOplysningeer.add(lblAdresse);
-		
+
 		JLabel lblAdresse_1 = new JLabel("");
 		lblAdresse_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblAdresse_1.setBounds(85, 130, 103, 16);
 		kundeOplysningeer.add(lblAdresse_1);
 		lblAdresse_1.setText(address);
-		
+
 		JLabel lblTelefon = new JLabel("Telefon:");
 		lblTelefon.setBounds(24, 278, 56, 16);
 		kundeOplysningeer.add(lblTelefon);
-		
+
 		JLabel lblTelefon_1 = new JLabel("");
 		lblTelefon_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTelefon_1.setBounds(85, 177, 103, 16);
 		kundeOplysningeer.add(lblTelefon_1);
 		lblTelefon_1.setText(phone);
-		 
+
 		JLabel lblBy = new JLabel("By:");
 		lblBy.setBounds(24, 228, 56, 16);
 		kundeOplysningeer.add(lblBy);
-		
+
 		JLabel lblBy_1 = new JLabel("");
 		lblBy_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBy_1.setBounds(85, 228, 103, 16);
 		kundeOplysningeer.add(lblBy_1);
 		lblBy_1.setText(city);
-		
+
 		JLabel lblPostNr = new JLabel("Post Nr:");
 		lblPostNr.setBounds(24, 177, 56, 16);
 		kundeOplysningeer.add(lblPostNr);
-		
+
 		JLabel lblPostNr_1 = new JLabel("");
 		lblPostNr_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPostNr_1.setBounds(85, 278, 103, 16);
 		kundeOplysningeer.add(lblPostNr_1);
 		lblPostNr_1.setText(zipCode);
-		
+
 		JPanel knapper = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) knapper.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		showSpecificCustomer.add(knapper, BorderLayout.SOUTH);
-		
+
 		JPanel loanTabel = new JPanel();
-		loanTabel.setPreferredSize(new Dimension(500,400));
+		loanTabel.setPreferredSize(new Dimension(500, 400));
 		showSpecificCustomer.add(loanTabel, BorderLayout.CENTER);
-		
+
 		loanTable = new JTable();
 		refreshLoan();
 		JScrollPane sp = new JScrollPane();
 		sp.setBounds(0, 0, 735, 390);
 		sp.setViewportView(loanTable);
 		loanTabel.add(sp);
-		
+
 		JButton btnSeDetaljer = new JButton("Enkel Statistisk");
 		btnSeDetaljer.setHorizontalAlignment(SwingConstants.RIGHT);
 		knapper.add(btnSeDetaljer);
 		btnSeDetaljer.setBounds(14, 400, 152, 23);
-		
+
 		btnSeDetaljer.addActionListener((e) -> {
 			int row = loanTable.getSelectedRow();
 			if (row > -1) {
 				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
 				boolean alle = false;
-				statistiskMenu = new StatistiskMenu(parentPanel, parent, vid, productList, alle, id);
-				parentPanel.add(statistiskMenu, "4");
+				statisticMenu = new StatisticMenu(parentPanel, parent, vid, productList, alle, id);
+				parentPanel.add(statisticMenu, "4");
 				parent.show(parentPanel, "4");
-			} 
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Vælg et lån");
 			}
 		});
-		
+
 		JButton btnSamletStatistisk = new JButton("Samlet Statistisk");
 		btnSamletStatistisk.addActionListener((e) -> {
-			
+
 			int row = 0;
 			boolean alle = true;
 			if (row > -1) {
 				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
-				statistiskMenu = new StatistiskMenu(parentPanel, parent, vid, productList, alle, id);
-				parentPanel.add(statistiskMenu, "4");
+				statisticMenu = new StatisticMenu(parentPanel, parent, vid, productList, alle, id);
+				parentPanel.add(statisticMenu, "4");
 				parent.show(parentPanel, "4");
-			} 
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Vælg et lån");
 			}
 		});
-		
-			
-		
-			
-		
+
 		knapper.add(btnSamletStatistisk);
-		
+
 		JButton btnOpretNytLn = new JButton("Opret nyt l\u00E5n");
 		btnOpretNytLn.addActionListener((e) -> createLoanDialog());
 		knapper.add(btnOpretNytLn);
-		 
+
 		JButton btnTilbag = new JButton("Tilbage");
 		knapper.add(btnTilbag);
 		btnTilbag.setBounds(199, 400, 80, 23);
-		
+
 		btnTilbag.addActionListener((e) -> {
 			parent.show(parentPanel, "2");
 		});
-				
+
 		return showSpecificCustomer;
-		
+
 	}
-	
+
 	private JDialog createLoanDialog() {
-        JDialog dialog = new JDialog();  
-        dialog.getContentPane().setLayout( new FlowLayout() );  
-        JButton yesB = new JButton ("Ja");
-        yesB.addActionListener((e) -> {
-        	try {
+		JDialog dialog = new JDialog();
+		dialog.getContentPane().setLayout(new FlowLayout());
+		JButton yesB = new JButton("Ja");
+		yesB.addActionListener((e) -> {
+			try {
 				loanCtr.createLoan(id);
 			} catch (PersistensException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-        	refreshLoan();
-        	 dialog.setVisible(false);
+			refreshLoan();
+			dialog.setVisible(false);
 		});
-        dialog.getContentPane().add( new JLabel ("Opret nyt lån på denne kunde?"));  
-        dialog.getContentPane().add(yesB);
-        JButton noB = new JButton ("Nej");
-        noB.addActionListener((e) -> {
-        	 dialog.setVisible(false);
+		dialog.getContentPane().add(new JLabel("Opret nyt lån på denne kunde?"));
+		dialog.getContentPane().add(yesB);
+		JButton noB = new JButton("Nej");
+		noB.addActionListener((e) -> {
+			dialog.setVisible(false);
 		});
-        dialog.getContentPane().add(noB);
-        dialog.setSize(300,100);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true); 
-        return dialog;
+		dialog.getContentPane().add(noB);
+		dialog.setSize(300, 100);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+		return dialog;
 	}
-	 
+
 	private void refreshLoan() {
 		try {
 			Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
@@ -306,7 +298,7 @@ public class CustomerMenu extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void refreshCustomer() {
 		try {
 			customerTable.setModel(customerTable(customerCtr.findAllCustomers()));
@@ -314,25 +306,25 @@ public class CustomerMenu extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private TableModel loanTable(List<Loan> list) {
 
-		DefaultTableModel model = new DefaultTableModel(new Object[] { "Lån-Id", "Dato Oprettet", "Automat-Id", "Model", "Serie Nr" },
-				0);
+		DefaultTableModel model = new DefaultTableModel(
+				new Object[] { "Lån-Id", "Dato Oprettet", "Automat-Id", "Model", "Serie Nr" }, 0);
 		for (Loan entry : list) {
 
-			model.addRow(new Object[] { entry.getId(), entry.getDate(), entry.getVendingmachine().getId(), 
+			model.addRow(new Object[] { entry.getId(), entry.getDate(), entry.getVendingmachine().getId(),
 					entry.getVendingmachine().getModel(), entry.getVendingmachine().getSerialNo() });
 			productList = entry.getVendingmachine().getProducts();
-			
+
 		}
 		return model;
 	}
-	
+
 	private TableModel customerTable(List<Customer> list) {
 
-		DefaultTableModel model = new DefaultTableModel(new Object[] { "Id", "Navn", "Adresse", "Post Nr", "By", "Telefon" },
-				0);
+		DefaultTableModel model = new DefaultTableModel(
+				new Object[] { "Id", "Navn", "Adresse", "Post Nr", "By", "Telefon" }, 0);
 		for (Customer entry : list) {
 
 			model.addRow(new Object[] { entry.getId(), entry.getName(), entry.getAddress(),

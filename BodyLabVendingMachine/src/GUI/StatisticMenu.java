@@ -31,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
-
 public class StatisticMenu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -65,17 +64,16 @@ public class StatisticMenu extends JPanel {
 		vendingMachineId = vmId;
 		ctrVM = new CtrVendingMachine();
 		businessCtr = new CtrBusinessIntelligence();
-		this.all=all;
-		cId=id;
+		this.all = all;
+		cId = id;
 		init();
-		if(all==true) {
-		statisticForAll();	
+		if (all == true) {
+			statisticForAll();
 		}
 	}
 
 	private void init() {
-		
-		
+
 		setBounds(100, 100, 750, 500);
 		setLayout(new BorderLayout(0, 0));
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -101,19 +99,19 @@ public class StatisticMenu extends JPanel {
 		JButton btnTilbag = new JButton("Tilbage");
 		btnTilbag.setBounds(199, 400, 80, 23);
 		showStatistisk.add(btnTilbag);
-		
+
 		JLabel lblNewLabel = new JLabel("Total Omsætning: ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setBounds(14, 81, 152, 23);
 		showStatistisk.add(lblNewLabel);
-		
+
 		JLabel lblOmstningPrProdukt = new JLabel("Oms\u00E6tning pr produkt:");
 		lblOmstningPrProdukt.setBounds(12, 161, 145, 16);
 		showStatistisk.add(lblOmstningPrProdukt);
-		
+
 		comboBox = new JComboBox<String>();
 		comboBox.addActionListener((e) -> {
-			
+
 		});
 		try {
 			pList = ctrVM.findVendingMachine(vendingMachineId, true).getProducts();
@@ -133,30 +131,26 @@ public class StatisticMenu extends JPanel {
 		}
 		comboBox.setBounds(14, 190, 200, 22);
 		showStatistisk.add(comboBox);
-		
+
 		JLabel lblLagerBeholdning = new JLabel("Lager beholdning D.D.:");
 		lblLagerBeholdning.setBounds(14, 264, 133, 16);
 		showStatistisk.add(lblLagerBeholdning);
-		
+
 		comboBox_1 = new JComboBox<String>();
 		comboBox_1.addItem("Vælg Produkt");
-		comboBox_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		comboBox_1.addActionListener((e) -> {
 			try {
 				System.out.println(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
-			label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
-			} catch (PersistensException e) {
+				label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
+			} catch (PersistensException ex) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (CannotFindException e) {
+				ex.printStackTrace();
+			} catch (CannotFindException ex) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				ex.printStackTrace();
 			}
 		});
-		
-		
-		
+
 		for (Product entry : pList) {
 			System.out.println(entry.getName());
 			comboBox_1.addItem(entry.getName());
@@ -164,68 +158,58 @@ public class StatisticMenu extends JPanel {
 		}
 		comboBox_1.setBounds(14, 293, 200, 22);
 		showStatistisk.add(comboBox_1);
-		
+
 		label = new JLabel("0");
 		label.setFont(new Font("Tahoma", Font.BOLD, 20));
 		label.setBounds(355, 193, 105, 19);
 		showStatistisk.add(label);
-		
+
 		label_1 = new JLabel("0.00 kr");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		label_1.setBounds(355, 86, 133, 18);
 		showStatistisk.add(label_1);
-		
+
 		label_2 = new JLabel("0");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		label_2.setBounds(355, 296, 80, 16);
 		showStatistisk.add(label_2);
-		
-		
 
-		
 		startDate = new JTextField();
 		startDate.setBounds(14, 33, 116, 22);
 		showStatistisk.add(startDate);
 		startDate.setColumns(10);
-		
+
 		endDate = new JTextField();
 		endDate.setBounds(152, 33, 116, 22);
 		showStatistisk.add(endDate);
 		endDate.setColumns(10);
 		startDate.setText("1/1/2018");
 		int day = new Date().getDate();
-		int month = new Date().getMonth()+1;
-		int year = new Date().getYear()+1900;
-		String date =Integer.toString(month) +"/"+Integer.toString(day)+"/"+Integer.toString(year);
-				
+		int month = new Date().getMonth() + 1;
+		int year = new Date().getYear() + 1900;
+		String date = Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
+
 		endDate.setText(date);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Angiv Periode (MM/DD/YYYY)");
 		lblNewLabel_1.setBounds(12, 13, 176, 16);
 		showStatistisk.add(lblNewLabel_1);
-		startDate.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateFields();
-				
-			}
+		startDate.addActionListener((e) -> {
+
+			updateFields();
 		});
-		
-		endDate.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateFields();
-				
-			}
+
+		endDate.addActionListener((e) -> {
+			updateFields();
 		});
-		
+
 		btnTilbag.addActionListener((e) -> {
-			parent.show(parentPanel, "2");
+			parent.show(parentPanel, "3");
 		});
 		comboBox.addActionListener((e) -> {
-			try {	
-				label.setText(Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD))+ " kr");
+			try {
+				label.setText(
+						Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD)) + " kr");
 			} catch (CannotFindException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -235,44 +219,45 @@ public class StatisticMenu extends JPanel {
 		return showStatistisk;
 
 	}
-	
-	
 
-public void updateFields() {
-	
-	if(all==false) {
-	
+	public void updateFields() {
+
+		if (all == false) {
+
+			startD = startDate.getText();
+			endD = endDate.getText();
+			System.out.println(startD + endD);
+			try {
+				label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
+				if (comboBox.getSelectedIndex() != 0) {
+					label.setText(
+							Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD)) + " kr");
+				}
+
+			} catch (CannotFindException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+
+			}
+		} else {
+			statisticForAll();
+		}
+	}
+
+	public void statisticForAll() {
 		startD = startDate.getText();
 		endD = endDate.getText();
-		System.out.println(startD + endD);
 		try {
-			label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
-			if(comboBox.getSelectedIndex()!= 0 ) {
-				label.setText(Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD))+ " kr");
+			label_1.setText(Float.toString(businessCtr.getTotalSumFromAllMachines(cId, startD, endD)) + " kr");
+			if (comboBox.getSelectedIndex() != 0) {
+				label.setText(Float.toString(
+						businessCtr.getTotalSumProductFromAllMachines(cId, startD, endD, comboBoxOneProductId))
+						+ " kr");
 			}
-			
-		} catch (CannotFindException e1) {
+		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		
-				}}else{
-					statisticForAll();
-				}
-	}
-		
-public void statisticForAll() {
-	startD = startDate.getText();
-	endD = endDate.getText();
-	try {
-		label_1.setText(Float.toString(businessCtr.getTotalSumFromAllMachines(cId, startD, endD)) + " kr");
-		if(comboBox.getSelectedIndex()!= 0 ) {
-			label.setText(Float.toString(businessCtr.getTotalSumProductFromAllMachines(cId, startD, endD, comboBoxOneProductId))+ " kr");
+			e.printStackTrace();
 		}
-	} catch (CannotFindException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
 
-	
-}
+	}
 }
