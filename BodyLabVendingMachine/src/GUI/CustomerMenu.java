@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
 
 import Controller.CtrCustomer;
 import Controller.CtrLoan;
+import Database.DBConnection;
 import Database.PersistensException;
 import Infrastructure.CtrCustomerIF;
 import Infrastructure.CtrLoanIF;
@@ -34,6 +35,7 @@ import Model.Loan;
 import Model.Product;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.JScrollBar;
 import java.awt.Font;
 
@@ -59,12 +61,15 @@ public class CustomerMenu extends JPanel {
 	private String zipCode;
 	private String phone;
 	private List<Product> productList;
+	protected JButton btnDataBaseConnection;
+	private DataBaseChecker DbC;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		customerCtr = new CtrCustomer();
 		loanCtr = new CtrLoan();
+		DbC = new DataBaseChecker();
 		init();
 	}
 
@@ -222,9 +227,11 @@ public class CustomerMenu extends JPanel {
 			if (row > -1) {
 				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
 				boolean alle = false;
+				DbC.cancel(true);
 				statisticMenu = new StatisticMenu(parentPanel, parent, vid, productList, alle, id);
 				parentPanel.add(statisticMenu, "4");
 				parent.show(parentPanel, "4");
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "Vælg et lån");
 			}
@@ -239,6 +246,7 @@ public class CustomerMenu extends JPanel {
 				int vid = Integer.parseInt(loanTable.getValueAt(row, 0).toString());
 				statisticMenu = new StatisticMenu(parentPanel, parent, vid, productList, alle, id);
 				parentPanel.add(statisticMenu, "4");
+				DbC.cancel(true);
 				parent.show(parentPanel, "4");
 			} else {
 				JOptionPane.showMessageDialog(null, "Vælg et lån");
@@ -258,6 +266,11 @@ public class CustomerMenu extends JPanel {
 		btnTilbag.addActionListener((e) -> {
 			parent.show(parentPanel, "2");
 		});
+		btnDataBaseConnection = new JButton("DataBase");
+		knapper.add(btnDataBaseConnection);
+		btnDataBaseConnection.setBounds(199, 400, 80, 23);
+		btnDataBaseConnection.setBackground(Color.green);
+		btnDataBaseConnection.addActionListener((e) -> DbC.execute());
 
 		return showSpecificCustomer;
 
@@ -331,5 +344,47 @@ public class CustomerMenu extends JPanel {
 					entry.getCityZip().getZipCode(), entry.getCityZip().getCity(), entry.getPhone() });
 		}
 		return model;
+	}
+
+	public class DataBaseChecker extends SwingWorker<Boolean, Boolean> {
+		Boolean connectionOpen;
+
+		@Override
+		protected Boolean doInBackground() throws Exception {
+			while (isCancelled()) {
+				if (DBConnection.getInstance().getConnection() != null) {
+					connectionOpen = true;
+					publish(connectionOpen);
+				} else {
+					connectionOpen = false;
+					publish(connectionOpen);
+				}
+				Thread.sleep(5000);
+			}
+			return connectionOpen;
+		}
+		@Override 
+		protected void process(List<Boolean> b) {
+	        for(Boolean bl : b) {
+	        	if(bl) {
+		        	 btnDataBaseConnection.setBackground(Color.GREEN);
+		        	 System.out.println("hej");
+		         }
+	        	else {
+	        		btnDataBaseConnection.setBackground(Color.RED);
+	        		 System.out.println("nej");
+	        	}
+	        }
+			
+	     }
+		protected void done() {
+			if (connectionOpen == true) {
+				btnDataBaseConnection.setBackground(Color.GREEN);
+				System.out.println("here");
+			} else {
+				btnDataBaseConnection.setBackground(Color.RED);
+			}
+		}
+
 	}
 }
