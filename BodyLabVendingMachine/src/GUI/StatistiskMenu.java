@@ -143,8 +143,8 @@ public class StatistiskMenu extends JPanel {
 		comboBox_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			try {
-				System.out.println(Integer.toString(businessCtr.getQuatity(vendingMachineId, comboBoxTwoProductId)));
-			label_2.setText(Integer.toString(businessCtr.getQuatity(vendingMachineId, comboBoxTwoProductId)));
+				System.out.println(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
+			label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 			} catch (PersistensException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
