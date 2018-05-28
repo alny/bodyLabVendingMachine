@@ -60,7 +60,7 @@ public class SaleTest {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	 assertEquals(2, sales.size());
+	 assertEquals(4, sales.size());
 	 }
 	
 	@Test
@@ -76,7 +76,7 @@ public class SaleTest {
 		int i = 0;
 		i = dbBusinessIntelligence.getTotalSaleFromProductId(p);
 
-		assertEquals(1, i);
+		assertEquals(2, i);
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class SaleTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(sum, 1);
+		assertEquals(sum, 2);
 	}
 	
 	@Test
@@ -102,21 +102,21 @@ public class SaleTest {
 			e.printStackTrace();
 		}
 
-		sum = dbBusinessIntelligence.getSumOfSaleFromProductId(p);
+		sum = dbBusinessIntelligence.getSumOfSaleFromProductId(p,"01/01/1900","01/01/2020");
 
-		assertEquals(192, sum, 0);
+		assertEquals(384, sum, 0);
 	}
 	
 	@Test
 	public void CtrhappyDaysProductStatisticsPriceSumTest() {
 		float sum = 0;
 		try {
-			sum = ctrBusinessIntelligence.getSumFromProduct(1);
+			sum = ctrBusinessIntelligence.getSumFromProduct(1,"01/01/1900","01/01/2020");
 		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(192, sum, 0);
+		assertEquals(384, sum, 0);
 	}
 
 	@Test()
@@ -145,21 +145,21 @@ public class SaleTest {
 			e.printStackTrace();
 		}
 
-		sum = dbBusinessIntelligence.getSumOfSaleFromMachineId(vm);
+		sum = dbBusinessIntelligence.getSumOfSaleFromMachineId(vm,"01/01/1900","01/01/2020");
 
-		assertEquals(384, sum, 0);
+		assertEquals(768, sum, 0);
 	}
 	
 	@Test
 	public void CtrhappyDaysVendingMachineStatisticsPriceSumTest() {
 		float sum = 0;
 		try {
-			sum = ctrBusinessIntelligence.getSumFromMachine(1);
+			sum = ctrBusinessIntelligence.getSumFromMachine(1,"01/01/1900","01/01/2020");
 		} catch (CannotFindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(384, sum, 0);
+		assertEquals(768, sum, 0);
 	}
 
 }
