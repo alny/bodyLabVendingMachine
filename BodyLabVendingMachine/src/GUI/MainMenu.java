@@ -60,20 +60,16 @@ public class MainMenu extends JFrame {
 		menuPanel.add(lblBodyLab);
 
 		JButton btnLogin = new JButton("Log Ind");
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnLogin.addActionListener((e) -> {
 				cl.show(parentPanel, "2");
-			}
 		});
 		btnLogin.setBounds(294, 227, 147, 52);
 		menuPanel.add(btnLogin);
 
 		JButton btnAfslut = new JButton("Afslut");
-		btnAfslut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnAfslut.addActionListener((e) -> {
 				setVisible(false);
 				dispose();
-			}
 		});
 		btnAfslut.setBounds(325, 368, 89, 23);
 		menuPanel.add(btnAfslut);
