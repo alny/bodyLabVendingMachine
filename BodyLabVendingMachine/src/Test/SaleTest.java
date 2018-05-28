@@ -68,7 +68,7 @@ public class SaleTest {
 		Product p = null;
 		try {
 			p = dbProduct.findProductById(1);
-		} catch (SQLException e) {
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -97,7 +97,7 @@ public class SaleTest {
 		float sum = 0;
 		try {
 			p = dbProduct.findProductById(2);
-		} catch (SQLException e) {
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -124,7 +124,7 @@ public class SaleTest {
 		Product p = null;
 		try {
 			p = dbProduct.findProductById(10000000);
-		} catch (SQLException e) {
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

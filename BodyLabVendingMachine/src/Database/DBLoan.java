@@ -40,7 +40,7 @@ public class DBLoan implements DBLoanIF {
 			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e,"Failed to excute search");
+			PersistensException pe = new PersistensException(e,"Kunne ikke gennemfører søgning");
 			throw pe;
 		}
 
@@ -69,8 +69,10 @@ public class DBLoan implements DBLoanIF {
 		} catch (SQLException e) {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
+				PersistensException pe = new PersistensException(e,"kunne ikke indsætte lån");
+				throw pe;	
 			} catch (SQLException e1) {
-				PersistensException pe = new PersistensException(e,"database error i checkIfThere");
+				PersistensException pe = new PersistensException(e,"database kunne ikke rollback");
 				throw pe;
 			}
 		}
@@ -81,22 +83,21 @@ public class DBLoan implements DBLoanIF {
 	// finished, used solv the problem with problem with creation of two loans
 	private boolean checkIfThere(Loan loan)throws PersistensException {
 		boolean found = false;
-		String check = "Select * from Loan where vendingMachineId = ?";
+		String check = "Select * from Loan where vendingMachineId = ? and endDate > ?";
 		try {
 			PreparedStatement checkIfNotThere = connection.prepareStatement(check);
-			checkIfNotThere.setInt(1, loan.getVendingmachine().getId());
-			ResultSet rs = checkIfNotThere.executeQuery();
 			Date date = new Date();
-			while (rs.next()) {
-				if (date.before(rs.getDate("endDate"))) {
-					found = true;
-				}
+			java.sql.Date sqlTime = new java.sql.Date(date.getTime());
+			checkIfNotThere.setInt(1, loan.getVendingmachine().getId());
+			checkIfNotThere.setDate(2, sqlTime);
+			ResultSet rs = checkIfNotThere.executeQuery();
+			if(rs.next()) {
+				found = true;
 			}
 		} catch (SQLException e) {
 			PersistensException pe = new PersistensException(e,"database error i checkIfThere");
 			throw pe;
 		}
-
 		return found;
 	}
 

@@ -22,7 +22,6 @@ public class DBVendingMachine implements DBVendingMachineIF {
 
 	private DBVendingMachine() {
 		connection = DBConnection.getInstance().getConnection();
-
 	}
 
 	public static DBVendingMachine getInstance() {
@@ -32,32 +31,29 @@ public class DBVendingMachine implements DBVendingMachineIF {
 		return instance;
 	}
 
-	
-	public VendingMachine findVendingMachine(int VendingMachineId, boolean retrieveAssociation) throws PersistensException {
+	public VendingMachine findVendingMachine(int VendingMachineId, boolean retrieveAssociation)
+			throws PersistensException {
 		VendingMachine vendingMachine = null;
 		final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
-
 		try {
 			PreparedStatement statement = connection.prepareStatement(findVendingMachine);
 			statement.setInt(1, VendingMachineId);
-
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				vendingMachine = buildVendingMachineObject(rs, retrieveAssociation);
 			}
 			System.out.println(vendingMachine);
-		} 
-		catch (SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not find all");
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			pe.printStackTrace();
 			throw pe;
-			
+
 		}
-		
 		return vendingMachine;
 	}
-	
-	private VendingMachine buildVendingMachineObject(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
+
+	private VendingMachine buildVendingMachineObject(ResultSet rs, boolean retrieveAssociation)
+			throws PersistensException {
 		VendingMachine vendingMachine = null;
 		try {
 			int id = rs.getInt("id");
@@ -65,18 +61,15 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			int capacity = rs.getInt("capacity");
 			String serialNo = rs.getString("serialNo");
 			Boolean isLentOut = rs.getBoolean("isLentOut");
-
 			vendingMachine = new VendingMachine(id, model, capacity, serialNo, isLentOut);
-			if(retrieveAssociation) {
+			if (retrieveAssociation) {
 				vendingMachine.setProducts(DBProduct.getInstance().findProductsInVM(id));
 			}
-		}
-		catch(SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not find all");
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Kunne ikke bygge objekt");
 			pe.printStackTrace();
 			throw pe;
 		}
-		
 		return vendingMachine;
 	}
 
@@ -86,7 +79,8 @@ public class DBVendingMachine implements DBVendingMachineIF {
 				+ "VALUES (?,?,?,?,?)";
 		int vmId = 0;
 		try {
-			PreparedStatement statement = connection.prepareStatement(insertVendingMachine,  Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = connection.prepareStatement(insertVendingMachine,
+					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, vm.getModel());
 			statement.setInt(2, vm.getCapacity());
 			statement.setString(3, vm.getSerialNo());
@@ -94,7 +88,7 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			vmId = DBConnection.getInstance().executeInsertWithIdentity(statement);
 
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not find all");
+			PersistensException pe = new PersistensException(e, "kunne ikke indsætte automat");
 			throw pe;
 		}
 		return vmId;
@@ -108,25 +102,21 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			DBConnection.getInstance().startTransaction();
 			PreparedStatement statement = connection.prepareStatement(findAvailbe);
 			ResultSet rs = statement.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				vm = buildVendingMachineObject(rs, false);
 			}
 			updateIsLentOut(vm);
 			DBConnection.getInstance().commitTransaction();
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
-			}
-			catch(SQLException e1) {
-				PersistensException pe = new PersistensException(e1, "Could not rollback");
+				PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
+				throw pe;
+			} catch (SQLException e1) {
+				PersistensException pe = new PersistensException(e1, "Kunne ikke gennemfører rollback");
 				throw pe;
 			}
-			PersistensException pe = new PersistensException(e, "Could not find top 1");
-			throw pe;
-			
 		}
-		
 		return vm;
 	}
 
@@ -137,13 +127,9 @@ public class DBVendingMachine implements DBVendingMachineIF {
 			statement.setBoolean(1, true);
 			statement.setInt(2, vm.getId());
 			statement.executeUpdate();
-		}
-		catch(SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not update isLentOut");
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører update");
 			throw pe;
 		}
-		
-		
-		
 	}
 }

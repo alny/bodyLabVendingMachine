@@ -24,7 +24,7 @@ public class CtrProduct implements CtrProductIF {
 		Product product = null;
 		try {
 			product = dbProduct.findProductById(id);
-		} catch (SQLException e) {
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -38,7 +38,7 @@ public class CtrProduct implements CtrProductIF {
 	public void insertProduct(Product product) {
 		try {
 			dbProduct.insertProduct(product);
-		} catch (SQLException e) {
+		} catch (PersistensException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

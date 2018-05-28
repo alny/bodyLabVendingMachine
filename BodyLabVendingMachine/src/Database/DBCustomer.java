@@ -36,15 +36,11 @@ public class DBCustomer implements DBCustomerIF {
 		final String findAllCustomers = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id";
 		
 		try (PreparedStatement statement = connection.prepareStatement(findAllCustomers)) {
-
 			ResultSet rs = statement.executeQuery();
-	
 			customerList = buildCustomerObjects(rs);
-			
 			System.out.println(customerList);
-
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not find all");
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			throw pe;
 		}
 		return customerList;
@@ -53,27 +49,22 @@ public class DBCustomer implements DBCustomerIF {
 	@Override
 	public Customer findCustomer(int customerId) throws PersistensException {
 		Customer customer = null;
-		
 		final String findCustomerById = "SELECT * FROM Customer AS customer, CityZip AS cityzip WHERE customer.cityZipId = cityzip.id AND customer.id = ?";
-		
 		try (PreparedStatement statement = connection.prepareStatement(findCustomerById)) {
 			statement.setInt(1, customerId);
-
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				customer = buildCustomerObject(rs);
 			}
 			System.out.println(customer);
-
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e, "Could not find customer");
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			throw pe;
 		}
 		return customer;
 	}
 	
 	private Customer buildCustomerObject(ResultSet rs) throws SQLException {
-
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
 		String address = rs.getString("address");
@@ -81,7 +72,6 @@ public class DBCustomer implements DBCustomerIF {
 		String zipCode = rs.getString("zipCode");
 		String city = rs.getString("city");
 		Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
-
 		return customer;
 	}
 
