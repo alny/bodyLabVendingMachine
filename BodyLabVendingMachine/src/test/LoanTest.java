@@ -28,17 +28,22 @@ public class LoanTest {
 	
 	@Test
 	public void findLoansForCustomerAssertRightSize() {
+		
+		// Arrange
 		int id = 1;
 		Customer customer = null;
 		List<Loan> loans = null;
+		
+		// Act
 		try {
 			customer = dbCustomer.findCustomer(id);
 			loans = dbLoan.findLoansForCustomer(customer, true);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(loans.size(),2);
+		
+		// Assert
+		assertEquals(loans.size(), 2);
 	}
 	
 	@Test
