@@ -76,7 +76,7 @@ public class DBProduct implements DBProductIF {
 		return productList;
 	}
 
-	private List<Product> buildProductList(ResultSet rs) throws PersistensException {
+	public static List<Product> buildProductList(ResultSet rs) throws PersistensException {
 		List<Product> productList = new LinkedList<Product>();
 		try {
 			while (rs.next()) {
@@ -89,7 +89,7 @@ public class DBProduct implements DBProductIF {
 		return productList;
 	}
 
-	private Product buildProductObject(ResultSet rs) throws PersistensException {
+	private static Product buildProductObject(ResultSet rs) throws PersistensException {
 		int id;
 		Product product = null;
 		try {

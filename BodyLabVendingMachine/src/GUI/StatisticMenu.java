@@ -114,7 +114,11 @@ public class StatisticMenu extends JPanel {
 
 		});
 		try {
+			if(all == false) {
 			pList = ctrVM.findVendingMachine(vendingMachineId, true).getProducts();
+			}else {
+				pList = businessCtr.findCustomerProduct(cId);
+			}
 		} catch (PersistensException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

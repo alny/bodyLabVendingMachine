@@ -232,6 +232,23 @@ public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 		}
 		return Quantity;
 	}
+	
+	public List<Product> findCustomerProduct (int id) throws PersistensException{
+		List<Product> productList = null;
+		final String findCustomerProduct = "SELECT * FROM loan as l, MachineProduct as m, Product as p where l.customerId = ? and l.vendingMachineId = m.vendingMachineId and m.productId = p.id";
+		try {
+			PreparedStatement statement = connection.prepareStatement(findCustomerProduct);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			productList = DBProduct.buildProductList(rs);
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
+			throw pe;
+		}
+
+		return productList;
+		
+	}
 
 	private List<Sale> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
 		List<Sale> sale = new LinkedList<Sale>();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import Controller.CannotFindException;
 import Database.PersistensException;
+import Model.Product;
 import Model.Sale;
 
 public interface CtrBusinessIntelligenceIF {
@@ -28,5 +29,6 @@ public interface CtrBusinessIntelligenceIF {
 
 	int getTotalSumProductFromAllMachines(int cId, String startD, String endD, int productId)
 			throws CannotFindException;
+	List<Product> findCustomerProduct(int id) throws PersistensException;
 
 }

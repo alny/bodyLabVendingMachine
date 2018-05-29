@@ -27,5 +27,7 @@ public interface DBBusinessIntelligenceIF {
 
 	int getTotalSumFromProductAllMachines(int cId, String startD, String endD, int productId)
 			throws PersistensException;
+	
+	List<Product> findCustomerProduct (int id) throws PersistensException;
 
 }
