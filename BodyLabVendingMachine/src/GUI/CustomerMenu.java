@@ -83,7 +83,6 @@ public class CustomerMenu extends JPanel {
 
 	}
 
-	
 	private JPanel showCustomers() {
 		JPanel showCustomers = new JPanel();
 		showCustomers.setLayout(null);
@@ -115,7 +114,6 @@ public class CustomerMenu extends JPanel {
 			parent.show(parentPanel, "1");
 		});
 		btnSeDetaljer.addActionListener((e) -> {
-
 			int row = customerTable.getSelectedRow();
 			if (row > -1) {
 				id = Integer.parseInt(customerTable.getValueAt(row, 0).toString());
@@ -137,7 +135,6 @@ public class CustomerMenu extends JPanel {
 	public JPanel showSpecificCustomer() {
 
 		JPanel showSpecificCustomer = new JPanel();
-
 		showSpecificCustomer.setLayout(new BorderLayout(0, 0));
 
 		JPanel kundeOplysningeer = new JPanel();
@@ -230,7 +227,7 @@ public class CustomerMenu extends JPanel {
 				statisticMenu = new StatisticMenu(parentPanel, parent, vid, productList, alle, id);
 				parentPanel.add(statisticMenu, "4");
 				parent.show(parentPanel, "4");
-				
+
 			} else {
 				JOptionPane.showMessageDialog(null, "Vælg et lån");
 			}
@@ -346,37 +343,37 @@ public class CustomerMenu extends JPanel {
 	}
 
 	public class DataBaseChecker extends SwingWorker<Boolean, Boolean> {
-		Boolean connectionOpen;
+		Boolean connectionOpen = false;
 
 		@Override
 		protected Boolean doInBackground() throws Exception {
 			while (!isCancelled()) {
-				
-				if (DBConnection.getInstance().getConnection() != null) {
-					connectionOpen = true;
-					publish(connectionOpen);
-				} else {
-					connectionOpen = false;
-					publish(connectionOpen);
+				if (DBConnection.getInstance().recheckConnection()) {
+					btnDataBaseConnection.setBackground(Color.GREEN);
+					System.out.println("hej");
+				} 
+				if(DBConnection.getInstance().recheckConnection() == null) {
+					btnDataBaseConnection.setBackground(Color.RED);
+					System.out.println("nej");
 				}
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 			}
 			return connectionOpen;
 		}
-		@Override 
+
+		@Override
 		protected void process(List<Boolean> b) {
-	        for(Boolean bl : b) {
-	        	if(bl) {
-		        	 btnDataBaseConnection.setBackground(Color.GREEN);
-		        	 System.out.println("hej");
-		         }
-	        	else {
-	        		btnDataBaseConnection.setBackground(Color.RED);
-	        		 System.out.println("nej");
-	        	}
-	        }
-			
-	     }
+			for (Boolean bl : b) {
+				if (bl) {
+					btnDataBaseConnection.setBackground(Color.GREEN);
+					System.out.println("hej");
+				} else {
+					btnDataBaseConnection.setBackground(Color.RED);
+					System.out.println("nej");
+				}
+			}
+		}
+
 		@Override
 		protected void done() {
 			if (connectionOpen) {
