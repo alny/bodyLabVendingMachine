@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Infrastructure.DBCustomerIF;
-import Model.CityZip;
-import Model.Customer;
-import Database.PersistensException;
-import Database.DBCustomer;
+import database.DBCustomer;
+import database.PersistensException;
+import infrastructure.DBCustomerIF;
+import model.CityZip;
+import model.Customer;
 
 public class DBCustomer implements DBCustomerIF {
 	

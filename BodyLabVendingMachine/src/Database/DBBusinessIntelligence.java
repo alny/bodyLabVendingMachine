@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import Infrastructure.DBBusinessIntelligenceIF;
-import Model.Product;
-import Model.Sale;
-import Model.VendingMachine;
+import infrastructure.DBBusinessIntelligenceIF;
+import model.Product;
+import model.Sale;
+import model.VendingMachine;
 
 public class DBBusinessIntelligence implements DBBusinessIntelligenceIF {
 	private static DBBusinessIntelligenceIF instance;

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -10,16 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import Controller.CannotFindException;
-import Controller.CtrBusinessIntelligence;
-import Controller.CtrCustomer;
-import Controller.CtrProduct;
-import Controller.CtrVendingMachine;
-import Database.PersistensException;
-import Infrastructure.CtrBusinessIntelligenceIF;
-import Infrastructure.CtrVendingMachineIF;
-import Model.Loan;
-import Model.Product;
+import controller.CannotFindException;
+import controller.CtrBusinessIntelligence;
+import controller.CtrCustomer;
+import controller.CtrProduct;
+import controller.CtrVendingMachine;
+import database.PersistensException;
+import infrastructure.CtrBusinessIntelligenceIF;
+import infrastructure.CtrVendingMachineIF;
+import model.Loan;
+import model.Product;
 
 import java.awt.Font;
 import java.util.Date;

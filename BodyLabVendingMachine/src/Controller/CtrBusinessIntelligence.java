@@ -1,19 +1,17 @@
-package Controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import Database.DBBusinessIntelligence;
-import Database.DBBusinessIntelligence;
-import Database.PersistensException;
-import Infrastructure.CtrBusinessIntelligenceIF;
-import Infrastructure.CtrProductIF;
-import Infrastructure.CtrVendingMachineIF;
-import Infrastructure.DBBusinessIntelligenceIF;
-import Infrastructure.DBBusinessIntelligenceIF;
-import Model.Product;
-import Model.Sale;
+import database.DBBusinessIntelligence;
+import database.PersistensException;
+import infrastructure.CtrBusinessIntelligenceIF;
+import infrastructure.CtrProductIF;
+import infrastructure.CtrVendingMachineIF;
+import infrastructure.DBBusinessIntelligenceIF;
+import model.Product;
+import model.Sale;
 
 public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	private DBBusinessIntelligenceIF dbBI;

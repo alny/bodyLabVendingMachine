@@ -1,16 +1,14 @@
-package Test;
+package test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import Database.DBCustomer;
-import Database.PersistensException;
-import Infrastructure.DBCustomerIF;
-
 import org.junit.Before;
 
-import Model.Customer;
+import database.DBCustomer;
+import database.PersistensException;
+import infrastructure.DBCustomerIF;
+import model.Customer;
 public class CustomerTest {
 	DBCustomerIF dbC;
 	@Before

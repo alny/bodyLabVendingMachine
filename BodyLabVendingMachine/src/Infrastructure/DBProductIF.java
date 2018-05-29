@@ -1,10 +1,10 @@
-package Infrastructure;
+package infrastructure;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Product;
+import database.PersistensException;
+import model.Product;
 
 public interface DBProductIF {
 

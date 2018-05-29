@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 
 import static org.junit.Assert.assertEquals;
@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import Controller.CannotFindException;
-import Controller.CtrProduct;
-import Infrastructure.CtrProductIF;
-import Model.Product;
+import controller.CannotFindException;
+import controller.CtrProduct;
+import infrastructure.CtrProductIF;
+import model.Product;
 
 public class ProductTest {
 	CtrProductIF ctrProduct;

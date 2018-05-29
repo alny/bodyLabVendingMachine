@@ -1,9 +1,9 @@
-package Controller;
+package controller;
 
-import Database.DBVendingMachine;
-import Database.PersistensException;
-import Infrastructure.CtrVendingMachineIF;
-import Model.VendingMachine;
+import database.DBVendingMachine;
+import database.PersistensException;
+import infrastructure.CtrVendingMachineIF;
+import model.VendingMachine;
 
 public class CtrVendingMachine implements CtrVendingMachineIF {
 	

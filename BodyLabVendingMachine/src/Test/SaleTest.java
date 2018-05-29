@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import java.sql.SQLException;
@@ -6,21 +6,22 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import Controller.CannotFindException;
-import Controller.CtrBusinessIntelligence;
-import Controller.CtrVendingMachine;
-import Database.DBProduct;
-import Database.DBBusinessIntelligence;
-import Database.DBVendingMachine;
-import Database.PersistensException;
-import Infrastructure.CtrBusinessIntelligenceIF;
-import Infrastructure.CtrVendingMachineIF;
-import Infrastructure.DBProductIF;
-import Infrastructure.DBBusinessIntelligenceIF;
-import Infrastructure.DBVendingMachineIF;
-import Model.Product;
-import Model.Sale;
-import Model.VendingMachine;
+
+import controller.CannotFindException;
+import controller.CtrBusinessIntelligence;
+import controller.CtrVendingMachine;
+import database.DBBusinessIntelligence;
+import database.DBProduct;
+import database.DBVendingMachine;
+import database.PersistensException;
+import infrastructure.CtrBusinessIntelligenceIF;
+import infrastructure.CtrVendingMachineIF;
+import infrastructure.DBBusinessIntelligenceIF;
+import infrastructure.DBProductIF;
+import infrastructure.DBVendingMachineIF;
+import model.Product;
+import model.Sale;
+import model.VendingMachine;
 
 public class SaleTest {
 	DBBusinessIntelligenceIF dbBusinessIntelligence;

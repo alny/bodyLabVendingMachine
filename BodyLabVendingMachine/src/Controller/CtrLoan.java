@@ -1,18 +1,18 @@
-package Controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Database.DBLoan;
-import Database.DBVendingMachine;
-import Database.PersistensException;
-import Infrastructure.CtrCustomerIF;
-import Infrastructure.CtrLoanIF;
-import Infrastructure.CtrVendingMachineIF;
-import Infrastructure.DBLoanIF;
-import Model.Customer;
-import Model.Loan;
-import Model.VendingMachine;
+import database.DBLoan;
+import database.DBVendingMachine;
+import database.PersistensException;
+import infrastructure.CtrCustomerIF;
+import infrastructure.CtrLoanIF;
+import infrastructure.CtrVendingMachineIF;
+import infrastructure.DBLoanIF;
+import model.Customer;
+import model.Loan;
+import model.VendingMachine;
 
 public class CtrLoan implements CtrLoanIF {
 	private DBLoanIF dbL;

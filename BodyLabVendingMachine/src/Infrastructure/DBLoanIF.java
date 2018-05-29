@@ -1,12 +1,12 @@
-package Infrastructure;
+package infrastructure;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Customer;
-import Model.Loan;
-import Model.VendingMachine;
+import database.PersistensException;
+import model.Customer;
+import model.Loan;
+import model.VendingMachine;
 
 public interface DBLoanIF {
 	List<Loan> findLoansForCustomer(Customer cu, boolean retrieveAssociation) throws PersistensException;

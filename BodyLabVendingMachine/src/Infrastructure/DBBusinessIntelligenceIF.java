@@ -1,11 +1,11 @@
-package Infrastructure;
+package infrastructure;
 
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Product;
-import Model.Sale;
-import Model.VendingMachine;
+import database.PersistensException;
+import model.Product;
+import model.Sale;
+import model.VendingMachine;
 
 public interface DBBusinessIntelligenceIF {
 

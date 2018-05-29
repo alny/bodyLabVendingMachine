@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 
 import static org.junit.Assert.assertEquals;
@@ -7,21 +7,21 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import Controller.CannotFindException;
-import Controller.CtrProduct;
-import Controller.CtrSale;
-import Controller.CtrVendingMachine;
-import Database.DBProduct;
-import Database.DBSale;
-import Database.DBVendingMachine;
-import Database.PersistensException;
-import Infrastructure.CtrProductIF;
-import Infrastructure.CtrSaleIF;
-import Infrastructure.CtrVendingMachineIF;
-import Infrastructure.DBProductIF;
-import Infrastructure.DBSaleIF;
-import Infrastructure.DBVendingMachineIF;
-import Model.VendingMachine;
+import controller.CannotFindException;
+import controller.CtrProduct;
+import controller.CtrSale;
+import controller.CtrVendingMachine;
+import database.DBProduct;
+import database.DBSale;
+import database.DBVendingMachine;
+import database.PersistensException;
+import infrastructure.CtrProductIF;
+import infrastructure.CtrSaleIF;
+import infrastructure.CtrVendingMachineIF;
+import infrastructure.DBProductIF;
+import infrastructure.DBSaleIF;
+import infrastructure.DBVendingMachineIF;
+import model.VendingMachine;
 
 public class VendingMachineTest {
 	

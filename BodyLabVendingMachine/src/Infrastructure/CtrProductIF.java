@@ -1,10 +1,10 @@
-package Infrastructure;
+package infrastructure;
 
 import java.util.List;
 
-import Controller.CannotFindException;
-import Database.PersistensException;
-import Model.Product;
+import controller.CannotFindException;
+import database.PersistensException;
+import model.Product;
 
 public interface CtrProductIF {
 	

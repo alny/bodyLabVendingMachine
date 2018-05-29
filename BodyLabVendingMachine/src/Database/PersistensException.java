@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 public class PersistensException extends Exception {
 	public PersistensException(Exception e, String explanation) {

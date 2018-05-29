@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,13 +9,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import Database.DBCustomer;
-import Database.DBLoan;
-import Database.PersistensException;
-import Infrastructure.DBCustomerIF;
-import Infrastructure.DBLoanIF;
-import Model.Customer;
-import Model.Loan;
+import database.DBCustomer;
+import database.DBLoan;
+import database.PersistensException;
+import infrastructure.DBCustomerIF;
+import infrastructure.DBLoanIF;
+import model.Customer;
+import model.Loan;
 
 public class LoanTest {
 	DBLoanIF dbLoan;

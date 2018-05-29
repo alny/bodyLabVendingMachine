@@ -1,11 +1,11 @@
-package Infrastructure;
+package infrastructure;
 
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Customer;
-import Model.Loan;
-import Model.VendingMachine;
+import database.PersistensException;
+import model.Customer;
+import model.Loan;
+import model.VendingMachine;
 
 public interface CtrLoanIF {
 	void insertLoan(Loan loan, Customer customer) throws PersistensException;

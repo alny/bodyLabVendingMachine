@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import Infrastructure.DBProductIF;
-import Model.Product;
+import infrastructure.DBProductIF;
+import model.Product;
 
 public class DBProduct implements DBProductIF {
 	private static DBProduct instance = null;

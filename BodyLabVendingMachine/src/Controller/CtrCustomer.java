@@ -1,13 +1,13 @@
-package Controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Database.DBCustomer;
-import Database.PersistensException;
-import Infrastructure.CtrCustomerIF;
-import Model.Customer;
-import Model.Loan;
+import database.DBCustomer;
+import database.PersistensException;
+import infrastructure.CtrCustomerIF;
+import model.Customer;
+import model.Loan;
 
 public class CtrCustomer implements CtrCustomerIF {
 

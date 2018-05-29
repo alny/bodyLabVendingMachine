@@ -1,8 +1,8 @@
-package Infrastructure;
+package infrastructure;
 
-import Database.PersistensException;
-import Model.Product;
-import Model.VendingMachine;
+import database.PersistensException;
+import model.Product;
+import model.VendingMachine;
 
 public interface DBVendingMachineIF {
 	VendingMachine findVendingMachine(int id, boolean retrieveAssociation) throws PersistensException;

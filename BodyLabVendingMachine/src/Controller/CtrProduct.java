@@ -1,15 +1,15 @@
-package Controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import Database.DBProduct;
-import Database.PersistensException;
-import Infrastructure.CtrProductIF;
-import Infrastructure.DBProductIF;
-import Model.Product;
-import Model.VendingMachine;
+import database.DBProduct;
+import database.PersistensException;
+import infrastructure.CtrProductIF;
+import infrastructure.DBProductIF;
+import model.Product;
+import model.VendingMachine;
 
 public class CtrProduct implements CtrProductIF {
 	private DBProductIF dbProduct;

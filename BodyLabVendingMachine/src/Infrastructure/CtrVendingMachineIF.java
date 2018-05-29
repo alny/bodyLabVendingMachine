@@ -1,8 +1,8 @@
-package Infrastructure;
+package infrastructure;
 
-import Controller.CannotFindException;
-import Database.PersistensException;
-import Model.VendingMachine;
+import controller.CannotFindException;
+import database.PersistensException;
+import model.VendingMachine;
 
 public interface CtrVendingMachineIF {
 	VendingMachine findVendingMachine(int id, boolean retrieveAssociation)throws PersistensException, CannotFindException; 

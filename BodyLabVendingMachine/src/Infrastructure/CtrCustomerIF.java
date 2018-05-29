@@ -1,11 +1,11 @@
-package Infrastructure;
+package infrastructure;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Customer;
-import Model.Loan;
+import database.PersistensException;
+import model.Customer;
+import model.Loan;
 
 public interface CtrCustomerIF {
 

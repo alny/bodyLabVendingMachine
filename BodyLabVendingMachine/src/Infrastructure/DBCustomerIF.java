@@ -1,9 +1,9 @@
-package Infrastructure;
+package infrastructure;
 
 import java.util.List;
 
-import Database.PersistensException;
-import Model.Customer;
+import database.PersistensException;
+import model.Customer;
 
 public interface DBCustomerIF {
 

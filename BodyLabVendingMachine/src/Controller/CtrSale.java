@@ -1,18 +1,18 @@
-package Controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import Database.DBSale;
-import Database.PersistensException;
-import Infrastructure.CtrProductIF;
-import Infrastructure.CtrSaleIF;
-import Infrastructure.CtrVendingMachineIF;
-import Infrastructure.DBSaleIF;
-import Model.Product;
-import Model.Sale;
-import Model.VendingMachine;
+import database.DBSale;
+import database.PersistensException;
+import infrastructure.CtrProductIF;
+import infrastructure.CtrSaleIF;
+import infrastructure.CtrVendingMachineIF;
+import infrastructure.DBSaleIF;
+import model.Product;
+import model.Sale;
+import model.VendingMachine;
 
 public class CtrSale implements CtrSaleIF {
 	private DBSaleIF dbSale;

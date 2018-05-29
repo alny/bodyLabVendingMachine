@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,10 +9,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import Infrastructure.DBLoanIF;
-import Model.Customer;
-import Model.Loan;
-import Model.VendingMachine;
+import infrastructure.DBLoanIF;
+import model.Customer;
+import model.Loan;
+import model.VendingMachine;
 
 public class DBLoan implements DBLoanIF {
 	private static DBLoan instance;

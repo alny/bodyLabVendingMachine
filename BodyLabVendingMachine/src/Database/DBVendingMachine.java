@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.net.ConnectException;
 import java.sql.Connection;
@@ -9,12 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import Database.PersistensException;
 
-import Infrastructure.DBVendingMachineIF;
-import Model.Loan;
-import Model.Product;
-import Model.VendingMachine;
+import database.PersistensException;
+import infrastructure.DBVendingMachineIF;
+import model.Loan;
+import model.Product;
+import model.VendingMachine;
 
 public class DBVendingMachine implements DBVendingMachineIF {
 	private static DBVendingMachine instance;
