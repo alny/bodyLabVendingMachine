@@ -346,7 +346,7 @@ public class CustomerMenu extends JPanel {
 		Boolean done = false;
 
 		public void run() {
-			while (!false) {
+			while (!done) {
 
 				if (DBConnection.getInstance().recheckConnection() == true) {
 					btnDataBaseConnection.setBackground(Color.GREEN);
