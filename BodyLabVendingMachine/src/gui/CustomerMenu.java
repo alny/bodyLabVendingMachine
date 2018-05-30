@@ -24,10 +24,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import controller.CtrCustomer;
+import controller.CtrDBConnection;
 import controller.CtrLoan;
 import database.DBConnection;
 import database.PersistensException;
 import infrastructure.CtrCustomerIF;
+import infrastructure.CtrDBConnectionIF;
 import infrastructure.CtrLoanIF;
 import model.CityZip;
 import model.Customer;
@@ -48,7 +50,7 @@ public class CustomerMenu extends JPanel {
 
 	private JTable customerTable;
 	private JLabel label;
-
+	private CtrDBConnectionIF ctrDB;
 	private CtrCustomerIF customerCtr;
 	private StatisticMenu statisticMenu;
 	private CtrLoanIF loanCtr;
@@ -70,6 +72,7 @@ public class CustomerMenu extends JPanel {
 		customerCtr = new CtrCustomer();
 		loanCtr = new CtrLoan();
 		DbC = new DataBaseChecker();
+		ctrDB = new CtrDBConnection();
 		init();
 	}
 
@@ -348,7 +351,7 @@ public class CustomerMenu extends JPanel {
 		public void run() {
 			while (!done) {
 
-				if (DBConnection.getInstance().recheckConnection() == true) {
+				if (ctrDB.recheckConnection() == true) {
 					btnDataBaseConnection.setBackground(Color.GREEN);
 					System.out.println("connection ok");
 				} else {
