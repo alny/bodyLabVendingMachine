@@ -10,5 +10,4 @@ import model.VendingMachine;
 
 public interface DBSaleIF {
 	int insertSale(Sale s) throws PersistensException;
-
 }
