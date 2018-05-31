@@ -39,12 +39,20 @@ public class DBSale implements DBSaleIF {
 			PreparedStatement insertPS = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement updateQty = connection.prepareStatement(changeQuantity);
 			insertPS.setInt(1, sale.getVendingmachine().getId());
+			System.out.println(sale.getVendingmachine().getId());
+			
 			insertPS.setInt(2, sale.getProduct().getId());
+
+
 			insertPS.setFloat(3, sale.getPrice());
+			
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+			
+
 			updateQty.setInt(1, sale.getProduct().getId());
 			updateQty.setInt(2, sale.getVendingmachine().getId());
-			updateQty.executeQuery();
+			updateQty.executeUpdate();
+			
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
 			try {
