@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import controller.CannotFindException;
 import controller.CtrCustomer;
 import controller.CtrDBConnection;
 import controller.CtrLoan;
@@ -280,7 +281,11 @@ public class CustomerMenu extends JPanel {
 		JButton yesB = new JButton("Ja");
 		yesB.addActionListener((e) -> {
 			try {
-				loanCtr.createLoan(id);
+				try {
+					loanCtr.createLoan(id);
+				} catch (CannotFindException e1) {
+					createFailureDialog("der er ingen ledige automater");
+				}
 			} catch (PersistensException e1) {
 				createFailureDialog("Databasen kunne ikke forbindes til");
 				e1.printStackTrace();

@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -52,6 +54,7 @@ public class StatisticMenu extends JPanel {
 	private JComboBox<String> comboBox;
 	private JLabel label_2;
 	private JComboBox<String> comboBox_1;
+	private JDialog dialog;
 	private boolean all;
 	private int cId;
 
@@ -81,7 +84,7 @@ public class StatisticMenu extends JPanel {
 		try {
 			label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
 		} catch (CannotFindException e) {
-			e.printStackTrace();
+			createFailureDialog("automaten kunne ikke findes");
 		}
 	}
 
@@ -118,9 +121,9 @@ public class StatisticMenu extends JPanel {
 				pList = businessCtr.findCustomerProduct(cId);
 			}
 		} catch (PersistensException e1) {
-			e1.printStackTrace();
+			createFailureDialog("der kunne ikke forbindes til databasen");
 		} catch (CannotFindException e1) {
-			e1.printStackTrace();
+			createFailureDialog("automaten kunne ikke findes");
 		}
 		comboBox.addItem("Vælg Produkt");
 
@@ -141,9 +144,9 @@ public class StatisticMenu extends JPanel {
 			try {
 				label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 			} catch (PersistensException ex) {
-				ex.printStackTrace();
+				createFailureDialog("der kunne ikke forbindes til databasen");
 			} catch (CannotFindException ex) {
-				ex.printStackTrace();
+				createFailureDialog("automaten kunne ikke findes");
 			}
 		});
 
@@ -206,7 +209,7 @@ public class StatisticMenu extends JPanel {
 				label.setText(
 						Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD)) + " kr");
 			} catch (CannotFindException e1) {
-				e1.printStackTrace();
+				createFailureDialog("produktet findes ikke");
 			}
 		});
 
@@ -228,7 +231,7 @@ public class StatisticMenu extends JPanel {
 				}
 
 			} catch (CannotFindException e1) {
-				e1.printStackTrace();
+				createFailureDialog("automaten kunne ikke findes");
 
 			}
 		} else {
@@ -249,6 +252,21 @@ public class StatisticMenu extends JPanel {
 		} catch (CannotFindException e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	private JDialog createFailureDialog(String failuremessage) {
+		dialog = new JDialog();
+		dialog.getContentPane().setLayout(new FlowLayout());
+		JButton okB = new JButton("Ok");
+		okB.addActionListener((e) -> {
+			dialog.setVisible(false);
+		});
+		dialog.getContentPane().add(new JLabel(failuremessage));
+		dialog.getContentPane().add(okB);
+		dialog.setSize(300, 100);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+		return dialog;
+	}
+	
 }

@@ -28,8 +28,13 @@ public class CtrVendingMachine implements CtrVendingMachineIF {
 		return dbVendingMachine.insertVendingMachine(vm);
 	}
 	@Override
-	public VendingMachine findFirstAvailbe() throws PersistensException {
-		return dbVendingMachine.findFirstAvailable();
+	public VendingMachine findFirstAvailbe() throws PersistensException, CannotFindException {
+		VendingMachine vm = null;
+		vm = dbVendingMachine.findFirstAvailable();
+		if(vm == null) {
+			throw new CannotFindException("der er ingen ledige automater");
+		}
+		return vm; 
 	}
 	@Override
 	public void changeLentOut(VendingMachine vm) {
