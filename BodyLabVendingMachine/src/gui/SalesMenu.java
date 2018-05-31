@@ -85,7 +85,6 @@ public class SalesMenu extends JPanel {
 				saleCtr.createSale(7, 13, 100);
 				saleCtr.createSale(8, 15, 100);
 			} catch (CannotFindException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			

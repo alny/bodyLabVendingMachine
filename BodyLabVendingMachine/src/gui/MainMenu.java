@@ -59,7 +59,6 @@ public class MainMenu extends JFrame {
 		try {
 			myPicture = ImageIO.read(new File("src/images/download.png"));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		

@@ -354,10 +354,8 @@ public class CustomerMenu extends JPanel {
 
 				if (ctrDB.recheckConnection() == true) {
 					btnDataBaseConnection.setBackground(Color.GREEN);
-					System.out.println("connection ok");
 				} else {
 					btnDataBaseConnection.setBackground(Color.RED);
-					System.out.println("not connected");
 				}
 				try {
 					Thread.sleep(3000);

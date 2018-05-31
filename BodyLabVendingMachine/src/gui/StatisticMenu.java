@@ -125,7 +125,6 @@ public class StatisticMenu extends JPanel {
 		comboBox.addItem("Vælg Produkt");
 
 		for (Product entry : pList) {
-			System.out.println(entry.getName());
 			comboBox.addItem(entry.getName());
 			comboBoxOneProductId = entry.getId();
 		}
@@ -140,7 +139,6 @@ public class StatisticMenu extends JPanel {
 		comboBox_1.addItem("Vælg Produkt");
 		comboBox_1.addActionListener((e) -> {
 			try {
-				System.out.println(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 				label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 			} catch (PersistensException ex) {
 				ex.printStackTrace();
@@ -150,7 +148,6 @@ public class StatisticMenu extends JPanel {
 		});
 
 		for (Product entry : pList) {
-			System.out.println(entry.getName());
 			comboBox_1.addItem(entry.getName());
 			comboBoxTwoProductId = entry.getId();
 		}
@@ -223,7 +220,6 @@ public class StatisticMenu extends JPanel {
 
 			startD = startDate.getText() + " 23:59:00";
 			endD = endDate.getText()+ " 23:59:00";
-			System.out.println(startD + endD);
 			try {
 				label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
 				if (comboBox.getSelectedIndex() != 0) {
