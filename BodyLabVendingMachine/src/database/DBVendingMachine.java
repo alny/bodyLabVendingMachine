@@ -20,31 +20,37 @@ public class DBVendingMachine implements DBVendingMachineIF {
 	private static DBVendingMachine instance;
 	private Connection connection;
 
+	// Konstruktøren er privat for at sikre at kun en instans af klassen oprettes
 	private DBVendingMachine() {
 		connection = DBConnection.getInstance().getConnection();
 	}
-
+	
+	// Metoden returnerer eller opretter en instans af klassen alt efter om den eksisterer
 	public static DBVendingMachine getInstance() {
 		if (instance == null) {
 			instance = new DBVendingMachine();
 		}
 		return instance;
 	}
-
-	public VendingMachine findVendingMachine(int VendingMachineId, boolean retrieveAssociation)
-			throws PersistensException {
+	// Metoden returnerer en automat via et automat id og tager i mod to parametre, en int og en boolean
+	public VendingMachine findVendingMachine(int VendingMachineId, boolean retrieveAssociation) throws PersistensException {
+		
+		// Et objekt af vendingMachine instantieres til null, så den senere kan bruges i try/catch blokken
 		VendingMachine vendingMachine = null;
+		// Lokal variabel af typen String er sat til final da den indeholder embbedded sql og derfor kun må tildeles en gang
 		final String findVendingMachine = "SELECT * From VendingMachine where id = ?";
+		// try/catch indeholdende preparedStatement til at sætte parametret i den embedded sql string 
 		try {
 			PreparedStatement statement = connection.prepareStatement(findVendingMachine);
+			// Her sættes automat id'et som parameter
 			statement.setInt(1, VendingMachineId);
+			// Her eksekveres sql statementet og returnerer et ResultSet genereret af forespørgslen
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				vendingMachine = buildVendingMachineObject(rs, retrieveAssociation);
 			}
-			System.out.println(vendingMachine);
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemføre søgning");
 			pe.printStackTrace();
 			throw pe;
 

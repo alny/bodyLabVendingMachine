@@ -82,8 +82,6 @@ public class CustomerMenu extends JPanel {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.addTab("Kundeliste", null, showCustomers(), null);
-		tabbedPane.addTab("Test", null, showSpecificCustomer(), null);
-
 	}
 
 	private JPanel showCustomers() {

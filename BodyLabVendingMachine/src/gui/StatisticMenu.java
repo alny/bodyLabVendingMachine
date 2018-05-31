@@ -73,7 +73,6 @@ public class StatisticMenu extends JPanel {
 	}
 
 	private void init() {
-
 		setBounds(100, 100, 750, 500);
 		setLayout(new BorderLayout(0, 0));
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -82,7 +81,6 @@ public class StatisticMenu extends JPanel {
 		try {
 			label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
 		} catch (CannotFindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -120,10 +118,8 @@ public class StatisticMenu extends JPanel {
 				pList = businessCtr.findCustomerProduct(cId);
 			}
 		} catch (PersistensException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (CannotFindException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		comboBox.addItem("Vælg Produkt");
@@ -147,10 +143,8 @@ public class StatisticMenu extends JPanel {
 				System.out.println(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 				label_2.setText(Integer.toString(businessCtr.getQuantity(vendingMachineId, comboBoxTwoProductId)));
 			} catch (PersistensException ex) {
-				// TODO Auto-generated catch block
 				ex.printStackTrace();
 			} catch (CannotFindException ex) {
-				// TODO Auto-generated catch block
 				ex.printStackTrace();
 			}
 		});
@@ -215,7 +209,6 @@ public class StatisticMenu extends JPanel {
 				label.setText(
 						Float.toString(businessCtr.getSumFromProduct(comboBoxOneProductId, startD, endD)) + " kr");
 			} catch (CannotFindException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -239,7 +232,6 @@ public class StatisticMenu extends JPanel {
 				}
 
 			} catch (CannotFindException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 
 			}
@@ -259,7 +251,6 @@ public class StatisticMenu extends JPanel {
 						+ " kr");
 			}
 		} catch (CannotFindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
