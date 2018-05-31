@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class MainMenu extends JFrame {
 	private JPanel parentPanel;
 	private JPanel menuPanel;
 	private CustomerMenu customerMenu;
+	private SalesMenu salesMenu;
 	
 	private BufferedImage myPicture;
 
@@ -52,6 +55,7 @@ public class MainMenu extends JFrame {
 		menuPanel = new JPanel();
 		menuPanel.setBackground(Color.WHITE);
 		customerMenu = new CustomerMenu(parentPanel, cl);;
+		salesMenu = new SalesMenu(parentPanel, cl);;
 		try {
 			myPicture = ImageIO.read(new File("src/images/download.png"));
 		} catch (IOException e1) {
@@ -69,6 +73,7 @@ public class MainMenu extends JFrame {
 
 		parentPanel.add(menuPanel, "1");
 		parentPanel.add(customerMenu, "2");
+		parentPanel.add(salesMenu, "3");
 		menuPanel.setLayout(null);
 
 		JLabel lblBodyLab = new JLabel(new ImageIcon(myPicture));
@@ -90,7 +95,17 @@ public class MainMenu extends JFrame {
 		});
 		btnAfslut.setBounds(325, 368, 89, 23);
 		menuPanel.add(btnAfslut);
+		
+		JButton btnLavSalg = new JButton("Lav salg");
+		btnLavSalg.setBounds(12, 442, 97, 25);
+		menuPanel.add(btnLavSalg);
+		
+		btnLavSalg.addActionListener((e) -> {
+			cl.show(parentPanel, "3");
+		});
+		
+		
 
 	}
-
 }
+
