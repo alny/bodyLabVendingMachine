@@ -11,20 +11,26 @@ import infrastructure.DBProductIF;
 import model.Product;
 
 public class DBProduct implements DBProductIF {
-	private static DBProduct instance = null;
+	
+	// Klasse variabel
+	private static DBProduct instance;
+	// Instans variabel
 	private Connection connection;
-
+	
+	// Konstruktøren er privat for at sikre at kun en instans af klassen oprettes
 	private DBProduct() {
 		connection = DBConnection.getInstance().getConnection();
 	}
-
+	
+	// Metoden returnerer eller opretter en instans af klassen alt efter om den eksisterer
 	public static DBProduct getInstance() {
 		if (instance == null) {
 			instance = new DBProduct();
 		}
 		return instance;
 	}
-
+	
+	
 	@Override
 	public void insertProduct(Product product) throws PersistensException {
 		PreparedStatement insert;

@@ -18,9 +18,9 @@ import model.VendingMachine;
 
 public class DBVendingMachine implements DBVendingMachineIF {
 	
-	// Klasse variable
+	// Klasse variabel
 	private static DBVendingMachine instance;
-	// Instans variable
+	// Instans variabel
 	private Connection connection;
 
 	// Konstruktøren er privat for at sikre at kun en instans af klassen oprettes
