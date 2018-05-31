@@ -42,6 +42,8 @@ public class DBSale implements DBSaleIF {
 			insertPS.setInt(2, sale.getProduct().getId());
 			insertPS.setFloat(3, sale.getPrice());
 			id = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+			updateQty.setInt(1, sale.getProduct().getId());
+			updateQty.setInt(2, sale.getVendingmachine().getId());
 			updateQty.executeQuery();
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {

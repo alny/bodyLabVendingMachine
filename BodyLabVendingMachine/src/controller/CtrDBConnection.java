@@ -6,15 +6,15 @@ import infrastructure.CtrDBConnectionIF;
 import infrastructure.DBConnectionIF;
 
 public class CtrDBConnection implements CtrDBConnectionIF {
-	private DBConnectionIF dbC;
+	private DBConnectionIF dbConnection;
 	
 	public CtrDBConnection() {
-		dbC = DBConnection.getInstance();
+		dbConnection = DBConnection.getInstance();
 	}
 	
 	@Override
 	public Boolean recheckConnection() {
-		return dbC.recheckConnection();
+		return dbConnection.recheckConnection();
 	}
 	
 }
