@@ -22,7 +22,7 @@ public class DBLoan implements DBLoanIF {
 		connection = DBConnection.getInstance().getConnection();
 	}
 
-	public static DBLoan getInstance(){
+	public static DBLoan getInstance() {
 		if (instance == null) {
 			instance = new DBLoan();
 		}
@@ -40,20 +40,21 @@ public class DBLoan implements DBLoanIF {
 			loan = new LinkedList<Loan>();
 			loan = buildObjects(rs, retrieveAssociation);
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e,"Kunne ikke gennemfører søgning");
+			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			throw pe;
 		}
 
 		return loan;
 	}
 
-	// id is a Customers id, need some help to know how to handle the execption that happens then rollback happens
+	// id is a Customers id, need some help to know how to handle the execption that
+	// happens then rollback happens
 	@Override
 	public int insertLoan(Loan loan, Customer customer) throws PersistensException {
 		String insertLoan = "insert into Loan (date, endDate, customerId, vendingMachineId)" + " values (?,?,?,?)";
 		int i = 0;
 		try {
-			PreparedStatement insert = connection.prepareStatement(insertLoan,  Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement insert = connection.prepareStatement(insertLoan, Statement.RETURN_GENERATED_KEYS);
 			DBConnection.getInstance().startTransaction();
 			java.sql.Date sqlTime = new java.sql.Date(loan.getDate().getTime());
 			insert.setDate(1, sqlTime);
@@ -64,15 +65,16 @@ public class DBLoan implements DBLoanIF {
 			if (checkIfThere(loan) == true) {
 				throw new SQLException();
 			}
+			DBVendingMachine.getInstance().updateIsLentOut(loan.getVendingmachine());
 			i = DBConnection.getInstance().executeInsertWithIdentity(insert);
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
-				PersistensException pe = new PersistensException(e,"kunne ikke indsætte lån");
-				throw pe;	
+				PersistensException pe = new PersistensException(e, "kunne ikke indsætte lån");
+				throw pe;
 			} catch (SQLException e1) {
-				PersistensException pe = new PersistensException(e,"database kunne ikke rollback");
+				PersistensException pe = new PersistensException(e, "database kunne ikke rollback");
 				throw pe;
 			}
 		}
@@ -80,8 +82,8 @@ public class DBLoan implements DBLoanIF {
 	}
 
 	// returns true if there already exist a loan with the machine, that has not
-	// finished, used solv the problem with problem with creation of two loans
-	private boolean checkIfThere(Loan loan)throws PersistensException {
+	// finished, used solve the problem with problem with creation of two loans
+	private boolean checkIfThere(Loan loan) throws PersistensException {
 		boolean found = false;
 		String check = "Select * from Loan where vendingMachineId = ? and endDate > ?";
 		try {
@@ -91,25 +93,24 @@ public class DBLoan implements DBLoanIF {
 			checkIfNotThere.setInt(1, loan.getVendingmachine().getId());
 			checkIfNotThere.setDate(2, sqlTime);
 			ResultSet rs = checkIfNotThere.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				found = true;
 			}
 		} catch (SQLException e) {
-			PersistensException pe = new PersistensException(e,"database error i checkIfThere");
+			PersistensException pe = new PersistensException(e, "database error i checkIfThere");
 			throw pe;
 		}
 		return found;
 	}
 
-	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException{
+	private List<Loan> buildObjects(ResultSet rs, boolean retrieveAssociation) throws PersistensException {
 		List<Loan> loan = new LinkedList<Loan>();
 		try {
 			while (rs.next()) {
 				loan.add(buildObject(rs, retrieveAssociation));
 			}
-		}
-		catch(SQLException e) {
-			PersistensException pe = new PersistensException(e,"database error i buildObjects");
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "database error i buildObjects");
 			throw pe;
 		}
 		return loan;
@@ -120,14 +121,13 @@ public class DBLoan implements DBLoanIF {
 		try {
 			VendingMachine vm = new VendingMachine(rs.getInt("vendingMachineId"));
 			if (retrieveAssociation) {
-				vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"),false);
+				vm = DBVendingMachine.getInstance().findVendingMachine(rs.getInt("vendingMachineId"), false);
 			}
 			loan = new Loan(rs.getInt("id"), vm);
 			loan.setDate(rs.getDate("date"));
 			loan.setEndDate(rs.getDate("endDate"));
-		}
-		catch(SQLException e) {
-			PersistensException pe = new PersistensException(e,"database error i buildObject");
+		} catch (SQLException e) {
+			PersistensException pe = new PersistensException(e, "database error i buildObject");
 			throw pe;
 		}
 		return loan;
