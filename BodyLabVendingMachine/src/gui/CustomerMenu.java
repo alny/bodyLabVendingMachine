@@ -65,6 +65,7 @@ public class CustomerMenu extends JPanel {
 	private List<Product> productList;
 	protected JButton btnDataBaseConnection;
 	private DataBaseChecker DbC;
+	private JDialog dialog;
 
 	public CustomerMenu(JPanel mainPanel, CardLayout cardLayout) {
 		parentPanel = mainPanel;
@@ -281,7 +282,7 @@ public class CustomerMenu extends JPanel {
 			try {
 				loanCtr.createLoan(id);
 			} catch (PersistensException e1) {
-				// TODO Auto-generated catch block
+				createFailureDialog("Databasen kunne ikke forbindes til");
 				e1.printStackTrace();
 			}
 			refreshLoan();
@@ -305,6 +306,7 @@ public class CustomerMenu extends JPanel {
 			Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
 			loanTable.setModel(loanTable(loanCtr.findLoansForCustomer(customer)));
 		} catch (PersistensException e) {
+			createFailureDialog("Databasen kunne ikke forbindes til");
 			e.printStackTrace();
 		}
 	}
@@ -313,6 +315,7 @@ public class CustomerMenu extends JPanel {
 		try {
 			customerTable.setModel(customerTable(customerCtr.findAllCustomers()));
 		} catch (PersistensException e) {
+			createFailureDialog("Databasen kunne ikke forbindes til");
 			e.printStackTrace();
 		}
 	}
@@ -369,5 +372,20 @@ public class CustomerMenu extends JPanel {
 		public void setDone(Boolean done) {
 			this.done = done;
 		}
+	}
+	
+	private JDialog createFailureDialog(String failuremessage) {
+		dialog = new JDialog();
+		dialog.getContentPane().setLayout(new FlowLayout());
+		JButton okB = new JButton("Ok");
+		okB.addActionListener((e) -> {
+			dialog.setVisible(false);
+		});
+		dialog.getContentPane().add(new JLabel(failuremessage));
+		dialog.getContentPane().add(okB);
+		dialog.setSize(300, 100);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+		return dialog;
 	}
 }
