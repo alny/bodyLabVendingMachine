@@ -24,24 +24,17 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		ctrVM = new CtrVendingMachine();
 	}
 
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getSumFromMachine(int)
-	 */
 	@Override
 	public float getSumFromMachine(int vmId, String startD, String endD) throws CannotFindException {
 		float sum = 0;
 		try {
 			sum = dbBI.getSumOfSaleFromMachineId(ctrVM.findVendingMachine(vmId, false), startD, endD);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sum;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getSumFromProduct(int)
-	 */
 	@Override
 	public float getSumFromProduct(int pId, String startD, String endD) throws CannotFindException {
 		float sum = 0;
@@ -49,54 +42,39 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		return sum;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getAllSalesFromMachine(int)
-	 */
 	@Override
 	public List<Sale> getAllSalesFromMachine(int vmId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
 			sale = dbBI.getSalesFromMachineId(ctrVM.findVendingMachine(vmId, false), false);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sale;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getAllSalesFromProduct(int)
-	 */
 	@Override
 	public List<Sale> getAllSalesFromProduct(int pId) throws CannotFindException {
 		List<Sale> sale = null;
 		try {
 			sale = dbBI.getSalesFromProductId(ctrP.findProductById(pId), true);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sale;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getAmountOfSalesFromMachine(int)
-	 */
 	@Override
 	public int getAmountOfSalesFromMachine(int vmId) throws CannotFindException {
 		int totalSales = 0;
 		try {
 			totalSales = dbBI.getTotalSaleFromMachineId(ctrVM.findVendingMachine(vmId,false));
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return totalSales;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#getAmountOfSalesFromProduct(int)
-	 */
 	@Override
 	public int getAmountOfSalesFromProduct(int pId) throws CannotFindException {
 		int totalSales = 0;
@@ -107,16 +85,12 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		return totalSales;
 	}
 	
-	/* (non-Javadoc)
-	 * @see Controller.CtrBusinessIntelligenceIF#createSale(int, int, float)
-	 */
 	@Override
 	public Sale createSale(int vmId, int productId, float price) throws CannotFindException {
 		Sale sale = null;
 		try {
 			sale = new Sale(new Date(), ctrP.findProductById(productId), ctrVM.findVendingMachine(vmId,false), price );
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sale;
@@ -128,7 +102,6 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		try {
 			totalSum = dbBI.getTotalSumFromAllMachines(cId, startD, endD);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return totalSum;
@@ -140,7 +113,6 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 		try {
 			totalSum = dbBI.getTotalSumFromProductAllMachines(cId, startD, endD, productId);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return totalSum;

@@ -38,7 +38,6 @@ public class DBCustomer implements DBCustomerIF {
 		try (PreparedStatement statement = connection.prepareStatement(findAllCustomers)) {
 			ResultSet rs = statement.executeQuery();
 			customerList = buildCustomerObjects(rs);
-			System.out.println(customerList);
 		} catch (SQLException e) {
 			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			throw pe;
@@ -56,7 +55,6 @@ public class DBCustomer implements DBCustomerIF {
 			while (rs.next()) {
 				customer = buildCustomerObject(rs);
 			}
-			System.out.println(customer);
 		} catch (SQLException e) {
 			PersistensException pe = new PersistensException(e, "Kunne ikke gennemfører søgning");
 			throw pe;

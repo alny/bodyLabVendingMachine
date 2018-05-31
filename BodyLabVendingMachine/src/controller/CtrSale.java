@@ -37,7 +37,6 @@ public class CtrSale implements CtrSaleIF {
 			sale = new Sale(new Date(), ctrP.findProductById(productId), ctrVM.findVendingMachine(vmId,false), price );
 			insertSale(sale);
 		} catch (PersistensException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return sale;
