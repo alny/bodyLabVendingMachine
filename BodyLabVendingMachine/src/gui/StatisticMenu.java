@@ -221,8 +221,8 @@ public class StatisticMenu extends JPanel {
 
 		if (all == false) {
 
-			startD = startDate.getText();
-			endD = endDate.getText();
+			startD = startDate.getText() + " 23:59:00";
+			endD = endDate.getText()+ " 23:59:00";
 			System.out.println(startD + endD);
 			try {
 				label_1.setText(Float.toString(businessCtr.getSumFromMachine(vendingMachineId, startD, endD)) + " kr");
@@ -241,8 +241,8 @@ public class StatisticMenu extends JPanel {
 	}
 
 	public void statisticForAll() {
-		startD = startDate.getText();
-		endD = endDate.getText();
+		startD = startDate.getText()+ " 23:59:59";
+		endD = endDate.getText()+ " 23:59:59";
 		try {
 			label_1.setText(Float.toString(businessCtr.getTotalSumFromAllMachines(cId, startD, endD)) + " kr");
 			if (comboBox.getSelectedIndex() != 0) {
