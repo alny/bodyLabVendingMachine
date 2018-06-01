@@ -114,6 +114,7 @@ public class CustomerMenu extends JPanel {
 		btnTilbag.setBounds(197, 400, 80, 23);
 		showCustomers.add(btnTilbag);
 		btnTilbag.addActionListener((e) -> {
+			DbC.setDone(true);
 			parent.show(parentPanel, "1");
 		});
 		btnSeDetaljer.addActionListener((e) -> {
@@ -125,6 +126,7 @@ public class CustomerMenu extends JPanel {
 				phone = customerTable.getValueAt(row, 3).toString();
 				city = customerTable.getValueAt(row, 4).toString();
 				zipCode = customerTable.getValueAt(row, 5).toString();
+				DbC.setDone(true);
 				parentPanel.add(showSpecificCustomer(), "3");
 				parent.show(parentPanel, "3");
 			} else {
