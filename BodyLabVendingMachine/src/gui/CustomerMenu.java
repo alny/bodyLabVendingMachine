@@ -51,10 +51,8 @@ public class CustomerMenu extends JPanel {
 
 	private JTable customerTable;
 	private JLabel label;
-	private CtrDBConnectionIF ctrDB;
 	private CtrCustomerIF customerCtr;
 	private StatisticMenu statisticMenu;
-	private CtrLoanIF loanCtr;
 	private JTable loanTable;
 
 	private int id;
@@ -72,9 +70,7 @@ public class CustomerMenu extends JPanel {
 		parentPanel = mainPanel;
 		parent = cardLayout;
 		customerCtr = new CtrCustomer();
-		loanCtr = new CtrLoan();
 		DbC = new DataBaseChecker();
-		ctrDB = new CtrDBConnection();
 		init();
 	}
 
@@ -284,7 +280,7 @@ public class CustomerMenu extends JPanel {
 		yesB.addActionListener((e) -> {
 			try {
 				try {
-					loanCtr.createLoan(id);
+					customerCtr.sendLoanDataForLoanCreation(id);
 				} catch (CannotFindException e1) {
 					createFailureDialog("der er ingen ledige automater");
 				}
@@ -310,8 +306,7 @@ public class CustomerMenu extends JPanel {
 
 	private void refreshLoan() {
 		try {
-			Customer customer = new Customer(id, name, address, phone, new CityZip(zipCode, city));
-			loanTable.setModel(loanTable(loanCtr.findLoansForCustomer(customer)));
+			loanTable.setModel(loanTable(customerCtr.findAllLoansForCustomer(id)));
 		} catch (PersistensException e) {
 			createFailureDialog("Databasen kunne ikke forbindes til");
 			e.printStackTrace();
@@ -359,7 +354,7 @@ public class CustomerMenu extends JPanel {
 		public void run() {
 			while (!done) {
 
-				if (ctrDB.recheckConnection() == true) {
+				if (customerCtr.getCurrentConnection() == true) {
 					btnDataBaseConnection.setBackground(Color.GREEN);
 				} else {
 					btnDataBaseConnection.setBackground(Color.RED);

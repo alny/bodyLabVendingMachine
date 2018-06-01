@@ -40,7 +40,6 @@ public class StatisticMenu extends JPanel {
 	private JPanel parentPanel;
 	private List<Product> pList;
 	private CardLayout parent;
-	private CtrVendingMachineIF ctrVM;
 	private CtrBusinessIntelligenceIF businessCtr;
 	private int vendingMachineId;
 	private int comboBoxOneProductId;
@@ -65,7 +64,6 @@ public class StatisticMenu extends JPanel {
 		parent = cardLayout;
 		pList = productList;
 		vendingMachineId = vmId;
-		ctrVM = new CtrVendingMachine();
 		businessCtr = new CtrBusinessIntelligence();
 		this.all = all;
 		cId = id;
@@ -116,7 +114,7 @@ public class StatisticMenu extends JPanel {
 		});
 		try {
 			if(all == false) {
-			pList = ctrVM.findVendingMachine(vendingMachineId, true).getProducts();
+			pList = businessCtr.getVendingMachine(vendingMachineId).getProducts();
 			}else {
 				pList = businessCtr.findCustomerProduct(cId);
 			}

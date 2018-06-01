@@ -12,6 +12,7 @@ import infrastructure.CtrVendingMachineIF;
 import infrastructure.DBBusinessIntelligenceIF;
 import model.Product;
 import model.Sale;
+import model.VendingMachine;
 
 public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	private DBBusinessIntelligenceIF dbBI;
@@ -127,5 +128,10 @@ public class CtrBusinessIntelligence implements CtrBusinessIntelligenceIF {
 	public List<Product> findCustomerProduct(int id) throws PersistensException{
 		List<Product> products = dbBI.findCustomerProduct(id);
 		return products;
+	}
+
+	@Override
+	public VendingMachine getVendingMachine(int id) throws PersistensException, CannotFindException {
+		return ctrVM.findVendingMachine(id, true);
 	}
 }

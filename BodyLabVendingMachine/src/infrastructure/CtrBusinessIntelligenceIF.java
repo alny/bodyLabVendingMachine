@@ -6,6 +6,7 @@ import controller.CannotFindException;
 import database.PersistensException;
 import model.Product;
 import model.Sale;
+import model.VendingMachine;
 
 public interface CtrBusinessIntelligenceIF {
 
@@ -30,5 +31,5 @@ public interface CtrBusinessIntelligenceIF {
 	int getTotalSumProductFromAllMachines(int cId, String startD, String endD, int productId)
 			throws CannotFindException;
 	List<Product> findCustomerProduct(int id) throws PersistensException;
-
+	VendingMachine getVendingMachine(int id) throws PersistensException, CannotFindException;
 }
